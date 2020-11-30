@@ -6,4 +6,17 @@
  * Copywright: MIT
  */
 public class Person {
+
+    private String firstName;
+    private String lastName;
+    private String personalNumber;
+
+    Person(String firstName, String lastName, String personalNumber){
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.personalNumber = personalNumber;
+
+    }
+
 }
