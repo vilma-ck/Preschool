@@ -6,6 +6,14 @@
  */
 public interface IContactInformation {
 
+    // vi kanske kan anta att alla har fullständig info, då kanske vi kan slå ihop tre setters till en gemensam?
+
+    public void setEmailAddress(String emailAddress);
+
+    public void setPhoneNumber(String phoneNumber);
+
+    public void setPostAddress(String postAddress);
+
     public String getEMailAddress();
 
     public String getPhoneNumber();

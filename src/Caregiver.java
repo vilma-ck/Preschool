@@ -1,4 +1,3 @@
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +33,22 @@ public class Caregiver extends Person implements IContactInformation, IHandlingA
 
     }
 
+
+    @Override
+    public void setEmailAddress(String emailAddress) {
+        this.eMailAddress = emailAddress;
+    }
+
+    @Override
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public void setPostAddress(String postAddress) {
+        this.postAddress = postAddress;
+    }
+
     @Override
     public String getEMailAddress() {
         return eMailAddress;
@@ -48,4 +63,5 @@ public class Caregiver extends Person implements IContactInformation, IHandlingA
     public String getPostAddress() {
         return postAddress;
     }
+
 }
