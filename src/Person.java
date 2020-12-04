@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 /**
  * Created by Sara Carlsson
  * Date: 30/11/2020
@@ -5,7 +7,7 @@
  * Project: Preeschool
  * Copywright: MIT
  */
-public abstract class Person {
+public abstract class Person implements Serializable {
 
     private String firstName;
     private String lastName;

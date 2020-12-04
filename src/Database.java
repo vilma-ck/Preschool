@@ -56,4 +56,17 @@ public class Database implements Serializable {
             e.printStackTrace();
         }
     }
+
+    public List<Person> deSerialize(String fileName) {
+        List<Person> list = new LinkedList<>();
+        try {
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
+            list = (List<Person>) in.readObject();
+            in.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       return list;
+    }
 }
