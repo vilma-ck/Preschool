@@ -9,4 +9,6 @@ public class Child extends Person {
     Child(String firstName, String lastName, String personalNumber) {
         super(firstName, lastName, personalNumber);
     }
+
+
 }
