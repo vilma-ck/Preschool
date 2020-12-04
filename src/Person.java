@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 /**
  * Created by Sara Carlsson
  * Date: 30/11/2020
