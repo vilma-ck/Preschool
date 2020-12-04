@@ -13,4 +13,25 @@ public class Attendance {
     private LocalDate date;
     private Boolean isPresent;
 
+    public Attendance(Child child) {
+        this.child = child;
+        this.date = LocalDate.now();
+        this.isPresent = true;
+    }
+
+    public Child getChild() {
+        return child;
+    }
+
+    public void setPresent(Boolean present) {
+        isPresent = present;
+    }
+
+    public Boolean getPresent() {
+        return isPresent;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
 }
