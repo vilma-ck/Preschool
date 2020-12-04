@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class CaringTime {
+public class CaringTime implements Serializable {
     LocalDateTime start;
     LocalDateTime stop;
 
