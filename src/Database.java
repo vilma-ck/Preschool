@@ -1,3 +1,5 @@
+import java.io.*;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -7,14 +9,51 @@ import java.util.List;
  * Project: Preeschool
  * Copywright: MIT
  */
-public class Database {
+public class Database implements Serializable {
 
-    private List<Child> childList;
-    private List<Caregiver> caregiverList;
-    private List<Educator> educatorList;
+    private List<Child> childList = new LinkedList<>();
+    private List<Caregiver> caregiverList = new LinkedList<>();
+    private List<Educator> educatorList = new LinkedList<>();
     private List<List<Attendance>> attendanceList;
+
+    public Database() throws IOException {
+    }
 
     public void addChild(Child c){
         this.childList.add(c);
+    }
+
+    public void addCaregiver(Caregiver caregiver){
+        this.caregiverList.add(caregiver);
+    }
+
+    public void addEducator(Educator educator){
+        this.educatorList.add(educator);
+    }
+
+    public List<Child> getChildList() {
+        return childList;
+    }
+
+    public List<Caregiver> getCaregiverList() {
+        return caregiverList;
+    }
+
+    public List<Educator> getEducatorList() {
+        return educatorList;
+    }
+
+    public List<List<Attendance>> getAttendanceList() {
+        return attendanceList;
+    }
+
+    public void serialize(List list, String fileName){
+        try{
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
+            out.writeObject(list);
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

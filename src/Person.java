@@ -5,7 +5,7 @@
  * Project: Preeschool
  * Copywright: MIT
  */
-public class Person {
+public abstract class Person {
 
     private String firstName;
     private String lastName;
@@ -19,4 +19,27 @@ public class Person {
 
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getPersonalNumber() {
+        return personalNumber;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setPersonalNumber(String personalNumber) {
+        this.personalNumber = personalNumber;
+    }
 }
