@@ -38,13 +38,16 @@ public class Demo {
         List<Child> childrenList = d.getChildList();
         d.serialize(childrenList,"Children.ser");
 
+        c1.addChildren(b1);
+        c2.addChildren(b2);
+        c3.addChildren(b3);
+        c4.addChildren(b4);
+        c4.addChildren(b5);
+
         Educator e = new Educator("Kristina","Eriksson","97807075564");
         d.addEducator(e);
         List<Educator> educatorList = d.getEducatorList();
         d.serialize(educatorList,"Educators.ser");
-
-
-
 
     }
 }

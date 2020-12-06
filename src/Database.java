@@ -19,15 +19,15 @@ public class Database implements Serializable {
     public Database() throws IOException {
     }
 
-    public void addChild(Child c){
+    public void addChild(Child c) {
         this.childList.add(c);
     }
 
-    public void addCaregiver(Caregiver caregiver){
+    public void addCaregiver(Caregiver caregiver) {
         this.caregiverList.add(caregiver);
     }
 
-    public void addEducator(Educator educator){
+    public void addEducator(Educator educator) {
         this.educatorList.add(educator);
     }
 
@@ -47,8 +47,8 @@ public class Database implements Serializable {
         return attendanceList;
     }
 
-    public void serialize(List list, String fileName){
-        try{
+    public void serialize(List list, String fileName) {
+        try {
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
             out.writeObject(list);
             out.close();
@@ -57,8 +57,8 @@ public class Database implements Serializable {
         }
     }
 
-    public List<Person> deSerialize(String fileName) {
-        List<Person> list = new LinkedList<>();
+    public void deSerialize(List list, String fileName) {
+        list = new LinkedList<>();
         try {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
             list = (List<Person>) in.readObject();
@@ -67,6 +67,5 @@ public class Database implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-       return list;
     }
 }
