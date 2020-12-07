@@ -1,3 +1,4 @@
+
 import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -9,7 +10,8 @@ import java.util.List;
  * Project: Preeschool
  * Copyright: MIT
  */
-public class Caregiver extends Person implements IContactInformation, IHandlingAbsence, Serializable {
+
+public class Caregiver extends Person implements IContactInformation, Serializable {
 
     private String eMailAddress;
     private String phoneNumber;
@@ -38,14 +40,7 @@ public class Caregiver extends Person implements IContactInformation, IHandlingA
         child.addCaringTime(day, start, stop);
     }
 
-    @Override
-    public void addAbsence(Child child) {
-
-    }
-
-
-
-    @Override
+   
     public void setEmailAddress(String emailAddress) {
         this.eMailAddress = emailAddress;
     }

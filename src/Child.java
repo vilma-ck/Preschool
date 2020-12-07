@@ -19,6 +19,10 @@ public class Child extends Person {
         super(firstName, lastName, personalNumber);
     }
 
+    public void addCaregiver(Caregiver c){
+        caregivers.add(c);
+    }
+
     public void addCaringTime(String inputDate, String inputStartTime, String inputStopTime){
         LocalDate day = LocalDate.parse(inputDate);
         LocalDateTime start = day.atTime(LocalTime.parse(inputStartTime));
