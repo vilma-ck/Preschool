@@ -9,7 +9,7 @@ import java.util.List;
  * Project: Preeschool
  * Copywright: MIT
  */
-public class Database implements Serializable {
+public class Database implements Serializable, PersonDAO {
 
     private List<Child> childList = new LinkedList<>();
     private List<Caregiver> caregiverList = new LinkedList<>();
@@ -68,4 +68,44 @@ public class Database implements Serializable {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public String getContactInformation(IContactInformation person) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("E-mejladress: " + person.getEmailAddress() + '\n');
+        sb.append("Telefonnummer: " + person.getPhoneNumber() + '\n');
+        sb.append("Postadress: " + person.getPostAddress());
+
+        return sb.toString();
+    }
+
+    @Override
+    public Child getChild(String name) {
+        for(Child c : childList){
+            if(c.getFirstName().equalsIgnoreCase(name) || c.getLastName().equalsIgnoreCase(name)){
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public Caregiver getCaregiver(String name){
+        for (Caregiver c: caregiverList){
+            if(c.getFirstName().equalsIgnoreCase(name) || c.getLastName().equalsIgnoreCase(name)){
+                return c;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Educator getEducator(String name) {
+        for(Educator e: educatorList){
+            if(e.getFirstName().equalsIgnoreCase(name) || e.getLastName().equalsIgnoreCase(name)){
+                return e;
+            }
+        }
+        return null;
+    }
+
 }
