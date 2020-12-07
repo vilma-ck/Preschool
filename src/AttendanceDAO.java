@@ -6,7 +6,7 @@
  */
 public interface AttendanceDAO {
 
-    public void registerAttendanceToday(Child);
+    public void registerAttendanceToday(Child child);
 
     public void addAbsence(Child child);
 

@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class AttendanceUtil {
+public class AttendanceHandling {
     private List<Attendance> attendanceToday = new ArrayList<>();
 
-    public AttendanceUtil(List<Child> childList) {
+    public AttendanceHandling(List<Child> childList) {
         for(Child c : childList)
             this.attendanceToday.add(new Attendance(c));
     }
@@ -60,7 +60,7 @@ public class AttendanceUtil {
         childList.add(c2);
         childList.add(c3);
 
-        AttendanceUtil u = new AttendanceUtil(childList);
+        AttendanceHandling u = new AttendanceHandling(childList);
 
         u.printAttendance();
         u.printAbsent();

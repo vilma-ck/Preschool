@@ -8,11 +8,7 @@
 public interface PersonDAO {
 
     public void printName();
-    public void printEMailAdress()
+    public void printEMailAdress();
 
-    +
-+printEMailAdress(): String
-+printPhoneNumber(): String
-+printPostAddress()
-+printCaringTime()
+
 }

@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,26 +10,40 @@ import java.util.List;
  * Project: Preeschool
  * Copywright: MIT
  */
-public class Database implements Serializable {
+public class Database implements Serializable, DatabaseDAO {
 
-    private List<Child> childList = new LinkedList<>();
-    private List<Caregiver> caregiverList = new LinkedList<>();
-    private List<Educator> educatorList = new LinkedList<>();
-    private List<List<Attendance>> attendanceList;
+    private List<Child> childList = new ArrayList<>();
+    private List<Caregiver> caregiverList = new ArrayList<>();
+    private List<Educator> educatorList = new ArrayList<>();
 
-    public Database() throws IOException {
-    }
+    AttendanceHandling attendanceHandling;
+    PersonHandling personHandling;
 
     public void addChild(Child c) {
         this.childList.add(c);
+    }
+
+    @Override
+    public void deleteChild(Child child) {
+        this.childList.remove(child);
     }
 
     public void addCaregiver(Caregiver caregiver) {
         this.caregiverList.add(caregiver);
     }
 
+    @Override
+    public void deleteCaregiver(Caregiver caregiver) {
+        this.caregiverList.remove(caregiver);
+    }
+
     public void addEducator(Educator educator) {
         this.educatorList.add(educator);
+    }
+
+    @Override
+    public void deleteEducator(Educator educator) {
+        this.educatorList.remove(educator);
     }
 
     public List<Child> getChildList() {
@@ -43,9 +58,6 @@ public class Database implements Serializable {
         return educatorList;
     }
 
-    public List<List<Attendance>> getAttendanceList() {
-        return attendanceList;
-    }
 
     public void serialize(List list, String fileName) {
         try {
@@ -57,15 +69,32 @@ public class Database implements Serializable {
         }
     }
 
-    public void deSerialize(List list, String fileName) {
-        list = new LinkedList<>();
+    public List deSerialize(List list, String fileName) {
+        List<Child> childList = null;
+        List<Caregiver> caregiverList = null;
+        List<Educator> educatorList = null;
         try {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
-            list = (List<Person>) in.readObject();
-            in.close();
+            if (list == childList) {
+                list = (List<Child>) in.readObject();
+                in.close();
+            }
+            else if (list == caregiverList){
+                list = (List<Caregiver>) in.readObject();
+                in.close();
+            }
+            else if (list == educatorList){
+                list = (List<Educator>) in.readObject();
+                in.close();
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return list;
     }
+
+
+
+
 }
