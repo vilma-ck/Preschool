@@ -1,6 +1,4 @@
-import com.sun.security.jgss.GSSUtil;
 
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 /**
@@ -30,68 +28,61 @@ Pedagog
 
         Scanner scan = new Scanner(System.in);
 
-        //TODO tillfälliga
-        String b1 = "Barn1";
-        String p1 = "Pedagog";
-        String v1 = "Vårdnadshavare";
+        States s = States.LOGIN;
+        s.output();
 
-        System.out.println("Välkommen till förskolan!");
-        System.out.println();
-
-        System.out.println("LOGGA IN SOM");
-        System.out.println("1. Vårdnadshavare");
-        System.out.println("2. Pedagog");
-
+        int input = scan.nextInt();
 
         //Om användaren valde att logga in som vårdnadshavare (1)
-        if (scan.nextInt() == 1) {
-            System.out.println("Välkommen " + v1 + "!");
-            System.out.println("1. Välj barn:");
-            System.out.println(b1);
-            System.out.println("2. Kontaktuppgifter till pedagoger");
+        if (input == 1) {
+            s = States.CAREGIVER;
+            s.output();
+            input = scan.nextInt();
 
             //Om användaren valde ett barn (1)
-            if (scan.nextInt() == 1) {
-                System.out.println("Välkommen till sidan för " + b1);
-                System.out.println("1. Ange omsorgstider");
-                System.out.println("2. Registrera frånvaro");
+            if (input == 1) {
+                s = States.CHOSE_CHILD;
+                s.output();
+                input = scan.nextInt();
 
                 //Om användaren valde omsorgstider (1)
-                if (scan.nextInt() == 1) {
-                    System.out.print("Var god ange omsorgstider för " + b1);
+                if (input == 1) {
+                    s = States.CHILD_ATTENDANCE;
+                    s.output();
                 }
 
                 //Om användaren valde frånvaro (2)
-                else if (scan.nextInt() == 2) {
-                    System.out.println("Registrera frånvaro för " + b1);
+                else if (input == 2) {
+                    s = States.CHILD_ABSENCE;
+                    s.output();
                 }
 
-                //Om användaren valde kontaktuppgifter (2)
-            } else if (scan.nextInt() == 2) {
-                System.out.println("Kontaktuppgifter Pedagoger");
-
-            } else {
-                System.out.println("Det här barnet finns inte registrerat på förskolan");
+            //Om användaren valde kontaktuppgifter (2)
+            } else if (input == 2) {
+                s = States.EDUCATOR_INFO;
+                s.output();
             }
 
-        }
         //Om användaren valde att logga in som pedagog (2)
-        else if (scan.nextInt() == 2) {
-            System.out.println("Välkommen " + p1 + "!");
-            System.out.println("1. Ange frånvaro");
-            System.out.println("2. Registrera ett nytt barn till förskolan");
+        } else if (input == 2) {
+            s = States.EDUCATOR;
+            s.output();
+            input = scan.nextInt();
 
-            if (scan.nextInt() == 1) {
-                System.out.println("Ange frånvaro för:");
-                //TODO alla barn på förskolan blir ett alternativ att välja
-                System.out.println("1. " + b1);
+            //Om användaren valde att registrera frånvaro för ett barn
+            if (input == 1) {
+                s = States.EDUCATOR_ABSENCE;
+                s.output();
 
-            } else if (scan.nextInt() == 2) {
-                System.out.println("Registrera nytt barn");
+            //Om användaren vill lägga till ett barn
+            } else if (input == 2) {
+                s = States.REGISTER_CHILD;
+                s.output();
+
             }
-
         }
-
     }
 }
+
+
 
