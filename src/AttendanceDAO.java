@@ -4,8 +4,12 @@
  * Project: Preeschool
  * Copyright: MIT
  */
-public interface IHandlingAbsence {
+public interface AttendanceDAO {
+
+    public void registerAttendanceToday(Child);
 
     public void addAbsence(Child child);
+
+
 
 }

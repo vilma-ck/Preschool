@@ -1,4 +1,3 @@
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +7,7 @@ import java.util.List;
  * Project: Preeschool
  * Copyright: MIT
  */
-public class Caregiver extends Person implements IContactInformation, IHandlingAbsence{
+public class Caregiver extends Person implements IContactInformation {
 
     private String eMailAddress;
     private String phoneNumber;
@@ -36,12 +35,6 @@ public class Caregiver extends Person implements IContactInformation, IHandlingA
         // kommer hit från nån loop kanske så man kan ange flera dagar på rad
         child.addCaringTime(day, start, stop);
     }
-
-    @Override
-    public void addAbsence(Child child) {
-
-    }
-
 
     @Override
     public void setEmailAddress(String emailAddress) {
