@@ -65,6 +65,21 @@ public enum States {
             Child child = (Child)o;
             System.out.println("Var god ange omsorgstider för " + child.getFirstName());
         }
+
+        @Override
+        public void addCaringTime(Child child, Scanner scan) {
+            String time;
+
+            String[] week = {"måndag", "tisdag", "onsdag", "torsdag", "fredag"};
+
+            for(String day: week) {
+                System.out.println("Var god ange lämningstid och hämtningstid på " + day);
+                time = scan.next();
+                String start = time.substring(0, time.indexOf(","));
+                String stop = time.substring(time.indexOf(",") + 1);
+                child.addCaringTime(day, start, stop);
+            }
+        }
     },
 
     EDUCATOR_INFO {
@@ -100,5 +115,9 @@ public enum States {
     };
 
     public abstract void output(Object o);
+
+    public void addCaringTime(Child child, Scanner scan){};
+
+
 
 }
