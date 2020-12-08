@@ -1,3 +1,4 @@
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +30,6 @@ public class PersonHandling {
     }
 
  */
-
-
 
     public static void main(String[] args) {
 

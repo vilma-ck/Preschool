@@ -12,6 +12,7 @@ import java.util.List;
  */
 
 
+
 public class Database implements AttendanceDAO, Serializable, PersonDAO  {
 
 
@@ -25,12 +26,27 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO  {
         this.childList.add(c);
     }
 
+    @Override
+    public void deleteChild(Child child) {
+        this.childList.remove(child);
+    }
+
     public void addCaregiver(Caregiver caregiver) {
         this.caregiverList.add(caregiver);
     }
 
+    @Override
+    public void deleteCaregiver(Caregiver caregiver) {
+        this.caregiverList.remove(caregiver);
+    }
+
     public void addEducator(Educator educator) {
         this.educatorList.add(educator);
+    }
+
+    @Override
+    public void deleteEducator(Educator educator) {
+        this.educatorList.remove(educator);
     }
 
     public List<Child> getChildList() {
@@ -45,9 +61,6 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO  {
         return educatorList;
     }
 
-    public List<List<Attendance>> getAttendanceList() {
-        return attendanceList;
-    }
 
     public void serialize(List list, String fileName) {
         try {
@@ -59,16 +72,33 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO  {
         }
     }
 
-    public void deSerialize(List <? extends Person >list, String fileName) {
+
+    public List deSerialize(List list, String fileName) {
+        List<Child> childList = null;
+        List<Caregiver> caregiverList = null;
+        List<Educator> educatorList = null;
+
         try {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
-            list = (List<Person>) in.readObject();
-            in.close();
+            if (list == childList) {
+                list = (List<Child>) in.readObject();
+                in.close();
+            }
+            else if (list == caregiverList){
+                list = (List<Caregiver>) in.readObject();
+                in.close();
+            }
+            else if (list == educatorList){
+                list = (List<Educator>) in.readObject();
+                in.close();
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return list;
     }
+
 
     @Override
 

@@ -49,7 +49,16 @@ public class Demo {
         List<Educator> educatorList = d.getEducatorList();
         d.serialize(educatorList,"Educators.ser");
 
-         */
+
+        List<Caregiver> caregivers = d.deSerialize(caregiverList,"Caregivers.ser");
+        System.out.println(caregivers.size());
+
+        List<Educator> educators = d.deSerialize(educatorList, "Educators.ser");
+        System.out.println(educators.size());
+
+        List<Child> children = d.deSerialize(childrenList, "Children.ser");
+        System.out.println(children.size());
+      */
 
     }
 }

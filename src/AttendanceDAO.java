@@ -11,4 +11,5 @@ public interface AttendanceDAO {
     void printAttendance();
     void printAbsent();
     void printPresent();
+
 }
