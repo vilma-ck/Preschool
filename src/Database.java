@@ -13,7 +13,7 @@ import java.util.List;
 
 
 
-public class Database implements AttendanceDAO, Serializable, PersonDAO  {
+public class Database implements AttendanceDAO, Serializable, PersonDAO, DatabaseDAO {
 
 
     private List<Child> childList = new LinkedList<>();
@@ -21,6 +21,14 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO  {
     private List<Educator> educatorList = new LinkedList<>();
     private List<Attendance> attendanceToday = new ArrayList<>();
     private List<List<Attendance>> attendanceList;
+
+    public Database(){
+        this.childList = deSerialize("Children.ser");
+        this.caregiverList = deSerialize("Caregivers.ser");
+        this.educatorList = deSerialize("Educators.ser");
+        setAttendance();
+        System.out.println(caregiverList.size());
+    }
 
     public void addChild(Child c) {
         this.childList.add(c);

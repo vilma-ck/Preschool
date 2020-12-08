@@ -40,6 +40,9 @@ public class Caregiver extends Person implements IContactInformation, Serializab
         child.addCaringTime(day, start, stop);
     }
 
+    public List<Child> getChildren(){
+        return children;
+    }
    
     public void setEmailAddress(String emailAddress) {
         this.eMailAddress = emailAddress;

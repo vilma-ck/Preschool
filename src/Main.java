@@ -48,36 +48,36 @@ Pedagog
                 //Om användaren valde omsorgstider (1)
                 if (input == 1) {
                     s = States.CHILD_ATTENDANCE;
-                    s.output();
+                    s.output(null);
                 }
 
                 //Om användaren valde frånvaro (2)
                 else if (input == 2) {
                     s = States.CHILD_ABSENCE;
-                    s.output();
+                    s.output(null);
                 }
 
             //Om användaren valde kontaktuppgifter (2)
             } else if (input == 2) {
                 s = States.EDUCATOR_INFO;
-                s.output();
+                s.output(null);
             }
 
         //Om användaren valde att logga in som pedagog (2)
         } else if (input == 2) {
             s = States.EDUCATOR;
-            s.output();
+            s.output(null);
             input = scan.nextInt();
 
             //Om användaren valde att registrera frånvaro för ett barn
             if (input == 1) {
                 s = States.EDUCATOR_ABSENCE;
-                s.output();
+                s.output(null);
 
             //Om användaren vill lägga till ett barn
             } else if (input == 2) {
                 s = States.REGISTER_CHILD;
-                s.output();
+                s.output(null);
 
             }
         }
