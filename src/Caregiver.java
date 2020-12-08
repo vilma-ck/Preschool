@@ -1,3 +1,5 @@
+
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +10,8 @@ import java.util.List;
  * Project: Preeschool
  * Copyright: MIT
  */
-public class Caregiver extends Person implements IContactInformation, IHandlingAbsence{
+
+public class Caregiver extends Person implements IContactInformation {
 
     private String eMailAddress;
     private String phoneNumber;
@@ -24,17 +27,23 @@ public class Caregiver extends Person implements IContactInformation, IHandlingA
         children.add(child);
     }
 
-    public void registerCaringTime(Child child, LocalTime start, LocalTime stop){
-
+    public Child getChild(Child child){
+        for(Child c: children){
+            if(c.equals(child)){
+                return c;
+            }
+        } return null;
     }
 
-    @Override
-    public void addAbsence(Child child) {
-
+    public void registerCaringTime(Child child, String day, String start, String stop){
+        // kommer hit från nån loop kanske så man kan ange flera dagar på rad
+        child.addCaringTime(day, start, stop);
     }
 
-
-    @Override
+    public List<Child> getChildren(){
+        return children;
+    }
+   
     public void setEmailAddress(String emailAddress) {
         this.eMailAddress = emailAddress;
     }
@@ -50,7 +59,7 @@ public class Caregiver extends Person implements IContactInformation, IHandlingA
     }
 
     @Override
-    public String getEMailAddress() {
+    public String getEmailAddress() {
         return eMailAddress;
     }
 

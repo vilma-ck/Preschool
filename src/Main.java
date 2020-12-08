@@ -26,58 +26,96 @@ Pedagog
 
     public static void main(String[] args) {
 
+        Database d = new Database();
+
+        AttendanceDAO attendanceDAO = d;
+        DatabaseDAO databaseDAO = d;
+        PersonDAO personDAO = d;
+
         Scanner scan = new Scanner(System.in);
 
         States s = States.LOGIN;
-        s.output();
+        s.output(null);
 
         int input = scan.nextInt();
+        String name;
+
 
         //Om användaren valde att logga in som vårdnadshavare (1)
         if (input == 1) {
+            s = States.USERNAME;
+            s.output(null);
+
+            name  = scan.next();
+            Caregiver caregiver = personDAO.getCaregiver(name);
+
             s = States.CAREGIVER;
-            s.output();
+            s.output(caregiver);
+
+            // väljer barn
             input = scan.nextInt();
 
+
+
             //Om användaren valde ett barn (1)
-            if (input == 1) {
+            if (input <= caregiver.getChildren().size()) {
+
+                Child child = caregiver.getChildren().get(input-1);
                 s = States.CHOSE_CHILD;
-                s.output();
+                s.output(child);
                 input = scan.nextInt();
 
                 //Om användaren valde omsorgstider (1)
                 if (input == 1) {
                     s = States.CHILD_ATTENDANCE;
-                    s.output();
+                    s.output(child);
                 }
 
                 //Om användaren valde frånvaro (2)
                 else if (input == 2) {
                     s = States.CHILD_ABSENCE;
-                    s.output();
+                    s.output(child);
+
+                    attendanceDAO.addAbsence(child);
+
                 }
 
             //Om användaren valde kontaktuppgifter (2)
             } else if (input == 2) {
                 s = States.EDUCATOR_INFO;
-                s.output();
+                s.output(null);
             }
 
         //Om användaren valde att logga in som pedagog (2)
         } else if (input == 2) {
+            s = States.USERNAME;
+            s.output(null);
+
+            /*
+            name  = scan.next();
+            Caregiver caregiver = personDAO.getCaregiver(name);
+
+            s = States.CAREGIVER;
+            s.output(caregiver);
+             */
+            name = scan.next();
+            Educator educator = personDAO.getEducator(name);
+
             s = States.EDUCATOR;
-            s.output();
+            s.output(educator);
+
+
             input = scan.nextInt();
 
             //Om användaren valde att registrera frånvaro för ett barn
             if (input == 1) {
                 s = States.EDUCATOR_ABSENCE;
-                s.output();
+                s.output(null);
 
             //Om användaren vill lägga till ett barn
             } else if (input == 2) {
                 s = States.REGISTER_CHILD;
-                s.output();
+                s.output(null);
 
             }
         }
