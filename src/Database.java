@@ -3,18 +3,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by Sara Carlsson
- * Date: 30/11/2020
- * Time:20:44
- * Project: Preeschool
- * Copywright: MIT
- */
-
-
-
 public class Database implements AttendanceDAO, Serializable, PersonDAO, DatabaseDAO  {
-
 
     private List<Child> childList = new LinkedList<>();
     private List<Caregiver> caregiverList = new LinkedList<>();
@@ -30,6 +19,8 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
         System.out.println(caregiverList.size());
         this.educatorList = deSerialize("Educators.ser");
         System.out.println(educatorList.size());
+
+        setAttendance();
 
     }
 
@@ -102,7 +93,6 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
 
 
     @Override
-
     public String getContactInformation(IContactInformation person) {
         StringBuilder sb = new StringBuilder();
         sb.append("E-mejladress: " + person.getEmailAddress() + '\n');
