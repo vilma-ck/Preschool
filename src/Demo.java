@@ -12,7 +12,7 @@ import java.util.List;
 public class Demo {
     public static void main(String[] args) throws IOException {
 
-        Database d = new Database();
+        /*Database d = new Database();
 
         Caregiver c1 = new Caregiver("Anna","Andersson","198902024785");
         Caregiver c2 = new Caregiver("Eva","Johansson","198801015689");
@@ -48,6 +48,8 @@ public class Demo {
         d.addEducator(e);
         List<Educator> educatorList = d.getEducatorList();
         d.serialize(educatorList,"Educators.ser");
+
+         */
 
     }
 }
