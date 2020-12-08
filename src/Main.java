@@ -1,4 +1,5 @@
 
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -69,6 +70,22 @@ Pedagog
                 if (input == 1) {
                     s = States.CHILD_ATTENDANCE;
                     s.output(child);
+
+                    String time;
+
+                    String[] week = {"måndag", "tisdag", "onsdag", "torsdag", "fredag"};
+
+                    for(String day: week){
+                        System.out.println("Var god ange lämningstid och hämtningstid på " + day);
+                        time = scan.next();
+                        String start = time.substring(0, time.indexOf(","));
+                        String stop = time.substring(time.indexOf(",")+1);
+                        child.addCaringTime(day, start, stop);
+                    }
+
+
+
+
                 }
 
                 //Om användaren valde frånvaro (2)
@@ -77,6 +94,15 @@ Pedagog
                     s.output(child);
 
                     attendanceDAO.addAbsence(child);
+
+                    /*
+
+
+                    s = States.CAREGIVER;
+                    s.output(caregiver);
+                    input = scan.nextInt();
+
+                     */
 
                 }
 
@@ -120,6 +146,7 @@ Pedagog
             }
         }
     }
+
 }
 
 

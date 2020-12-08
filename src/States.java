@@ -63,7 +63,7 @@ public enum States {
         @Override
         public void output(Object o) {
             Child child = (Child)o;
-            System.out.println("Var god ange omsorgstider för " + child.getFirstName() );
+            System.out.println("Var god ange omsorgstider för " + child.getFirstName());
         }
     },
 
