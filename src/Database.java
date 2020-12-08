@@ -3,13 +3,17 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Database implements AttendanceDAO, Serializable, PersonDAO, DatabaseDAO  {
+
+
+public class Database implements AttendanceDAO, Serializable, PersonDAO, DatabaseDAO {
+
 
     private List<Child> childList = new LinkedList<>();
     private List<Caregiver> caregiverList = new LinkedList<>();
     private List<Educator> educatorList = new LinkedList<>();
     private List<Attendance> attendanceToday = new ArrayList<>();
     private List<List<Attendance>> attendanceList;
+
 
     public Database (){
 
