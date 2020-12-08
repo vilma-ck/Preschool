@@ -180,22 +180,12 @@ public enum States {
         public void output(Object o) {
             System.out.println("Programmet är avslutat");
         }
-
-        @Override
-        public void shuttingDown() {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
     };
 
     public abstract void output(Object o);
 
     public void addCaringTime(Child child, Scanner scan){};
 
-    public void shuttingDown(){};
 
 
 
