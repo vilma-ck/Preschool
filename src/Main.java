@@ -26,6 +26,12 @@ Pedagog
 
     public static void main(String[] args) {
 
+        Database d = new Database();
+
+        AttendanceDAO attendanceDAO = d;
+        DatabaseDAO databaseDAO = d;
+        PersonDAO personDAO = d;
+
         Scanner scan = new Scanner(System.in);
 
         States s = States.LOGIN;

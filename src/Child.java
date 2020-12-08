@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -10,7 +11,7 @@ import java.util.List;
  * Project: Preeschool
  * Copyright: MIT
  */
-public class Child extends Person {
+public class Child extends Person  {
 
     List<Caregiver> caregivers = new ArrayList<>();
     List<CaringTime> caringTimes = new ArrayList<>();

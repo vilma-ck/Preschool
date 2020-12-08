@@ -11,7 +11,7 @@ import java.util.List;
  * Copyright: MIT
  */
 
-public class Caregiver extends Person implements IContactInformation, Serializable {
+public class Caregiver extends Person implements IContactInformation {
 
     private String eMailAddress;
     private String phoneNumber;
