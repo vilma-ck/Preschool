@@ -10,7 +10,7 @@ import java.util.List;
  * Copywrite: MIT
  */
 public class Demo {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         /*Database d = new Database();
 
@@ -49,7 +49,7 @@ public class Demo {
         List<Educator> educatorList = d.getEducatorList();
         d.serialize(educatorList,"Educators.ser");
 
-
+        /*
         List<Caregiver> caregivers = d.deSerialize(caregiverList,"Caregivers.ser");
         System.out.println(caregivers.size());
 
@@ -58,7 +58,9 @@ public class Demo {
 
         List<Child> children = d.deSerialize(childrenList, "Children.ser");
         System.out.println(children.size());
-      */
+
+         */
+
 
     }
 }

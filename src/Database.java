@@ -13,7 +13,7 @@ import java.util.List;
 
 
 
-public class Database implements AttendanceDAO, Serializable, PersonDAO  {
+public class Database implements AttendanceDAO, Serializable, PersonDAO, DatabaseDAO  {
 
 
     private List<Child> childList = new LinkedList<>();
@@ -21,6 +21,17 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO  {
     private List<Educator> educatorList = new LinkedList<>();
     private List<Attendance> attendanceToday = new ArrayList<>();
     private List<List<Attendance>> attendanceList;
+
+    public Database (){
+
+        this.childList = deSerialize("Children.ser");
+        System.out.println(childList.size());
+        this.caregiverList = deSerialize("Caregivers.ser");
+        System.out.println(caregiverList.size());
+        this.educatorList = deSerialize("Educators.ser");
+        System.out.println(educatorList.size());
+
+    }
 
     public void addChild(Child c) {
         this.childList.add(c);
@@ -62,39 +73,29 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO  {
     }
 
 
-    public void serialize(List list, String fileName) {
+    public <T> void serialize(List <T> list, String fileName) {
         try {
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
             out.writeObject(list);
             out.close();
+            System.out.println("File: " + "\"" + fileName + "\" saved!");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
 
-    public List deSerialize(List list, String fileName) {
-        List<Child> childList = null;
-        List<Caregiver> caregiverList = null;
-        List<Educator> educatorList = null;
+    public <T> List<T> deSerialize(String fileName) {
+        List<T> list = new ArrayList<>();
+        try(ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));) {
+            list = (List<T>) in.readObject();
 
-        try {
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
-            if (list == childList) {
-                list = (List<Child>) in.readObject();
-                in.close();
-            }
-            else if (list == caregiverList){
-                list = (List<Caregiver>) in.readObject();
-                in.close();
-            }
-            else if (list == educatorList){
-                list = (List<Educator>) in.readObject();
-                in.close();
-            }
-
-        } catch (Exception e) {
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
+            System.out.println("Class not found exception");
+        }catch (IOException e){
+            e.printStackTrace();
+            System.out.println("IOException");
         }
         return list;
     }
@@ -190,6 +191,10 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO  {
             if (a.getPresent())
                 System.out.println(a.getChild().getFirstName() + " " + a.getChild().getLastName());
         }
+    }
+
+    public static void main(String[] args) {
+        new Database();
     }
 
 }

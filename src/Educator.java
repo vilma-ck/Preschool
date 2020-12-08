@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 /**
  * Created by Sara Carlsson
  * Date: 30/11/2020
@@ -5,7 +7,7 @@
  * Project: Preeschool
  * Copywright: MIT
  */
-public class Educator extends Person implements IContactInformation{
+public class Educator extends Person implements IContactInformation {
 
     private String eMailAddress;
     private String phoneNumber;
