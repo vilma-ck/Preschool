@@ -103,32 +103,58 @@ Pedagog
             s = States.USERNAME;
             s.output(null);
 
-            /*
-            name  = scan.next();
-            Caregiver caregiver = personDAO.getCaregiver(name);
-
-            s = States.CAREGIVER;
-            s.output(caregiver);
-             */
             name = scan.next();
             Educator educator = personDAO.getEducator(name);
+            while(true){
+                s = States.EDUCATOR;
+                s.output(educator);
+                input = scan.nextInt();
 
-            s = States.EDUCATOR;
-            s.output(educator);
+                //Om användaren valde att registrera frånvaro för ett barn
+                if (input == 1) {
+                    s = States.EDUCATOR_ABSENCE;
+                    List<Child> childList = databaseDAO.getChildList();
+                    s.output(databaseDAO.getChildList());
+                    input = scan.nextInt();
 
+                    //Registrerar frånvaro på barn
+                    if (input <= childList.size()) {
+                        s = States.CHILD_ABSENCE;
+                        s.output(childList.get(input - 1));
+                    }
 
-            input = scan.nextInt();
-
-            //Om användaren valde att registrera frånvaro för ett barn
-            if (input == 1) {
-                s = States.EDUCATOR_ABSENCE;
-                s.output(null);
-
-            //Om användaren vill lägga till ett barn
-            } else if (input == 2) {
-                s = States.REGISTER_CHILD;
-                s.output(null);
-
+                    //Om användaren vill lägga till ett barn
+                } else if (input == 2) {
+                    s = States.REGISTER_CHILD;
+                    s.output(null);
+                }
+                //Om användaren vill skriva ut närvarolistor
+                else if (input == 3) {
+                    s = States.PRINT_ATTENDANCE;
+                    s.output(null);
+                    input = scan.nextInt();
+                    if (input == 1) {
+                        s = States.PRINT_ALL;
+                        s.output(attendanceDAO.getAttendanceList());
+                    } else if (input == 2) {
+                        s = States.PRINT_PRESENT;
+                        s.output(attendanceDAO.getAttendanceList());
+                    } else if (input == 3) {
+                        s = States.PRINT_ABSENT;
+                        s.output(attendanceDAO.getAttendanceList());
+                    }
+                }
+                //om användaren väljer att avsluta
+                else if (input == 4) {
+                    s = States.SHUT_DOWN;
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    s.output(educator);
+                    break;
+                }
             }
         }
     }

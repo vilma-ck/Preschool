@@ -18,12 +18,8 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
     public Database (){
 
         this.childList = deSerialize("Children.ser");
-        System.out.println(childList.size());
         this.caregiverList = deSerialize("Caregivers.ser");
-        System.out.println(caregiverList.size());
         this.educatorList = deSerialize("Educators.ser");
-        System.out.println(educatorList.size());
-
         setAttendance();
 
     }
@@ -55,6 +51,7 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
         this.educatorList.remove(educator);
     }
 
+    @Override
     public List<Child> getChildList() {
         return childList;
     }
@@ -144,7 +141,7 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
 
     @Override
     public void addAbsence(Child child) {
-        for(Attendance a: attendanceToday){
+        for(Attendance a: this.attendanceToday){
             if(a.getChild()==child) {
                 a.setPresent(false);
                 break;
@@ -153,38 +150,8 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
     }
 
     @Override
-    public void printAttendance() {
-        String date = attendanceToday.get(0).getDate().toString();
-        String present;
-        System.out.println("Datum: " + date);
-        for(Attendance a: attendanceToday){
-            if(!a.getPresent())
-                present = "Frånvarande";
-            else
-                present = "Närvarande";
-            System.out.println(a.getChild().getFirstName() + " " + a.getChild().getLastName() +
-                    " " + present );
-        }
-    }
-
-    @Override
-    public void printAbsent() {
-        String date = attendanceToday.get(0).getDate().toString();
-        System.out.println("Frånvarande " + date + ":");
-        for(Attendance a: attendanceToday) {
-            if (!a.getPresent())
-                System.out.println(a.getChild().getFirstName() + " " + a.getChild().getLastName());
-        }
-    }
-
-    @Override
-    public void printPresent() {
-        String date = attendanceToday.get(0).getDate().toString();
-        System.out.println("Närvarande " + date + ":");
-        for(Attendance a: attendanceToday) {
-            if (a.getPresent())
-                System.out.println(a.getChild().getFirstName() + " " + a.getChild().getLastName());
-        }
+    public List<Attendance> getAttendanceList() {
+        return this.attendanceToday;
     }
 
     public static void main(String[] args) {
