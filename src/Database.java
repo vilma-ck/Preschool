@@ -10,7 +10,10 @@ import java.util.List;
  * Project: Preeschool
  * Copywright: MIT
  */
-public class Database implements AttendanceDAO, Serializable  {
+
+
+public class Database implements AttendanceDAO, Serializable, PersonDAO  {
+
 
     private List<Child> childList = new LinkedList<>();
     private List<Caregiver> caregiverList = new LinkedList<>();
@@ -68,6 +71,46 @@ public class Database implements AttendanceDAO, Serializable  {
     }
 
     @Override
+
+    public String getContactInformation(IContactInformation person) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("E-mejladress: " + person.getEmailAddress() + '\n');
+        sb.append("Telefonnummer: " + person.getPhoneNumber() + '\n');
+        sb.append("Postadress: " + person.getPostAddress());
+
+        return sb.toString();
+    }
+
+    @Override
+    public Child getChild(String name) {
+        for(Child c : childList){
+            if(c.getFirstName().equalsIgnoreCase(name) || c.getLastName().equalsIgnoreCase(name)){
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public Caregiver getCaregiver(String name){
+        for (Caregiver c: caregiverList){
+            if(c.getFirstName().equalsIgnoreCase(name) || c.getLastName().equalsIgnoreCase(name)){
+                return c;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Educator getEducator(String name) {
+        for(Educator e: educatorList){
+            if(e.getFirstName().equalsIgnoreCase(name) || e.getLastName().equalsIgnoreCase(name)){
+                return e;
+            }
+        }
+        return null;
+    }
+
+
     public void setAttendance() {
         for(Child c : getChildList()) {
             this.attendanceToday.add(new Attendance(c));
@@ -118,4 +161,5 @@ public class Database implements AttendanceDAO, Serializable  {
                 System.out.println(a.getChild().getFirstName() + " " + a.getChild().getLastName());
         }
     }
+
 }

@@ -1,3 +1,5 @@
+import java.util.List;
+
 /**
  * Created by Ivona Zoricic
  * Date: 2020-12-07
@@ -7,14 +9,13 @@
  */
 public interface PersonDAO {
 
-    public void printName();
-    public void printEMailAdress();
 
-  /*  +
-+printEMailAdress(): String
-+printPhoneNumber(): String
-+printPostAddress()
-+printCaringTime()
+   public String getContactInformation(IContactInformation person);
 
-   */
+   public Child getChild(String name);
+
+   public Caregiver getCaregiver(String name);
+
+   public Educator getEducator(String name);
+
 }

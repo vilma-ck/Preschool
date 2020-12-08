@@ -39,7 +39,7 @@ public class Educator extends Person implements IContactInformation{
     }
 
     @Override
-    public String getEMailAddress() {
+    public String getEmailAddress() {
         return eMailAddress;
     }
 

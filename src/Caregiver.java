@@ -56,7 +56,7 @@ public class Caregiver extends Person implements IContactInformation, Serializab
     }
 
     @Override
-    public String getEMailAddress() {
+    public String getEmailAddress() {
         return eMailAddress;
     }
 
