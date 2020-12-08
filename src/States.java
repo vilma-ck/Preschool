@@ -1,3 +1,4 @@
+import javax.xml.crypto.Data;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -124,6 +125,8 @@ public enum States {
             String lastName;
             String personalNumber;
 
+            Database d = new Database();
+
             System.out.print("Denna vårdnadshavare finns inte registrerad " +
                     "\nAnge den nya vårdnadshavarens förnamn: ");
             firstName = scan.next();
@@ -134,6 +137,8 @@ public enum States {
 
             Caregiver caregiver = new Caregiver(firstName, lastName, personalNumber);
             System.out.println(caregiver.getFirstName() + caregiver.getLastName() + caregiver.getPersonalNumber());
+
+            d.addCaregiver(caregiver);
 
             return caregiver;
         }
