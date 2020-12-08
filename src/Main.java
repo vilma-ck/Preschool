@@ -109,7 +109,9 @@ Pedagog
                     //Registrerar frånvaro på barn
                     if (input <= childList.size()) {
                         s = States.CHILD_ABSENCE;
-                        s.output(childList.get(input - 1));
+                        Child child = childList.get(input-1);
+                        s.output(child);
+                        attendanceDAO.addAbsence(child);
                     }
 
                     //Om användaren vill lägga till ett barn
@@ -124,23 +126,24 @@ Pedagog
                     input = scan.nextInt();
                     if (input == 1) {
                         s = States.PRINT_ALL;
-                        s.output(attendanceDAO.getAttendanceList());
+                        s.output(attendanceDAO.getAttendanceToday());
                     } else if (input == 2) {
                         s = States.PRINT_PRESENT;
-                        s.output(attendanceDAO.getAttendanceList());
+                        s.output(attendanceDAO.getAttendanceToday());
                     } else if (input == 3) {
                         s = States.PRINT_ABSENT;
-                        s.output(attendanceDAO.getAttendanceList());
+                        s.output(attendanceDAO.getAttendanceToday());
                     }
                 }
                 //om användaren väljer att avsluta
                 else if (input == 4) {
+                    d.addAttendanceTodayInList(d.getAttendanceToday());
+                    d.serialize(d.getAttendanceList(), SerFiles.LIST_OF_ATTENDANCE.serFiles);
+                    d.serialize(d.getAttendanceToday(), SerFiles.ATTENDANCE.serFiles);
+                    d.serialize(d.getChildList(), SerFiles.CHILDS.serFiles);
+                    d.serialize(d.getEducatorList(), SerFiles.EDUCATOR.serFiles);
+                    d.serialize(d.getCaregiverList(), SerFiles.CAREGIVERS.serFiles);
                     s = States.SHUT_DOWN;
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                     s.output(educator);
                     break;
                 }
