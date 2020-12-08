@@ -47,77 +47,105 @@ Pedagog
             s = States.USERNAME;
             s.output(null);
 
-            name = scan.next();
-            Caregiver caregiver = personDAO.getCaregiver(name);
-
-            s = States.CAREGIVER_MENI;
-            s.output(caregiver);
-
-            // väljer från meni
-            input = scan.nextInt();
-
-            if (input == 1) {
-                s = States.CAREGIVER;
-                s.output(caregiver);
-                input = scan.nextInt();
-                if (input == 1) {
-                    if (input <= caregiver.getChildren().size()) {
-
-                        Child child = caregiver.getChildren().get(input - 1);
-                        s = States.CHOSE_CHILD;
-                        s.output(child);
-                        input = scan.nextInt();
-
-                        if (input == 1) {
-                            s = States.CHILD_ATTENDANCE;
-                            s.output(child);
-                        }
-                        //Om användaren valde frånvaro (2)
-                        else if (input == 2) {
-                            s = States.CHILD_ABSENCE;
-                            s.output(child);
-
-                            attendanceDAO.addAbsence(child);
-                        }
-                    }
-
-                } else {
-                    s = States.EDUCATOR_INFO;
-                    Educator educator = databaseDAO.
-                    s.output(null);
-                }
-
-                //Om användaren valde att logga in som pedagog (2)
-            } else if (input == 2) {
-                s = States.USERNAME;
-                s.output(null);
-
-            /*
             name  = scan.next();
             Caregiver caregiver = personDAO.getCaregiver(name);
 
             s = States.CAREGIVER;
             s.output(caregiver);
-             */
-                name = scan.next();
-                Educator educator = personDAO.getEducator(name);
 
+            // väljer barn
+            input = scan.nextInt();
+
+
+
+            //Om användaren valde ett barn (1)
+            if (input <= caregiver.getChildren().size()) {
+
+                Child child = caregiver.getChildren().get(input-1);
+                s = States.CHOSE_CHILD;
+                s.output(child);
+                input = scan.nextInt();
+
+                //Om användaren valde omsorgstider (1)
+                if (input == 1) {
+                    s = States.CHILD_ATTENDANCE;
+                    s.output(child);
+                }
+
+                //Om användaren valde frånvaro (2)
+                else if (input == 2) {
+                    s = States.CHILD_ABSENCE;
+                    s.output(child);
+
+                    attendanceDAO.addAbsence(child);
+
+                }
+
+            //Om användaren valde kontaktuppgifter (2)
+            } else if (input == 2) {
+                s = States.EDUCATOR_INFO;
+                s.output(null);
+            }
+
+        //Om användaren valde att logga in som pedagog (2)
+        } else if (input == 2) {
+            s = States.USERNAME;
+            s.output(null);
+
+            name = scan.next();
+            Educator educator = personDAO.getEducator(name);
+            while(true){
                 s = States.EDUCATOR;
                 s.output(educator);
-
-
                 input = scan.nextInt();
 
                 //Om användaren valde att registrera frånvaro för ett barn
                 if (input == 1) {
                     s = States.EDUCATOR_ABSENCE;
-                    s.output(null);
+                    List<Child> childList = databaseDAO.getChildList();
+                    s.output(databaseDAO.getChildList());
+                    input = scan.nextInt();
+
+                    //Registrerar frånvaro på barn
+                    if (input <= childList.size()) {
+                        s = States.CHILD_ABSENCE;
+                        Child child = childList.get(input-1);
+                        s.output(child);
+                        attendanceDAO.addAbsence(child);
+                    }
 
                     //Om användaren vill lägga till ett barn
                 } else if (input == 2) {
                     s = States.REGISTER_CHILD;
                     s.output(null);
-
+                }
+                //Om användaren vill skriva ut närvarolistor
+                else if (input == 3) {
+                    s = States.PRINT_ATTENDANCE;
+                    s.output(null);
+                    input = scan.nextInt();
+                    if (input == 1) {
+                        s = States.PRINT_ALL;
+                        s.output(attendanceDAO.getAttendanceToday());
+                    } else if (input == 2) {
+                        s = States.PRINT_PRESENT;
+                        s.output(attendanceDAO.getAttendanceToday());
+                    } else if (input == 3) {
+                        s = States.PRINT_ABSENT;
+                        s.output(attendanceDAO.getAttendanceToday());
+                    }
+                }
+                //om användaren väljer att avsluta
+                else if (input == 4) {
+                    d.addAttendanceTodayInList(d.getAttendanceToday());
+                    d.serialize(d.getAttendanceList(), SerFiles.LIST_OF_ATTENDANCE.serFiles);
+                    d.serialize(d.getAttendanceToday(), SerFiles.ATTENDANCE.serFiles);
+                    d.serialize(d.getChildList(), SerFiles.CHILDS.serFiles);
+                    d.serialize(d.getEducatorList(), SerFiles.EDUCATOR.serFiles);
+                    d.serialize(d.getCaregiverList(), SerFiles.CAREGIVERS.serFiles);
+                    s = States.SHUT_DOWN;
+                    s.output(educator);
+                    break;
                 }
             }
         }

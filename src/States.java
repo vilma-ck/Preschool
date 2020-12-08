@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -92,17 +93,24 @@ public enum States {
         @Override
         public void output(Object o) {
             Educator educator = (Educator)o;
-            System.out.println("Välkommen " + educator.getFirstName() + "!" +
+            System.out.println("\nVälkommen " + educator.getFirstName() + "!" +
                     "\n 1. Ange frånvaro" +
-                    "\n 2. Registrera ett nytt barn till förskolan");
+                    "\n 2. Registrera ett nytt barn till förskolan" +
+                    "\n 3. Se närvaro idag" +
+                    "\n 4. Avsluta");
         }
     },
 
     EDUCATOR_ABSENCE {
         @Override
         public void output(Object o) {
-            System.out.println("Ange frånvaro för: " +
-                    "\n 1. " + "BARN1");
+            List<Child> childList = (List<Child>) o;
+            System.out.println("Ange frånvaro för: ");
+            int counter = 1;
+            for(Child child : childList) {
+                System.out.println(counter + " " + child.getFirstName());
+                counter ++;
+            }
         }
     },
 
@@ -110,6 +118,65 @@ public enum States {
         @Override
         public void output(Object o) {
             System.out.println("Registrera nytt barn");
+        }
+    },
+
+    PRINT_ATTENDANCE{
+        @Override
+        public void output(Object o) {
+            System.out.println("Vilken lista vill du skriva ut?");
+            System.out.println(" 1. Alla barn" +
+                    "\n 2. Närvarande barn" +
+                    "\n 3. Frånvarande barn");
+        }
+    },
+
+    PRINT_ALL{
+        @Override
+        public void output(Object o) {
+            List<Attendance> attendanceList = (List<Attendance>) o;
+            String present;
+            System.out.println("Närvaro " + LocalDate.now());
+            for(Attendance a: attendanceList){
+                if(!a.getPresent())
+                    present = "Frånvarande";
+                else
+                    present = "Närvarande";
+                System.out.println(a.getChild().getFirstName() + " " + a.getChild().getLastName() +
+                        " " + present );
+            }
+            System.out.println();
+        }
+    },
+
+    PRINT_ABSENT{
+        @Override
+        public void output(Object o) {
+            List<Attendance> attendanceList = (List<Attendance>) o;
+            System.out.println("Frånvarande " + LocalDate.now());
+            for(Attendance a: attendanceList) {
+                if (!a.getPresent())
+                    System.out.println(a.getChild().getFirstName() + " " + a.getChild().getLastName());
+            }
+        }
+    },
+
+    PRINT_PRESENT {
+        @Override
+        public void output(Object o) {
+            List<Attendance> attendanceList = (List<Attendance>) o;
+            System.out.println("Närvarande " + LocalDate.now());
+            for(Attendance a: attendanceList) {
+                if (a.getPresent())
+                    System.out.println(a.getChild().getFirstName() + " " + a.getChild().getLastName());
+            }
+        }
+    },
+
+    SHUT_DOWN{
+        @Override
+        public void output(Object o) {
+            System.out.println("Programmet är avslutat");
         }
     };
 

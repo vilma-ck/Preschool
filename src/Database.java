@@ -14,25 +14,26 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
     private List<Attendance> attendanceToday = new ArrayList<>();
     private List<List<Attendance>> attendanceList;
 
-    public void setEducatorList(List<Educator> educatorList) {
-        this.educatorList = educatorList;
-    }
 
     public Database (){
 
         this.childList = deSerialize("Children.ser");
-        System.out.println(childList.size());
         this.caregiverList = deSerialize("Caregivers.ser");
-        System.out.println(caregiverList.size());
         this.educatorList = deSerialize("Educators.ser");
-        System.out.println(educatorList.size());
-
         setAttendance();
 
     }
 
     public void addChild(Child c) {
         this.childList.add(c);
+    }
+
+    public void addAttendanceTodayInList(List<Attendance> attendanceToday){
+        attendanceList.add(attendanceToday);
+    }
+
+    public List<List<Attendance>> getAttendanceList(){
+        return attendanceList;
     }
 
     @Override
@@ -58,6 +59,7 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
         this.educatorList.remove(educator);
     }
 
+    @Override
     public List<Child> getChildList() {
         return childList;
     }
@@ -138,7 +140,7 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
         return null;
     }
 
-
+    @Override
     public void setAttendance() {
         for(Child c : getChildList()) {
             this.attendanceToday.add(new Attendance(c));
@@ -147,7 +149,7 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
 
     @Override
     public void addAbsence(Child child) {
-        for(Attendance a: attendanceToday){
+        for(Attendance a: this.attendanceToday){
             if(a.getChild()==child) {
                 a.setPresent(false);
                 break;
@@ -156,42 +158,8 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
     }
 
     @Override
-    public void printAttendance() {
-        String date = attendanceToday.get(0).getDate().toString();
-        String present;
-        System.out.println("Datum: " + date);
-        for(Attendance a: attendanceToday){
-            if(!a.getPresent())
-                present = "Frånvarande";
-            else
-                present = "Närvarande";
-            System.out.println(a.getChild().getFirstName() + " " + a.getChild().getLastName() +
-                    " " + present );
-        }
-    }
-
-    @Override
-    public void printAbsent() {
-        String date = attendanceToday.get(0).getDate().toString();
-        System.out.println("Frånvarande " + date + ":");
-        for(Attendance a: attendanceToday) {
-            if (!a.getPresent())
-                System.out.println(a.getChild().getFirstName() + " " + a.getChild().getLastName());
-        }
-    }
-
-    @Override
-    public void printPresent() {
-        String date = attendanceToday.get(0).getDate().toString();
-        System.out.println("Närvarande " + date + ":");
-        for(Attendance a: attendanceToday) {
-            if (a.getPresent())
-                System.out.println(a.getChild().getFirstName() + " " + a.getChild().getLastName());
-        }
-    }
-
-    public static void main(String[] args) {
-        new Database();
+    public List<Attendance> getAttendanceToday() {
+        return this.attendanceToday;
     }
 
 }
