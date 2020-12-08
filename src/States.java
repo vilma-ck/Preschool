@@ -26,16 +26,30 @@ public enum States {
         }
     },
 
-    CAREGIVER {
+    CAREGIVER_MENI {
         @Override
         public void output(Object o) {
             Caregiver caregiver = (Caregiver) o;
             System.out.println("Välkommen " + caregiver.getFirstName() +
-                    "\nVälj barn:");
-            int counter = 1;
+                    "\nVälj aktivitet:" + "\n1. Visa barn:"  + "\n2.Visa pedagogernas kontaktuppgifter");
+
+        /*    int counter = 1;
             for(Child child : caregiver.getChildren()){
                 System.out.println(counter + " " + child.getFirstName());
                 counter++;
+            }*/
+        }
+    },
+    CAREGIVER {
+        @Override
+        public void output(Object o) {
+            Caregiver caregiver = (Caregiver) o;
+            System.out.println("Välj barn:");
+            int counter = 1;
+            for (Child child : caregiver.getChildren()) {
+                System.out.println(counter + " " + child.getFirstName());
+                counter++;
+
             }
         }
     },

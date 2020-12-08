@@ -14,6 +14,9 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
     private List<Attendance> attendanceToday = new ArrayList<>();
     private List<List<Attendance>> attendanceList;
 
+    public void setEducatorList(List<Educator> educatorList) {
+        this.educatorList = educatorList;
+    }
 
     public Database (){
 

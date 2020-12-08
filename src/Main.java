@@ -1,4 +1,5 @@
 
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -46,50 +47,50 @@ Pedagog
             s = States.USERNAME;
             s.output(null);
 
-            name  = scan.next();
+            name = scan.next();
             Caregiver caregiver = personDAO.getCaregiver(name);
 
-            s = States.CAREGIVER;
+            s = States.CAREGIVER_MENI;
             s.output(caregiver);
 
-            // väljer barn
+            // väljer från meni
             input = scan.nextInt();
 
-
-
-            //Om användaren valde ett barn (1)
-            if (input <= caregiver.getChildren().size()) {
-
-                Child child = caregiver.getChildren().get(input-1);
-                s = States.CHOSE_CHILD;
-                s.output(child);
+            if (input == 1) {
+                s = States.CAREGIVER;
+                s.output(caregiver);
                 input = scan.nextInt();
-
-                //Om användaren valde omsorgstider (1)
                 if (input == 1) {
-                    s = States.CHILD_ATTENDANCE;
-                    s.output(child);
+                    if (input <= caregiver.getChildren().size()) {
+
+                        Child child = caregiver.getChildren().get(input - 1);
+                        s = States.CHOSE_CHILD;
+                        s.output(child);
+                        input = scan.nextInt();
+
+                        if (input == 1) {
+                            s = States.CHILD_ATTENDANCE;
+                            s.output(child);
+                        }
+                        //Om användaren valde frånvaro (2)
+                        else if (input == 2) {
+                            s = States.CHILD_ABSENCE;
+                            s.output(child);
+
+                            attendanceDAO.addAbsence(child);
+                        }
+                    }
+
+                } else {
+                    s = States.EDUCATOR_INFO;
+                    Educator educator = databaseDAO.
+                    s.output(null);
                 }
 
-                //Om användaren valde frånvaro (2)
-                else if (input == 2) {
-                    s = States.CHILD_ABSENCE;
-                    s.output(child);
-
-                    attendanceDAO.addAbsence(child);
-
-                }
-
-            //Om användaren valde kontaktuppgifter (2)
+                //Om användaren valde att logga in som pedagog (2)
             } else if (input == 2) {
-                s = States.EDUCATOR_INFO;
+                s = States.USERNAME;
                 s.output(null);
-            }
-
-        //Om användaren valde att logga in som pedagog (2)
-        } else if (input == 2) {
-            s = States.USERNAME;
-            s.output(null);
 
             /*
             name  = scan.next();
@@ -98,25 +99,26 @@ Pedagog
             s = States.CAREGIVER;
             s.output(caregiver);
              */
-            name = scan.next();
-            Educator educator = personDAO.getEducator(name);
+                name = scan.next();
+                Educator educator = personDAO.getEducator(name);
 
-            s = States.EDUCATOR;
-            s.output(educator);
+                s = States.EDUCATOR;
+                s.output(educator);
 
 
-            input = scan.nextInt();
+                input = scan.nextInt();
 
-            //Om användaren valde att registrera frånvaro för ett barn
-            if (input == 1) {
-                s = States.EDUCATOR_ABSENCE;
-                s.output(null);
+                //Om användaren valde att registrera frånvaro för ett barn
+                if (input == 1) {
+                    s = States.EDUCATOR_ABSENCE;
+                    s.output(null);
 
-            //Om användaren vill lägga till ett barn
-            } else if (input == 2) {
-                s = States.REGISTER_CHILD;
-                s.output(null);
+                    //Om användaren vill lägga till ett barn
+                } else if (input == 2) {
+                    s = States.REGISTER_CHILD;
+                    s.output(null);
 
+                }
             }
         }
     }
