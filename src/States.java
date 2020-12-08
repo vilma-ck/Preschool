@@ -34,14 +34,6 @@ public enum States {
                     "\n 2. Registrera frånvaro");
         }
 
-        public int chosenNumber(Scanner scan, States state){
-            state.output();
-            int input = scan.nextInt();
-            if(scan.nextInt() == 1) {
-
-            }
-            return input;
-        }
     },
 
     CHILD_ABSENCE {
