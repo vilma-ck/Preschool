@@ -1,17 +1,37 @@
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Created by Ivona Zoricic
+ * Created by Vilma Couturier Kaijser
  * Date: 2020-12-07
- * Time: 15:32
  * Project: Preeschool
- * Copywrite: MIT
+ * Copyright: MIT
  */
 public class PersonHandling {
 
-    Database database;
+    private Database database;
+    public PersonHandling(Database database) throws IOException {
+        this.database = database;
+    }
 
- /*   +getName()
-+getEMailAdress(): String
-+getPhoneNumber(): String
-+getPostAddress()
-+getCaringTime()*/
+/*
+    public <? extends Person> getPerson(String searchWord, ArrayList<Person> list){
+        for(Person p : list){
+            if(p.getFirstName().equalsIgnoreCase(searchWord) || p.getLastName().equalsIgnoreCase(searchWord)){
+                if(p instanceof Child){
+                    return p;
+                }
+            }
+
+        }
+
+    }
+
+ */
+
+    public static void main(String[] args) {
+
+    }
 }

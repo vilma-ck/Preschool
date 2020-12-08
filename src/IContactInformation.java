@@ -14,7 +14,7 @@ public interface IContactInformation {
 
     public void setPostAddress(String postAddress);
 
-    public String getEMailAddress();
+    public String getEmailAddress();
 
     public String getPhoneNumber();
 
