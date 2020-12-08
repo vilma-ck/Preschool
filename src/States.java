@@ -77,7 +77,8 @@ public enum States {
     EDUCATOR {
         @Override
         public void output(Object o) {
-            System.out.println("Välkommen " + "PEDAGOG" + "!" +
+            Educator educator = (Educator)o;
+            System.out.println("Välkommen " + educator.getFirstName() + "!" +
                     "\n 1. Ange frånvaro" +
                     "\n 2. Registrera ett nytt barn till förskolan");
         }
