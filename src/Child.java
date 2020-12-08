@@ -26,6 +26,7 @@ public class Child extends Person  {
 
     public void addCaringTime(String inputDate, String inputStartTime, String inputStopTime){
         LocalDate day = LocalDate.parse(inputDate);
+
         LocalDateTime start = day.atTime(LocalTime.parse(inputStartTime));
         LocalDateTime stop = day.atTime(LocalTime.parse(inputStopTime));
         caringTimes.add(new CaringTime(start, stop));

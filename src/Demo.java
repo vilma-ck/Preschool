@@ -12,7 +12,9 @@ import java.util.List;
 public class Demo {
     public static void main(String[] args) {
 
-        /*Database d = new Database();
+/*
+        Database d = new Database();
+
 
         Caregiver c1 = new Caregiver("Anna","Andersson","198902024785");
         Caregiver c2 = new Caregiver("Eva","Johansson","198801015689");
@@ -23,7 +25,7 @@ public class Demo {
         d.addCaregiver(c3);
         d.addCaregiver(c4);
         List<Caregiver> caregiverList = d.getCaregiverList();
-        d.serialize(caregiverList,"Caregivers.ser");
+
 
         Child b1 = new Child("Alice","Andersson","201502024785");
         Child b2 = new Child("Olivia","Johansson","201501015689");
@@ -36,7 +38,7 @@ public class Demo {
         d.addChild(b4);
         d.addChild(b5);
         List<Child> childrenList = d.getChildList();
-        d.serialize(childrenList,"Children.ser");
+
 
         c1.addChildren(b1);
         c2.addChildren(b2);
@@ -47,7 +49,12 @@ public class Demo {
         Educator e = new Educator("Kristina","Eriksson","97807075564");
         d.addEducator(e);
         List<Educator> educatorList = d.getEducatorList();
+
+
+        d.serialize(caregiverList,"Caregivers.ser");
+        d.serialize(childrenList,"Children.ser");
         d.serialize(educatorList,"Educators.ser");
+
 
         /*
         List<Caregiver> caregivers = d.deSerialize(caregiverList,"Caregivers.ser");

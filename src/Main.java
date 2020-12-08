@@ -35,32 +35,49 @@ Pedagog
         Scanner scan = new Scanner(System.in);
 
         States s = States.LOGIN;
-        s.output();
+        s.output(null);
 
         int input = scan.nextInt();
+        String name;
+
 
         //Om användaren valde att logga in som vårdnadshavare (1)
         if (input == 1) {
+            s = States.USERNAME;
+            s.output(null);
+
+            name  = scan.next();
+            Caregiver caregiver = personDAO.getCaregiver(name);
+
             s = States.CAREGIVER;
-            s.output();
+            s.output(caregiver);
+
+            // väljer barn
             input = scan.nextInt();
 
+
+
             //Om användaren valde ett barn (1)
-            if (input == 1) {
+            if (input <= caregiver.getChildren().size()) {
+
+                Child child = caregiver.getChildren().get(input-1);
                 s = States.CHOSE_CHILD;
-                s.output();
+                s.output(child);
                 input = scan.nextInt();
 
                 //Om användaren valde omsorgstider (1)
                 if (input == 1) {
                     s = States.CHILD_ATTENDANCE;
-                    s.output(null);
+                    s.output(child);
                 }
 
                 //Om användaren valde frånvaro (2)
                 else if (input == 2) {
                     s = States.CHILD_ABSENCE;
-                    s.output(null);
+                    s.output(child);
+
+                    attendanceDAO.addAbsence(child);
+
                 }
 
             //Om användaren valde kontaktuppgifter (2)
