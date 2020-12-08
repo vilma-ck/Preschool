@@ -38,16 +38,18 @@ Pedagog
         s.output(null);
 
         int input = scan.nextInt();
-        String name;
-
+       // String name;
+        String firstName;
+        String lastName;
+        String personalNumber;
 
         //Om användaren valde att logga in som vårdnadshavare (1)
         if (input == 1) {
             s = States.USERNAME;
             s.output(null);
 
-            name  = scan.next();
-            Caregiver caregiver = personDAO.getCaregiver(name);
+            firstName  = scan.next();
+            Caregiver caregiver = personDAO.getCaregiver(firstName);
 
             s = States.CAREGIVER;
             s.output(caregiver);
@@ -98,8 +100,8 @@ Pedagog
             s = States.CAREGIVER;
             s.output(caregiver);
              */
-            name = scan.next();
-            Educator educator = personDAO.getEducator(name);
+            firstName = scan.next();
+            Educator educator = personDAO.getEducator(firstName);
 
             s = States.EDUCATOR;
             s.output(educator);
@@ -114,8 +116,35 @@ Pedagog
 
             //Om användaren vill lägga till ett barn
             } else if (input == 2) {
+
+                //TODO test:
+                System.out.println(d.getChildList().size());
+                System.out.println(d.getCaregiverList().size());
+
                 s = States.REGISTER_CHILD;
                 s.output(null);
+
+                firstName = scan.next();
+                boolean foundCaregiver = false;
+
+                for (Caregiver c : d.getCaregiverList()) {
+                    if (c.getFirstName().equalsIgnoreCase(firstName)) {
+                        System.out.println("Det nya barnet kommer att registreras på den redan " +
+                                "\nexisterande vårdnadshavaren " + c.getFirstName());
+                        c.addChildren(s.registerNewChild(scan));
+                        //s.registerNewChild(scan);
+                        foundCaregiver = true;
+                    }
+                }
+                if (!foundCaregiver) {
+                    s.addCaregiverToNewChild(scan).addChildren(s.registerNewChild(scan));
+                    //s.addCaregiverToNewChild(scan);
+                }
+
+                //TODO test om barn lagts till:
+                System.out.println(d.getChildList().size());
+                System.out.println(d.getCaregiverList().size());
+
 
             }
         }
