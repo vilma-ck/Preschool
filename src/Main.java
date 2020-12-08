@@ -46,57 +46,71 @@ Pedagog
         if (input == 1) {
             s = States.USERNAME;
             s.output(null);
-
             name  = scan.next();
-            Caregiver caregiver = personDAO.getCaregiver(name);
 
-            s = States.CAREGIVER;
-            s.output(caregiver);
-
-            // väljer barn
-            input = scan.nextInt();
-
-
-
-            //Om användaren valde ett barn (1)
-            if (input <= caregiver.getChildren().size()) {
-
-                Child child = caregiver.getChildren().get(input-1);
-                s = States.CHOSE_CHILD;
-                s.output(child);
-                input = scan.nextInt();
-
-                //Om användaren valde omsorgstider (1)
-                if (input == 1) {
-                    s = States.CHILD_ATTENDANCE;
-                    s.output(child);
-                    s.addCaringTime(child, scan);
-
+            while(true){
+                Caregiver caregiver = personDAO.getCaregiver(name);
+                if(caregiver == null){
+                    System.out.println("skriv ditt namn igen ");
+                    name = scan.next();
                 }
+                if(caregiver != null){
+                    while(true){
+                        s = States.CAREGIVER;
+                        s.output(caregiver);
 
-                //Om användaren valde frånvaro (2)
-                else if (input == 2) {
-                    s = States.CHILD_ABSENCE;
-                    s.output(child);
+                        Child child;
 
-                    attendanceDAO.addAbsence(child);
+                        if(caregiver.getChildren().size()>1){
+                            // väljer barn
+                            input = scan.nextInt();
+                            //Om användaren valde ett barn (1)
+                            if (input <= caregiver.getChildren().size()) {
+                                child = caregiver.getChildren().get(input-1);
 
-                    /*
+                        } else {
+                                child = caregiver.getChildren().get(0);
+                            }
 
+                            s = States.CHOSE_CHILD;
+                            s.output(child);
 
-                    s = States.CAREGIVER;
-                    s.output(caregiver);
-                    input = scan.nextInt();
+                            input = scan.nextInt();
 
-                     */
+                            //Om användaren valde omsorgstider (1)
+                            if (input == 1) {
+                                s = States.CHILD_ATTENDANCE;
+                                s.output(child);
+                                s.addCaringTime(child, scan);
+                            }
 
+                            //Om användaren valde frånvaro (2)
+                            else if (input == 2) {
+                                s = States.CHILD_ABSENCE;
+                                s.output(child);
+
+                                attendanceDAO.addAbsence(child);
+
+                            }
+
+                            //Om användaren valde kontaktuppgifter (2)
+                        } else if (input == 2) {
+                            s = States.EDUCATOR_INFO;
+                            s.output(null);
+                        }
+                        else if (input == 3) {
+                            s = States.SHUT_DOWN;
+                            s.output(caregiver);
+                            s.shuttingDown();
+                            break;
+                        } break;
+
+                    }
                 }
-
-            //Om användaren valde kontaktuppgifter (2)
-            } else if (input == 2) {
-                s = States.EDUCATOR_INFO;
-                s.output(null);
             }
+
+
+
 
         //Om användaren valde att logga in som pedagog (2)
         } else if (input == 2) {
@@ -147,17 +161,14 @@ Pedagog
                 //om användaren väljer att avsluta
                 else if (input == 4) {
                     s = States.SHUT_DOWN;
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                     s.output(educator);
+                    s.shuttingDown();
                     break;
                 }
             }
         }
     }
+
 
 }
 

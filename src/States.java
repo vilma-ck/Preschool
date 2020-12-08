@@ -47,7 +47,8 @@ public enum States {
             Child child = (Child)o;
             System.out.println("Välkommen till sidan för " + child.getFirstName() +
                     "\n 1. Ange omsorgstider" +
-                    "\n 2. Registrera frånvaro");
+                    "\n 2. Registrera frånvaro" +
+                    "\n 3. Avsluta");
         }
     },
 
@@ -179,11 +180,22 @@ public enum States {
         public void output(Object o) {
             System.out.println("Programmet är avslutat");
         }
+
+        @Override
+        public void shuttingDown() {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     };
 
     public abstract void output(Object o);
 
     public void addCaringTime(Child child, Scanner scan){};
+
+    public void shuttingDown(){};
 
 
 
