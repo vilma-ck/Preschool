@@ -88,8 +88,23 @@ Pedagog
 
         //Om användaren valde att logga in som pedagog (2)
         } else if (input == 2) {
-            s = States.EDUCATOR;
+            s = States.USERNAME;
             s.output(null);
+
+            /*
+            name  = scan.next();
+            Caregiver caregiver = personDAO.getCaregiver(name);
+
+            s = States.CAREGIVER;
+            s.output(caregiver);
+             */
+            name = scan.next();
+            Educator educator = personDAO.getEducator(name);
+
+            s = States.EDUCATOR;
+            s.output(educator);
+
+
             input = scan.nextInt();
 
             //Om användaren valde att registrera frånvaro för ett barn
