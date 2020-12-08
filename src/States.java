@@ -27,20 +27,6 @@ public enum States {
         }
     },
 
-    CAREGIVER_MENI {
-        @Override
-        public void output(Object o) {
-            Caregiver caregiver = (Caregiver) o;
-            System.out.println("Välkommen " + caregiver.getFirstName() +
-                    "\nVälj aktivitet:" + "\n1. Visa barn:"  + "\n2.Visa pedagogernas kontaktuppgifter");
-
-        /*    int counter = 1;
-            for(Child child : caregiver.getChildren()){
-                System.out.println(counter + " " + child.getFirstName());
-                counter++;
-            }*/
-        }
-    },
     CAREGIVER {
         @Override
         public void output(Object o) {
@@ -61,7 +47,8 @@ public enum States {
             Child child = (Child)o;
             System.out.println("Välkommen till sidan för " + child.getFirstName() +
                     "\n 1. Ange omsorgstider" +
-                    "\n 2. Registrera frånvaro");
+                    "\n 2. Registrera frånvaro" +
+                    "\n 3. Visa pedagogernas uppgifter");
         }
     },
 
@@ -85,7 +72,13 @@ public enum States {
     EDUCATOR_INFO {
         @Override
         public void output(Object o) {
-            System.out.println("Kontaktuppgifter till Pedagoger");
+            List<Educator> educatorList = (List<Educator>) o;
+            System.out.println("Kontaktuppgifter till pedagogerna:");
+            for (Educator educator : educatorList){
+                System.out.println(educator.getFirstName() + " " + educator.getLastName()+
+                        "\n" + educator.getEmailAddress()+
+                        "\n" + educator.getPhoneNumber());
+            }
         }
     },
 
@@ -97,7 +90,8 @@ public enum States {
                     "\n 1. Ange frånvaro" +
                     "\n 2. Registrera ett nytt barn till förskolan" +
                     "\n 3. Se närvaro idag" +
-                    "\n 4. Avsluta");
+                    "\n 4. Se vårdnadshavares kontaktuppgifter" +
+                    "\n 5. Avsluta");
         }
     },
 
@@ -169,6 +163,26 @@ public enum States {
             for(Attendance a: attendanceList) {
                 if (a.getPresent())
                     System.out.println(a.getChild().getFirstName() + " " + a.getChild().getLastName());
+            }
+        }
+    },
+
+    CAREGIVER_INFO{
+        @Override
+        public void output(Object o) {
+            System.out.println("Vilket barn?");
+        }
+    },
+
+    CAREGIVER_INFO_PRINT{
+        @Override
+        public void output(Object o) {
+            Child child = (Child) o;
+            List<Caregiver> caregiverList = child.getCaregivers();
+            for(Caregiver caregiver : caregiverList){
+                System.out.println(caregiver.getFirstName() + " " + caregiver.getLastName()+
+                        "\n" + caregiver.getPhoneNumber() +
+                        "\n" + caregiver.getEmailAddress());
             }
         }
     },

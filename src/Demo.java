@@ -24,6 +24,18 @@ public class Demo {
         d.addCaregiver(c2);
         d.addCaregiver(c3);
         d.addCaregiver(c4);
+        c1.setEmailAddress("anna.andersson@gmail.com");
+        c1.setPhoneNumber("070 222 333 44");
+        c1.setPostAddress("Stockholm");
+        c2.setEmailAddress("eva.johansson@gmail.com");
+        c2.setPhoneNumber("070 333 444 55");
+        c2.setPostAddress("Solna");
+        c3.setEmailAddress("maria.karlsson@gmail.com");
+        c3.setPhoneNumber("070 444 555 66");
+        c3.setPostAddress("Huddinge");
+        c4.setEmailAddress("karin.nilsson@gmail.com");
+        c4.setPhoneNumber("070 555 666 77");
+        c4.setPostAddress("Södertälje");
         List<Caregiver> caregiverList = d.getCaregiverList();
 
 
@@ -46,9 +58,19 @@ public class Demo {
         c4.addChildren(b4);
         c4.addChildren(b5);
 
+        b1.addCaregiver(c1);
+        b2.addCaregiver(c2);
+        b3.addCaregiver(c3);
+        b4.addCaregiver(c4);
+        b5.addCaregiver(c4);
+
         Educator e = new Educator("Kristina","Eriksson","97807075564");
         d.addEducator(e);
+        e.setEmailAddress("kristina.eriksson@gmail.com");
+        e.setPhoneNumber("070 123 45 67");
+        e.setPostAddress("Stockholm");
         List<Educator> educatorList = d.getEducatorList();
+
 
 
         d.serialize(caregiverList,"Caregivers.ser");

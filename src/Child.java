@@ -32,4 +32,7 @@ public class Child extends Person  {
         caringTimes.add(new CaringTime(start, stop));
     }
 
+    public List<Caregiver> getCaregivers() {
+        return caregivers;
+    }
 }

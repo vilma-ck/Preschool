@@ -15,6 +15,9 @@ public interface DatabaseDAO {
     void addEducator(Educator educator);
     void deleteEducator(Educator educator);
     List<Child> getChildList();
+    List<Educator> getEducatorList();
+    List<Caregiver> getCaregiverList();
+    String getContactInformation(IContactInformation person);
 
 
     }
