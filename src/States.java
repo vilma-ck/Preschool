@@ -15,7 +15,7 @@ public enum States {
         @Override
         public void output(Object o) {
             System.out.println("Välkommen till förskolan!" + "\nLOGGA IN SOM"
-                    + "\n 1. Vårdnadshavare" + "\n 2. Pedagog");
+                    + "\n 1. Vårdnadshavare" + "\n 2. Pedagog" + "\n 3. Stäng av programmet.");
         }
     },
 
@@ -23,7 +23,6 @@ public enum States {
         @Override
         public void output(Object o) {
             System.out.println("Skriv ditt namn: ");
-
         }
     },
 
@@ -48,7 +47,7 @@ public enum States {
             System.out.println("Välkommen till sidan för " + child.getFirstName() +
                     "\n 1. Ange omsorgstider" +
                     "\n 2. Registrera frånvaro" +
-                    "\n 3. Avsluta");
+                    "\n 3. Logga ut");
         }
     },
 
@@ -99,7 +98,7 @@ public enum States {
                     "\n 1. Ange frånvaro" +
                     "\n 2. Registrera ett nytt barn till förskolan" +
                     "\n 3. Se närvaro idag" +
-                    "\n 4. Avsluta");
+                    "\n 4. Logga ut");
         }
     },
 

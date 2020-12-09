@@ -46,11 +46,20 @@ Pedagog
         while (true) {
             if (input == 1) {
                 caregiverView(input);
-                break;
+                s = States.LOGIN;
+                s.output(null);
+                input = scan.nextInt();
+                //break;
             } else if (input == 2) {
                 educatorView(input);
-                break;
-            } else {
+                s = States.LOGIN;
+                s.output(null);
+                input = scan.nextInt();
+                //break;
+            } else if (input == 3){
+                System.out.println("Programmet avslutas");
+                break;}
+            else {
                 System.out.println("Ogiltigt kommando, var god försök igen.");
                 input = scan.nextInt();
             }
