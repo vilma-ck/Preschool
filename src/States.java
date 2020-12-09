@@ -47,7 +47,8 @@ public enum States {
             System.out.println("Välkommen till sidan för " + child.getFirstName() +
                     "\n 1. Ange omsorgstider" +
                     "\n 2. Registrera frånvaro" +
-                    "\n 3. Logga ut");
+                    "\n 3. Visa pedagogers kontaktuppgifter" +
+                    "\n 4. Logga ut");
         }
     },
 

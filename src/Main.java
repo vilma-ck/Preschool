@@ -96,9 +96,6 @@ Pedagog
                 if (input <= caregiver.getChildren().size()) {
                     child = caregiver.getChildren().get(input - 1);
                 }
-            } else {
-                // fuldubblerad innan if
-                child = caregiver.getChildren().get(0);
             }
 
             s = States.CHOSE_CHILD;
@@ -120,15 +117,18 @@ Pedagog
                 attendanceDAO.addAbsence(child);
 
             }
-            //Om användaren valde kontaktuppgifter (2)
-            else if (input == 2) {
+            //Om användaren valde kontaktuppgifter (3)
+            else if (input == 3) {
                 s = States.EDUCATOR_INFO;
                 s.output(null);
             }
-            else if (input == 3) {
+            else if (input == 4) {
                 s = States.SHUT_DOWN;
                 s.output(caregiver);
                 break;
+            }
+            else {
+                System.out.println("Okänt kommando, var göd försök igen.");
             }
         }
     }
@@ -194,6 +194,8 @@ Pedagog
                 s = States.SHUT_DOWN;
                 s.output(educator);
                 break;
+            } else {
+                System.out.println("Okänt kommando, var god försök igen.");
             }
         }
     }
