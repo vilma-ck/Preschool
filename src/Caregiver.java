@@ -35,11 +35,6 @@ public class Caregiver extends Person implements IContactInformation {
         } return null;
     }
 
-    public void registerCaringTime(Child child, String day, String start, String stop){
-        // kommer hit från nån loop kanske så man kan ange flera dagar på rad
-        child.addCaringTime(day, start, stop);
-    }
-
     public List<Child> getChildren(){
         return children;
     }
