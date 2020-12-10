@@ -12,8 +12,7 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
     private List<Caregiver> caregiverList = new LinkedList<>();
     private List<Educator> educatorList = new LinkedList<>();
     private List<Attendance> attendanceToday = new ArrayList<>();
-    private List<List<Attendance>> attendanceList;
-
+    private List<List<Attendance>> attendanceList = new ArrayList<>();
 
     public Database (){
 
@@ -26,6 +25,14 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
 
     public void addChild(Child c) {
         this.childList.add(c);
+    }
+
+    public void addAttendanceTodayInList(List<Attendance> attendanceToday){
+        attendanceList.add(attendanceToday);
+    }
+
+    public List<List<Attendance>> getAttendanceList(){
+        return attendanceList;
     }
 
     @Override
@@ -132,7 +139,7 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
         return null;
     }
 
-
+    @Override
     public void setAttendance() {
         for(Child c : getChildList()) {
             this.attendanceToday.add(new Attendance(c));
@@ -150,12 +157,8 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
     }
 
     @Override
-    public List<Attendance> getAttendanceList() {
+    public List<Attendance> getAttendanceToday() {
         return this.attendanceToday;
-    }
-
-    public static void main(String[] args) {
-        new Database();
     }
 
 }

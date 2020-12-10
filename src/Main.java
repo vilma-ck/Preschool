@@ -166,6 +166,7 @@ Pedagog
                 if (input <= childList.size()) {
                     s = States.CHILD_ABSENCE;
                     s.output(childList.get(input - 1));
+                   attendanceDAO.addAbsence(child);
                 }
 
                 //Om användaren vill lägga till ett barn
@@ -179,6 +180,7 @@ Pedagog
                 s.output(null);
                 input = scan.nextInt();
                 if (input == 1) {
+
                     s = States.PRINT_ALL;
                     s.output(attendanceDAO.getAttendanceList());
                 } else if (input == 2) {
@@ -187,17 +189,25 @@ Pedagog
                 } else if (input == 3) {
                     s = States.PRINT_ABSENT;
                     s.output(attendanceDAO.getAttendanceList());
+                                                         
+                //om användaren väljer att avsluta
+                else if (input == 4) {
+                    d.addAttendanceTodayInList(d.getAttendanceToday());
+                    d.serialize(d.getAttendanceList(), SerFiles.LIST_OF_ATTENDANCE.serFiles);
+                    d.serialize(d.getAttendanceToday(), SerFiles.ATTENDANCE.serFiles);
+                    d.serialize(d.getChildList(), SerFiles.CHILDS.serFiles);
+                    d.serialize(d.getEducatorList(), SerFiles.EDUCATOR.serFiles);
+                    d.serialize(d.getCaregiverList(), SerFiles.CAREGIVERS.serFiles);
+                    s = States.SHUT_DOWN;
+                    s.output(educator);
+                    break;
+         
                 }
-            }
-            //om användaren väljer att avsluta
-            else if (input == 4) {
-                s = States.SHUT_DOWN;
-                s.output(educator);
-                break;
-            } else {
+                   else {
                 System.out.println("Okänt kommando, var god försök igen.");
             }
-        }
+            
+                }
     }
 
     public static void main(String[] args) {
