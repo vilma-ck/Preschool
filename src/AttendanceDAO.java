@@ -10,6 +10,7 @@ public interface AttendanceDAO {
 
     void setAttendance();
     void addAbsence(Child child);
+    void addChildInAttendance(Child child);
     List<Attendance> getAttendanceToday();
 
 }
