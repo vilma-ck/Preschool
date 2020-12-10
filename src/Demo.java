@@ -13,7 +13,7 @@ public class Demo {
     public static void main(String[] args) {
 
 
-      /*  Database d = new Database();
+       Database d = new Database();
 
 
         Caregiver c1 = new Caregiver("Anna","Andersson","198902024785");
@@ -105,7 +105,7 @@ public class Demo {
 
 
 
-        d.serialize(caregiverList,"Caregivers.ser");
+        //d.serialize(caregiverList,"Caregivers.ser");
         d.serialize(childrenList,"Children.ser");
         d.serialize(educatorList,"Educators.ser");
 

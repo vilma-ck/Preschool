@@ -233,7 +233,6 @@ Pedagog
                 input = scan.nextInt();
                 s.showCaringTimes(d.getChildList().get(input-1));
 
-
             }
 
             else if (input == 5) {
@@ -249,7 +248,7 @@ Pedagog
                 }
             }
             //Om användaren valde att Logga ut (5)
-            else if (input == 5) {
+            else if (input == 6) {
                 s = States.LOG_OUT;
                 s.output(educator);
                 break;
