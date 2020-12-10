@@ -36,7 +36,7 @@ Pedagog
 
  */
 
-    public Main() {
+    public Main() throws InterruptedException {
         s = States.LOGIN;
 
         s.output(null);
@@ -46,12 +46,14 @@ Pedagog
 
         while (true) {
             if (input == 1) {
+                Thread.sleep(1000);
                 caregiverView(input);
                 s = States.LOGIN;
                 s.output(null);
                 input = scan.nextInt();
                 //break;
             } else if (input == 2) {
+                Thread.sleep(1000);
                 educatorView(input);
                 s = States.LOGIN;
                 s.output(null);
@@ -77,7 +79,7 @@ Pedagog
         return caregiver;
     }
 
-    public void caregiverView(int input) {
+    public void caregiverView(int input) throws InterruptedException {
         String name;
         //Om användaren valde att logga in som vårdnadshavare (1)
 
@@ -90,6 +92,7 @@ Pedagog
             child = caregiver.getChildren().get(0);
 
             if (caregiver.getChildren().size() > 1) {
+                Thread.sleep(1000);
                 s = States.CAREGIVER;
                 s.output(caregiver);
                 // väljer barn
@@ -99,7 +102,7 @@ Pedagog
                     child = caregiver.getChildren().get(input - 1);
                 }
             }
-
+            Thread.sleep(1000);
             s = States.CHOSE_CHILD;
             s.output(child);
 
@@ -107,6 +110,7 @@ Pedagog
 
             //Om användaren valde omsorgstider (1)
             if (input == 1) {
+                Thread.sleep(1000);
                 s = States.CHILD_ATTENDANCE;
                 s.output(child);
                 s.addCaringTime(child, scan);
@@ -114,6 +118,7 @@ Pedagog
 
             //Om användaren valde frånvaro (2)
             else if (input == 2) {
+                Thread.sleep(1000);
                 s = States.CHILD_ABSENCE;
                 s.output(child);
                 attendanceDAO.addAbsence(child);
@@ -122,10 +127,12 @@ Pedagog
 
             //Om användaren valde kontaktuppgifter (3)
             else if (input == 3) {
+                Thread.sleep(1000);
                 s = States.EDUCATOR_INFO;
                 List<Educator> educatorList = databaseDAO.getEducatorList();
                 s.output(educatorList);
             } else if (input == 4) {
+                Thread.sleep(1000);
                 s = States.SHUT_DOWN;
                 s.output(caregiver);
                 break;
@@ -137,7 +144,7 @@ Pedagog
     }
 
 
-    public void educatorView(int input) {
+    public void educatorView(int input) throws InterruptedException {
 
         String name;
         String firstName;
@@ -157,12 +164,14 @@ Pedagog
         }
 
         while (true) {
+            Thread.sleep(1000);
             s = States.EDUCATOR;
             s.output(educator);
             input = scan.nextInt();
 
             //Om användaren valde att registrera frånvaro för ett barn
             if (input == 1) {
+                Thread.sleep(1000);
                 s = States.EDUCATOR_ABSENCE;
                 List<Child> childList = databaseDAO.getChildList();
                 s.output(databaseDAO.getChildList());
@@ -170,6 +179,7 @@ Pedagog
 
                 //Registrerar frånvaro på barn
                 if (input <= childList.size()) {
+                    Thread.sleep(1000);
                     s = States.CHILD_ABSENCE;
                     Child child = childList.get(input - 1);
                     s.output(child);
@@ -179,10 +189,10 @@ Pedagog
 
                 //Om användaren vill lägga till ett barn
             } else if (input == 2) {
-
+                Thread.sleep(1000);
                 s = States.REGISTER_CHILD;
                 s.output(null);
-              firstName = scan.next();
+                firstName = scan.next();
                 boolean foundCaregiver = false;
 
                 for (Caregiver c : d.getCaregiverList()) {
@@ -206,27 +216,28 @@ Pedagog
                 System.out.println(d.getCaregiverList().size());
 
 
-              
             }
             //Om användaren vill skriva ut närvarolistor
             else if (input == 3) {
+                Thread.sleep(1000);
                 s = States.PRINT_ATTENDANCE;
                 s.output(null);
                 input = scan.nextInt();
                 if (input == 1) {
-
+                    Thread.sleep(1000);
                     s = States.PRINT_ALL;
                     s.output(attendanceDAO.getAttendanceToday());
                 } else if (input == 2) {
+                    Thread.sleep(1000);
                     s = States.PRINT_PRESENT;
                     s.output(attendanceDAO.getAttendanceToday());
                 } else if (input == 3) {
+                    Thread.sleep(1000);
                     s = States.PRINT_ABSENT;
                     s.output(attendanceDAO.getAttendanceToday());
                 }
-            }
-             
-            else if (input == 4) {
+            } else if (input == 4) {
+                Thread.sleep(1000);
                 s = States.CAREGIVER_INFO;
                 s.output(null);
                 name = scan.next();
@@ -246,6 +257,7 @@ Pedagog
                 d.serialize(d.getChildList(), SerFiles.CHILDS.serFiles);
                 d.serialize(d.getEducatorList(), SerFiles.EDUCATOR.serFiles);
                 d.serialize(d.getCaregiverList(), SerFiles.CAREGIVERS.serFiles);
+                Thread.sleep(1000);
                 s = States.SHUT_DOWN;
                 s.output(educator);
                 break;
@@ -258,7 +270,7 @@ Pedagog
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Main main = new Main();
     }
 }
