@@ -194,10 +194,8 @@ Pedagog
 
                         Child child = state.registerNewChild(scan);
                         databaseDAO.addChild(child);
-
                         child.addCaregiver(caregiver);
                         caregiver.addChildren(child);
-
                         attendanceDAO.addChildInAttendance(child);
                         foundCaregiver = true;
                     }
@@ -209,22 +207,13 @@ Pedagog
 
                     Caregiver caregiver = state.addCaregiverToNewChild(scan, firstName);
                     databaseDAO.addCaregiver(caregiver);
-
                     Child child = state.registerNewChild(scan);
                     databaseDAO.addChild(child);
-
                     child.addCaregiver(caregiver);
                     caregiver.addChildren(child);
                     attendanceDAO.addChildInAttendance(child);
-
                 }
-
                 saveAllFiles();
-
-                //TODO test om barn lagts till:
-                System.out.println(d.getChildList().size());
-                System.out.println(d.getCaregiverList().size());
-
             }
             //Om användaren vill skriva ut närvarolistor
             else if (input == 3) {
