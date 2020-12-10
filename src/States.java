@@ -148,30 +148,40 @@ public enum States {
             personalNumber = scan.next();
 
             Child child = new Child(firstName, lastName, personalNumber);
-            System.out.println(child.getFirstName() + child.getLastName() + child.getPersonalNumber());
 
             return child;
         }
 
-        public Caregiver addCaregiverToNewChild(Scanner scan) {
-            String firstName;
+        public Caregiver addCaregiverToNewChild(Scanner scan, String firstName) {
+
             String lastName;
             String personalNumber;
+            String email;
+            String phoneNumber;
+            String address;
 
-            Database d = new Database();
+            System.out.println("Denna vårdnadshavare finns inte registrerad");
 
-            System.out.print("Denna vårdnadshavare finns inte registrerad " +
-                    "\nAnge den nya vårdnadshavarens förnamn: ");
-            firstName = scan.next();
             System.out.print("Ange vårdnadhavarens efternamn: ");
             lastName = scan.next();
             System.out.print("Ange vårdnadshavarens personnummer: ");
             personalNumber = scan.next();
 
             Caregiver caregiver = new Caregiver(firstName, lastName, personalNumber);
-            System.out.println(caregiver.getFirstName() + caregiver.getLastName() + caregiver.getPersonalNumber());
 
-            d.addCaregiver(caregiver);
+            System.out.print("Ange vårdnadshavarens e-mail: ");
+            email = scan.next();
+            caregiver.setEmailAddress(email);
+
+            System.out.print("Ange vårdnadshavarens telefonnummer: ");
+            phoneNumber = scan.next();
+            caregiver.setPhoneNumber(phoneNumber);
+
+            System.out.print("Ange vårdnadshavarens adress: ");
+            address = scan.next();
+            caregiver.setPostAddress(address);
+
+            System.out.println();
 
             return caregiver;
         }
@@ -267,7 +277,7 @@ public enum States {
         return child;
     }
 
-    public Caregiver addCaregiverToNewChild(Scanner scan){
+    public Caregiver addCaregiverToNewChild(Scanner scan, String firstName){
         Caregiver caregiver = new Caregiver(null, null, null);
         return caregiver;
     }
