@@ -43,8 +43,6 @@ Pedagog
 
         int input = scan.nextInt();
 
-       
-=======
 
         while (true) {
             if (input == 1) {
@@ -191,7 +189,9 @@ Pedagog
                     if (c.getFirstName().equalsIgnoreCase(firstName)) {
                         System.out.println("Det nya barnet kommer att registreras på den redan " +
                                 "\nexisterande vårdnadshavaren " + c.getFirstName());
-                        c.addChildren(s.registerNewChild(scan));
+                        Child child = s.registerNewChild(scan);
+                        c.addChildren(child);
+                        d.addChild(child);
                         //s.registerNewChild(scan);
                         foundCaregiver = true;
                     }
