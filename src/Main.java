@@ -192,7 +192,6 @@ Pedagog
                                 "\nexisterande vårdnadshavaren " + c.getFirstName() + " " + c.getLastName());
                         Child child = state.registerNewChild(scan);
                         c.addChildren(child);
-                        child.addCaregiver(c);
                         d.addChild(child);
                         foundCaregiver = true;
 
@@ -209,7 +208,6 @@ Pedagog
                     d.addChild(child);
                     d.addCaregiver(caregiver);
                     caregiver.addChildren(child);
-                    child.addCaregiver(caregiver);
 
                 }
 
