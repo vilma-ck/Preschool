@@ -181,7 +181,7 @@ public enum States {
 
     },
 
-    PRINT_ATTENDANCE{
+    ATTENDANCE {
         @Override
         public void output(Object o) {
             System.out.println("Vilken lista vill du skriva ut?");
@@ -255,6 +255,7 @@ public enum States {
 
 
 
+
     SEE_CARINGTIMES{
         @Override
         public void output(Object o) {
@@ -276,13 +277,18 @@ public enum States {
         }
     },
 
+    LOG_OUT {
+        @Override
+        public void output(Object o) {
+            System.out.println("Du har loggats ut");
+        }
+    },
 
     SHUT_DOWN{
         @Override
         public void output(Object o) {
-            System.out.println("Programmet är avslutat");
+            System.out.println("Programmet avslutas");
         }
-
     };
 
     public abstract void output(Object o);
@@ -299,12 +305,6 @@ public enum States {
     }
 
     public void addCaringTime(Child child, Scanner scan){};
-
     public void showCaringTimes(Child child){};
-
-
-
-
-
 
 }

@@ -18,8 +18,9 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
     public Database (){
 
         this.childList = deSerialize("Children.ser");
-        this.caregiverList = deSerialize("Caregivers.ser");
+        //this.caregiverList = deSerialize("Caregivers.ser");
         this.educatorList = deSerialize("Educators.ser");
+        findAndAddCAregiver();
         setAttendance();
 
     }
@@ -32,8 +33,21 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
         attendanceList.add(attendanceToday);
     }
 
-    public List<List<Attendance>> getAttendanceTest(){
+    public List<List<Attendance>> getAttendanceList(){
         return attendanceList;
+    }
+
+    public void findAndAddCAregiver(){
+        for (Child child: childList){
+            caregiverList.addAll(child.getCaregivers());
+        }
+        for (int i = 0; i <caregiverList.size() ; i++) {
+            for (int j = i+1; j < caregiverList.size(); j++) {
+                if(caregiverList.get(i)==caregiverList.get(j)) {
+                    caregiverList.remove(j);
+                }
+            }
+        }
     }
 
     @Override
@@ -149,12 +163,17 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
 
     @Override
     public void addAbsence(Child child) {
-        for(Attendance a: this.attendanceToday){
+        for(Attendance a: getAttendanceToday()){
             if(a.getChild()==child) {
                 a.setPresent(false);
                 break;
             }
         }
+    }
+
+    @Override
+    public void addChildInAttendance(Child child) {
+        attendanceToday.add(new Attendance(child));
     }
 
     @Override
