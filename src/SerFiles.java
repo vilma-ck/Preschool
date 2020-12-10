@@ -6,11 +6,11 @@
  * Copywright: MIT
  */
 public enum SerFiles {
-    CHILDS("Children.ser"),
+    CHILDREN("Children.ser"),
     CAREGIVERS("Caregivers.ser"),
     EDUCATOR("Educators.ser"),
     ATTENDANCE("Attendance.ser"),
-    LIST_OF_ATTENDANCE("ListOfAttendance.ser");
+    LIST_OF_ATTENDANCES("ListOfAttendance.ser");
     public final String serFiles;
 
     SerFiles(String serFiles) {

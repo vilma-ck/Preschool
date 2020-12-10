@@ -11,7 +11,7 @@ import java.util.Scanner;
  */
 public class Main {
 
-    private Database d = new Database();
+    private final Database d = new Database();
 
     private AttendanceDAO attendanceDAO = d;
     private DatabaseDAO databaseDAO = d;
@@ -19,7 +19,7 @@ public class Main {
 
     private Scanner scan = new Scanner(System.in);
 
-    private States state;
+    private States s;
 
 /*
 1. Välj Vårdnadshavare eller Pedagog ex (1,2)
@@ -37,28 +37,28 @@ Pedagog
  */
 
     public Main() {
-        state = States.LOGIN;
-
-        state.output(null);
-
+        s = States.LOGIN;
+        s.output(null);
         int input = scan.nextInt();
 
 
         while (true) {
             if (input == 1) {
                 caregiverView(input);
-                state = States.LOGIN;
-                state.output(null);
+                s = States.LOGIN;
+                s.output(null);
                 input = scan.nextInt();
                 //break;
             } else if (input == 2) {
                 educatorView(input);
-                state = States.LOGIN;
-                state.output(null);
+                s = States.LOGIN;
+                s.output(null);
                 input = scan.nextInt();
                 //break;
             } else if (input == 3) {
-                System.out.println("Programmet avslutas");
+                s = States.SHUT_DOWN;
+                s.output(null);
+                saveAllFiles();
                 break;
             } else {
                 System.out.println("Ogiltigt kommando, var god försök igen.");
@@ -81,8 +81,8 @@ Pedagog
         String name;
         //Om användaren valde att logga in som vårdnadshavare (1)
 
-        state = States.USERNAME;
-        state.output(null);
+        s = States.USERNAME;
+        s.output(null);
         name = scan.next();
         Caregiver caregiver = lookupCaregiver(name);
         while (true) {
@@ -90,8 +90,8 @@ Pedagog
             child = caregiver.getChildren().get(0);
 
             if (caregiver.getChildren().size() > 1) {
-                state = States.CAREGIVER;
-                state.output(caregiver);
+                s = States.CAREGIVER;
+                s.output(caregiver);
                 // väljer barn
                 input = scan.nextInt();
                 //Om användaren valde ett barn (1)
@@ -100,37 +100,39 @@ Pedagog
                 }
             }
 
-            state = States.CHOSE_CHILD;
-            state.output(child);
+            s = States.CHOSE_CHILD;
+            s.output(child);
 
             input = scan.nextInt();
 
             //Om användaren valde omsorgstider (1)
             if (input == 1) {
-                state = States.CHILD_ATTENDANCE;
-                state.output(child);
-                state.addCaringTime(child, scan);
+                s = States.CHILD_ATTENDANCE;
+                s.output(child);
+                s.addCaringTime(child, scan);
             }
 
             //Om användaren valde frånvaro (2)
             else if (input == 2) {
-                state = States.CHILD_ABSENCE;
-                state.output(child);
-                attendanceDAO.addAbsence(child);
-
+                s = States.CHILD_ABSENCE;
+                addAbsenseToday(child);
             }
 
             //Om användaren valde kontaktuppgifter (3)
             else if (input == 3) {
-                state = States.EDUCATOR_INFO;
+                s = States.EDUCATOR_INFO;
                 List<Educator> educatorList = databaseDAO.getEducatorList();
-                state.output(educatorList);
-            } else if (input == 4) {
-                state = States.SHUT_DOWN;
-                state.output(caregiver);
+                s.output(educatorList);
+            }
+            //Om användaren valde att Logga ut (4)
+            else if (input == 4) {
+                s = States.LOG_OUT;
+                s.output(caregiver);
                 break;
-            } else {
-                System.out.println("Okänt kommando, var god försök igen.");
+            }
+
+            else {
+                System.out.println("Okänt kommando, var göd försök igen.");
             }
         }
 
@@ -144,8 +146,8 @@ Pedagog
 
         //Om användaren valde att logga in som pedagog (2)
 
-        state = States.USERNAME;
-        state.output(null);
+        s = States.USERNAME;
+        s.output(null);
 
         name = scan.next();
         Educator educator = personDAO.getEducator(name);
@@ -156,23 +158,22 @@ Pedagog
         }
 
         while (true) {
-            state = States.EDUCATOR;
-            state.output(educator);
+            s = States.EDUCATOR;
+            s.output(educator);
             input = scan.nextInt();
 
             //Om användaren valde att registrera frånvaro för ett barn
             if (input == 1) {
-                state = States.EDUCATOR_ABSENCE;
+                s = States.EDUCATOR_ABSENCE;
                 List<Child> childList = databaseDAO.getChildList();
-                state.output(databaseDAO.getChildList());
+                s.output(databaseDAO.getChildList());
                 input = scan.nextInt();
 
                 //Registrerar frånvaro på barn
                 if (input <= childList.size()) {
-                    state = States.CHILD_ABSENCE;
+                    s = States.CHILD_ABSENCE;
                     Child child = childList.get(input - 1);
-                    state.output(child);
-                    attendanceDAO.addAbsence(child);
+                    addAbsenseToday(child);
                 }
 
 
@@ -195,6 +196,7 @@ Pedagog
 
                         caregiver.addChildren(child);
                         d.addChild(child);
+                        //s.registerNewChild(scan);
                         foundCaregiver = true;
                     }
                 }
@@ -214,60 +216,69 @@ Pedagog
                 //TODO test om barn lagts till:
                 System.out.println(d.getChildList().size());
                 System.out.println(d.getCaregiverList().size());
-              
+
             }
             //Om användaren vill skriva ut närvarolistor
             else if (input == 3) {
-                state = States.PRINT_ATTENDANCE;
-                state.output(null);
+                List<Attendance> attendanceList = d.deSerialize(SerFiles.ATTENDANCE.serFiles);
+                s = States.ATTENDANCE;
+                s.output(null);
                 input = scan.nextInt();
                 if (input == 1) {
 
-                    state = States.PRINT_ALL;
-                    state.output(attendanceDAO.getAttendanceToday());
+                    s = States.PRINT_ALL;
+                    s.output(attendanceList);
                 } else if (input == 2) {
-                    state = States.PRINT_PRESENT;
-                    state.output(attendanceDAO.getAttendanceToday());
+                    s = States.PRINT_PRESENT;
+                    s.output(attendanceList);
                 } else if (input == 3) {
-                    state = States.PRINT_ABSENT;
-                    state.output(attendanceDAO.getAttendanceToday());
+                    s = States.PRINT_ABSENT;
+                    s.output(attendanceList);
                 }
             }
              
             else if (input == 4) {
-                state = States.CAREGIVER_INFO;
-                state.output(null);
+                s = States.CAREGIVER_INFO;
+                s.output(null);
                 name = scan.next();
                 List<Child> childList = databaseDAO.getChildList();
                 for (Child child : childList) {
                     if (name.equalsIgnoreCase(child.getFirstName()) || name.equalsIgnoreCase(child.getLastName())) {
-                        state = States.CAREGIVER_INFO_PRINT;
-                        state.output(child);
+                        s = States.CAREGIVER_INFO_PRINT;
+                        s.output(child);
                     }
                 }
             }
-            //om användaren väljer att avsluta
+            //Om användaren valde att Logga ut (5)
             else if (input == 5) {
-                d.addAttendanceTodayInList(d.getAttendanceToday());
-                d.serialize(d.getAttendanceTest(), SerFiles.LIST_OF_ATTENDANCE.serFiles);
-                d.serialize(d.getAttendanceToday(), SerFiles.ATTENDANCE.serFiles);
-                d.serialize(d.getChildList(), SerFiles.CHILDS.serFiles);
-                d.serialize(d.getEducatorList(), SerFiles.EDUCATOR.serFiles);
-                d.serialize(d.getCaregiverList(), SerFiles.CAREGIVERS.serFiles);
-                state = States.SHUT_DOWN;
-                state.output(educator);
+                s = States.LOG_OUT;
+                s.output(educator);
                 break;
 
-            } else {
+            }
+
+            else {
                 System.out.println("Okänt kommando, var god försök igen.");
             }
 
         }
+    }
+    public void addAbsenseToday(Child child){
+        s.output(child);
+        attendanceDAO.addAbsence(child);
+        d.serialize(d.getAttendanceToday(), SerFiles.ATTENDANCE.serFiles);
+    }
 
+    public void saveAllFiles(){
+        d.addAttendanceTodayInList(d.getAttendanceToday());
+        d.serialize(d.getAttendanceList(), SerFiles.LIST_OF_ATTENDANCES.serFiles);
+        d.serialize(d.getAttendanceToday(), SerFiles.ATTENDANCE.serFiles);
+        d.serialize(d.getChildList(), SerFiles.CHILDREN.serFiles);
+        d.serialize(d.getEducatorList(), SerFiles.EDUCATOR.serFiles);
     }
 
     public static void main(String[] args) {
-        Main main = new Main();
+        new Main();
     }
 }
 

@@ -51,7 +51,9 @@ public enum States {
                     "\n 1. Ange omsorgstider" +
                     "\n 2. Registrera frånvaro" +
                     "\n 3. Visa pedagogers kontaktuppgifter" +
-                    "\n 4. Logga ut");
+                    "\n 4. Se ett barns omsorgstider " +
+                    "\n 5. Se vårdnadshavares kontaktuppgifter" +
+                    "\n 6. Logga ut");
         }
     },
 
@@ -189,7 +191,7 @@ public enum States {
 
     },
 
-    PRINT_ATTENDANCE{
+    ATTENDANCE {
         @Override
         public void output(Object o) {
             System.out.println("Vilken lista vill du skriva ut?");
@@ -261,12 +263,42 @@ public enum States {
         }
     },
 
+
+
+
+    SEE_CARINGTIMES{
+        @Override
+        public void output(Object o) {
+            List<Child> childList = (List<Child>) o;
+            System.out.println("Vilket barns omsorgstider vill du se? ");
+            int counter = 1;
+            for (Child c : childList){
+                System.out.println(counter + " " + c.getFirstName());
+                counter ++;
+            }
+        }
+
+        @Override
+        public void showCaringTimes(Child child) {
+            System.out.println("Här är " + child.getFirstName() + "s omsorgstider: ");
+            for(CaringTime ct : child.caringTimes){
+                System.out.println(ct.getDay() + ": " + ct.getStart() + " - " + ct.getStop());
+            }
+        }
+    },
+
+    LOG_OUT {
+        @Override
+        public void output(Object o) {
+            System.out.println("Du har loggats ut");
+        }
+    },
+
     SHUT_DOWN{
         @Override
         public void output(Object o) {
-            System.out.println("Programmet är avslutat");
+            System.out.println("Programmet avslutas");
         }
-
     };
 
     public abstract void output(Object o);
@@ -283,9 +315,6 @@ public enum States {
     }
 
     public void addCaringTime(Child child, Scanner scan){};
-
-
-
-
+    public void showCaringTimes(Child child){};
 
 }

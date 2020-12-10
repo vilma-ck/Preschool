@@ -13,7 +13,7 @@ public class Demo {
     public static void main(String[] args) {
 
 
-        Database d = new Database();
+      /*  Database d = new Database();
 
 
         Caregiver c1 = new Caregiver("Anna","Andersson","198902024785");
@@ -44,6 +44,9 @@ public class Demo {
         Child b3 = new Child("Lucas","Karlsson","201503036523");
         Child b4 = new Child("Liam","Nilsson","201504043256");
         Child b5 = new Child("Astrid","Nilsson","01605053325");
+
+
+
         d.addChild(b1);
         d.addChild(b2);
         d.addChild(b3);
