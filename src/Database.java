@@ -31,7 +31,7 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
         attendanceList.add(attendanceToday);
     }
 
-    public List<List<Attendance>> getAttendanceList(){
+    public List<List<Attendance>> getAttendanceTest(){
         return attendanceList;
     }
 

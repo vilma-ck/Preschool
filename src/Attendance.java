@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
@@ -7,7 +8,7 @@ import java.time.LocalDate;
  * Project: Preeschool
  * Copywright: MIT
  */
-public class Attendance {
+public class Attendance implements Serializable {
 
     private Child child;
     private LocalDate date;
