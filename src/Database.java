@@ -12,7 +12,7 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
     private List<Caregiver> caregiverList = new LinkedList<>();
     private List<Educator> educatorList = new LinkedList<>();
     private List<Attendance> attendanceToday = new ArrayList<>();
-    private List<List<Attendance>> attendanceList;
+    private List<List<Attendance>> attendanceList = new ArrayList<>();
 
 
     public Database (){

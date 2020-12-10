@@ -15,7 +15,7 @@ public enum States {
         @Override
         public void output(Object o) {
             System.out.println("Välkommen till förskolan!" + "\nLOGGA IN SOM"
-                    + "\n 1. Vårdnadshavare" + "\n 2. Pedagog");
+                    + "\n 1. Vårdnadshavare" + "\n 2. Pedagog" + "\n 3. Avsluta programmet");
         }
     },
 

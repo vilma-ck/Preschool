@@ -116,19 +116,13 @@ Pedagog
                 s.output(child);
                 attendanceDAO.addAbsence(child);
 
-                }
-
-                //Om användaren valde kontaktuppgifter (3)
-                else if (input == 3) {
-                    s = States.EDUCATOR_INFO;
-                    List<Educator> educatorList = databaseDAO.getEducatorList();
-                    s.output(educatorList);
-                }
             }
+
             //Om användaren valde kontaktuppgifter (3)
             else if (input == 3) {
                 s = States.EDUCATOR_INFO;
-                s.output(null);
+                List<Educator> educatorList = databaseDAO.getEducatorList();
+                s.output(educatorList);
             } else if (input == 4) {
                 s = States.SHUT_DOWN;
                 s.output(caregiver);
@@ -137,6 +131,7 @@ Pedagog
                 System.out.println("Okänt kommando, var göd försök igen.");
             }
         }
+
     }
 
 
@@ -200,63 +195,42 @@ Pedagog
                 }
             }
 
-                    //Om användaren vill lägga till ett barn
-                } else if (input == 2) {
-                    s = States.REGISTER_CHILD;
-                    s.output(null);
-                }
-                //Om användaren vill skriva ut närvarolistor
-                else if (input == 3) {
-                    s = States.PRINT_ATTENDANCE;
-                    s.output(null);
-                    input = scan.nextInt();
-                    if (input == 1) {
-                        s = States.PRINT_ALL;
-                        s.output(attendanceDAO.getAttendanceToday());
-                    } else if (input == 2) {
-                        s = States.PRINT_PRESENT;
-                        s.output(attendanceDAO.getAttendanceToday());
-                    } else if (input == 3) {
-                        s = States.PRINT_ABSENT;
-                        s.output(attendanceDAO.getAttendanceToday());
+             else if (input == 4) {
+                s = States.CAREGIVER_INFO;
+                s.output(null);
+                name = scan.next();
+                List<Child> childList = databaseDAO.getChildList();
+                for (Child child : childList) {
+                    if (name.equalsIgnoreCase(child.getFirstName()) || name.equalsIgnoreCase(child.getLastName())) {
+                        s = States.CAREGIVER_INFO_PRINT;
+                        s.output(child);
                     }
                 }
-                else if (input == 4){
-                    s = States.CAREGIVER_INFO;
-                    s.output(null);
-                    name = scan.next();
-                    List<Child> childList = databaseDAO.getChildList();
-                    for (Child child : childList){
-                        if (name.equalsIgnoreCase(child.getFirstName()) || name.equalsIgnoreCase(child.getLastName())){
-                            s = States.CAREGIVER_INFO_PRINT;
-                            s.output(child);
-                        }
-                    }
-                }
-                //om användaren väljer att avsluta
-                else if (input == 5) {
-                    d.addAttendanceTodayInList(d.getAttendanceToday());
-                    d.serialize(d.getAttendanceTest(), SerFiles.LIST_OF_ATTENDANCE.serFiles);
-                    d.serialize(d.getAttendanceToday(), SerFiles.ATTENDANCE.serFiles);
-                    d.serialize(d.getChildList(), SerFiles.CHILDS.serFiles);
-                    d.serialize(d.getEducatorList(), SerFiles.EDUCATOR.serFiles);
-                    d.serialize(d.getCaregiverList(), SerFiles.CAREGIVERS.serFiles);
-                    s = States.SHUT_DOWN;
-                    s.output(educator);
-                    break;
+            }
+            //om användaren väljer att avsluta
+            else if (input == 5) {
+                d.addAttendanceTodayInList(d.getAttendanceToday());
+                d.serialize(d.getAttendanceTest(), SerFiles.LIST_OF_ATTENDANCE.serFiles);
+                d.serialize(d.getAttendanceToday(), SerFiles.ATTENDANCE.serFiles);
+                d.serialize(d.getChildList(), SerFiles.CHILDS.serFiles);
+                d.serialize(d.getEducatorList(), SerFiles.EDUCATOR.serFiles);
+                d.serialize(d.getCaregiverList(), SerFiles.CAREGIVERS.serFiles);
+                s = States.SHUT_DOWN;
+                s.output(educator);
+                break;
 
-                } else {
-                    System.out.println("Okänt kommando, var god försök igen.");
-                }
-
+            } else {
+                System.out.println("Okänt kommando, var god försök igen.");
             }
 
+        }
+
     }
 
-        public static void main (String[]args){
-            Main main = new Main();
-        }
+    public static void main(String[] args) {
+        Main main = new Main();
     }
+}
 
 
 
