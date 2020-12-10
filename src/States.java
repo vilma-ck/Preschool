@@ -15,7 +15,7 @@ public enum States {
         @Override
         public void output(Object o) {
             System.out.println("Välkommen till förskolan!" + "\nLOGGA IN SOM"
-                    + "\n 1. Vårdnadshavare" + "\n 2. Pedagog" + "\n 3. Stäng av programmet.");
+                    + "\n 1. Vårdnadshavare" + "\n 2. Pedagog");
         }
     },
 
@@ -23,6 +23,7 @@ public enum States {
         @Override
         public void output(Object o) {
             System.out.println("Skriv ditt namn: ");
+
         }
     },
 
@@ -87,7 +88,13 @@ public enum States {
     EDUCATOR_INFO {
         @Override
         public void output(Object o) {
-            System.out.println("Kontaktuppgifter till Pedagoger");
+            List<Educator> educatorList = (List<Educator>) o;
+            System.out.println("Kontaktuppgifter till pedagogerna:");
+            for (Educator educator : educatorList){
+                System.out.println(educator.getFirstName() + " " + educator.getLastName()+
+                        "\n" + educator.getEmailAddress()+
+                        "\n" + educator.getPhoneNumber());
+            }
         }
     },
 
@@ -99,7 +106,8 @@ public enum States {
                     "\n 1. Ange frånvaro" +
                     "\n 2. Registrera ett nytt barn till förskolan" +
                     "\n 3. Se närvaro idag" +
-                    "\n 4. Logga ut");
+                    "\n 4. Se vårdnadshavares kontaktuppgifter" +
+                    "\n 5. Logga ut");
         }
     },
 
@@ -171,6 +179,26 @@ public enum States {
             for(Attendance a: attendanceList) {
                 if (a.getPresent())
                     System.out.println(a.getChild().getFirstName() + " " + a.getChild().getLastName());
+            }
+        }
+    },
+
+    CAREGIVER_INFO{
+        @Override
+        public void output(Object o) {
+            System.out.println("Vilket barn?");
+        }
+    },
+
+    CAREGIVER_INFO_PRINT{
+        @Override
+        public void output(Object o) {
+            Child child = (Child) o;
+            List<Caregiver> caregiverList = child.getCaregivers();
+            for(Caregiver caregiver : caregiverList){
+                System.out.println(caregiver.getFirstName() + " " + caregiver.getLastName()+
+                        "\n" + caregiver.getPhoneNumber() +
+                        "\n" + caregiver.getEmailAddress());
             }
         }
     },
