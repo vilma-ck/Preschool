@@ -150,6 +150,7 @@ public enum States {
             personalNumber = scan.next();
 
             Child child = new Child(firstName, lastName, personalNumber);
+            System.out.println(child.getFirstName() + child.getLastName() + child.getPersonalNumber());
 
             return child;
         }
@@ -183,6 +184,8 @@ public enum States {
             address = scan.next();
             caregiver.setPostAddress(address);
 
+            System.out.println(caregiver.getFirstName() + caregiver.getLastName() + caregiver.getPersonalNumber() +
+                    caregiver.getEmailAddress() + caregiver.getPhoneNumber() + caregiver.getPostAddress());
             System.out.println();
 
             return caregiver;

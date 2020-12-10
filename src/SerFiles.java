@@ -7,7 +7,7 @@
  */
 public enum SerFiles {
     CHILDREN("Children.ser"),
-    CAREGIVERS("Caregivers.ser"),
+    //CAREGIVERS("Caregivers.ser"),
     EDUCATOR("Educators.ser"),
     ATTENDANCE("Attendance.ser"),
     LIST_OF_ATTENDANCES("ListOfAttendance.ser");
