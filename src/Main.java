@@ -43,6 +43,9 @@ Pedagog
 
         int input = scan.nextInt();
 
+       
+=======
+
         while (true) {
             if (input == 1) {
                 caregiverView(input);
@@ -79,6 +82,7 @@ Pedagog
     public void caregiverView(int input) {
         String name;
         //Om användaren valde att logga in som vårdnadshavare (1)
+
         s = States.USERNAME;
         s.output(null);
         name = scan.next();
@@ -138,6 +142,9 @@ Pedagog
     public void educatorView(int input) {
 
         String name;
+        String firstName;
+        String lastName;
+        String personalNumber;
         //Om användaren valde att logga in som pedagog (2)
 
         s = States.USERNAME;
@@ -174,8 +181,32 @@ Pedagog
 
                 //Om användaren vill lägga till ett barn
             } else if (input == 2) {
+
                 s = States.REGISTER_CHILD;
                 s.output(null);
+              firstName = scan.next();
+                boolean foundCaregiver = false;
+
+                for (Caregiver c : d.getCaregiverList()) {
+                    if (c.getFirstName().equalsIgnoreCase(firstName)) {
+                        System.out.println("Det nya barnet kommer att registreras på den redan " +
+                                "\nexisterande vårdnadshavaren " + c.getFirstName());
+                        c.addChildren(s.registerNewChild(scan));
+                        //s.registerNewChild(scan);
+                        foundCaregiver = true;
+                    }
+                }
+                if (!foundCaregiver) {
+                    s.addCaregiverToNewChild(scan).addChildren(s.registerNewChild(scan));
+                    //s.addCaregiverToNewChild(scan);
+                }
+
+                //TODO test om barn lagts till:
+                System.out.println(d.getChildList().size());
+                System.out.println(d.getCaregiverList().size());
+
+
+              
             }
             //Om användaren vill skriva ut närvarolistor
             else if (input == 3) {
@@ -194,8 +225,8 @@ Pedagog
                     s.output(attendanceDAO.getAttendanceToday());
                 }
             }
-
-             else if (input == 4) {
+             
+            else if (input == 4) {
                 s = States.CAREGIVER_INFO;
                 s.output(null);
                 name = scan.next();
