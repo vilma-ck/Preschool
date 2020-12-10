@@ -11,7 +11,7 @@ import java.util.Scanner;
  */
 public class Main {
 
-    private Database d = new Database();
+    private final Database d = new Database();
 
     private AttendanceDAO attendanceDAO = d;
     private DatabaseDAO databaseDAO = d;
@@ -58,7 +58,9 @@ Pedagog
                 input = scan.nextInt();
                 //break;
             } else if (input == 3) {
-                System.out.println("Programmet avslutas");
+                s = States.SHUT_DOWN;
+                s.output(null);
+                saveAllFiles();
                 break;
             } else {
                 System.out.println("Ogiltigt kommando, var god försök igen.");
@@ -115,15 +117,7 @@ Pedagog
             //Om användaren valde frånvaro (2)
             else if (input == 2) {
                 s = States.CHILD_ABSENCE;
-                s.output(child);
-                for(Attendance attendance : attendanceDAO.getAttendanceToday()){
-                    System.out.println(attendance.getPresent());
-                }
-                attendanceDAO.addAbsence(child);
-                for(Attendance attendance : attendanceDAO.getAttendanceToday()){
-                    System.out.println(attendance.getPresent());
-                }
-
+                addAbsenseToday(child);
             }
 
             //Om användaren valde kontaktuppgifter (3)
@@ -136,7 +130,7 @@ Pedagog
                 s.output(caregiver);
                 break;
             } else {
-                System.out.println("Okänt kommando, var god försök igen.");
+                System.out.println("Okänt kommando, var göd försök igen.");
             }
         }
 
@@ -178,14 +172,7 @@ Pedagog
                 if (input <= childList.size()) {
                     s = States.CHILD_ABSENCE;
                     Child child = childList.get(input - 1);
-                    s.output(child);
-                    for(Attendance attendance : attendanceDAO.getAttendanceToday()){
-                        System.out.println(attendance.getPresent());
-                    }
-                    attendanceDAO.addAbsence(child);
-                    for(Attendance attendance : attendanceDAO.getAttendanceToday()){
-                        System.out.println(attendance.getPresent());
-                    }
+                    addAbsenseToday(child);
                 }
 
 
@@ -222,19 +209,20 @@ Pedagog
             }
             //Om användaren vill skriva ut närvarolistor
             else if (input == 3) {
-                s = States.PRINT_ATTENDANCE;
+                List<Attendance> attendanceList = d.deSerialize(SerFiles.ATTENDANCE.serFiles);
+                s = States.ATTENDANCE;
                 s.output(null);
                 input = scan.nextInt();
                 if (input == 1) {
 
                     s = States.PRINT_ALL;
-                    s.output(attendanceDAO.getAttendanceToday());
+                    s.output(attendanceList);
                 } else if (input == 2) {
                     s = States.PRINT_PRESENT;
-                    s.output(attendanceDAO.getAttendanceToday());
+                    s.output(attendanceList);
                 } else if (input == 3) {
                     s = States.PRINT_ABSENT;
-                    s.output(attendanceDAO.getAttendanceToday());
+                    s.output(attendanceList);
                 }
             }
 
@@ -260,15 +248,9 @@ Pedagog
                     }
                 }
             }
-            //om användaren väljer att avsluta
-            else if (input == 6) {
-                d.addAttendanceTodayInList(d.getAttendanceToday());
-                d.serialize(d.getAttendanceTest(), SerFiles.LIST_OF_ATTENDANCE.serFiles);
-                d.serialize(d.getAttendanceToday(), SerFiles.ATTENDANCE.serFiles);
-                d.serialize(d.getChildList(), SerFiles.CHILDS.serFiles);
-                d.serialize(d.getEducatorList(), SerFiles.EDUCATOR.serFiles);
-                d.serialize(d.getCaregiverList(), SerFiles.CAREGIVERS.serFiles);
-                s = States.SHUT_DOWN;
+            //Om användaren valde att Logga ut (5)
+            else if (input == 5) {
+                s = States.LOG_OUT;
                 s.output(educator);
                 break;
 
@@ -277,11 +259,23 @@ Pedagog
             }
 
         }
+    }
+    public void addAbsenseToday(Child child){
+        s.output(child);
+        attendanceDAO.addAbsence(child);
+        d.serialize(d.getAttendanceToday(), SerFiles.ATTENDANCE.serFiles);
+    }
 
+    public void saveAllFiles(){
+        d.addAttendanceTodayInList(d.getAttendanceToday());
+        d.serialize(d.getAttendanceList(), SerFiles.LIST_OF_ATTENDANCES.serFiles);
+        d.serialize(d.getAttendanceToday(), SerFiles.ATTENDANCE.serFiles);
+        d.serialize(d.getChildList(), SerFiles.CHILDREN.serFiles);
+        d.serialize(d.getEducatorList(), SerFiles.EDUCATOR.serFiles);
     }
 
     public static void main(String[] args) {
-        Main main = new Main();
+        new Main();
     }
 }
 

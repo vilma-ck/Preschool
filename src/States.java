@@ -3,7 +3,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -180,12 +179,6 @@ public enum States {
             String personalNumber;
 
             Database d = new Database();
-            String[] week = {"måndag", "tisdag", "onsdag", "torsdag", "fredag"};
-
-            for(String day: week) {
-
-
-            }
 
             System.out.print("Denna vårdnadshavare finns inte registrerad " +
                     "\nAnge den nya vårdnadshavarens förnamn: ");
@@ -206,7 +199,7 @@ public enum States {
 
     },
 
-    PRINT_ATTENDANCE{
+    ATTENDANCE {
         @Override
         public void output(Object o) {
             System.out.println("Vilken lista vill du skriva ut?");
@@ -294,16 +287,24 @@ public enum States {
 
         @Override
         public void showCaringTimes(Child child) {
-            super.showCaringTimes(child);
+            System.out.println("Här är " + child.getFirstName() + "s omsorgstider: ");
+            for(CaringTime ct : child.caringTimes){
+                System.out.println(ct.getDay() + ": " + ct.getStart() + " - " + ct.getStop());
+            }
         }
-
     },
 
+    LOG_OUT {
+        @Override
+        public void output(Object o) {
+            System.out.println("Du har loggats ut");
+        }
+    },
 
     SHUT_DOWN{
         @Override
         public void output(Object o) {
-            System.out.println("Programmet är avslutat");
+            System.out.println("Programmet avslutas");
         }
 
     };
@@ -331,5 +332,7 @@ public enum States {
             System.out.println(ct.getDay() + ": " + ct.getStart() + " - " + ct.getStop());
         }
     };
+
+    public void showCaringTimes(Child child){};
 
 }
