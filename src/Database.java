@@ -22,6 +22,8 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
         this.educatorList = deSerialize("Educators.ser");
         setAttendance();
 
+
+
     }
 
     public void addChild(Child c) {

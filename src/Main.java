@@ -116,7 +116,13 @@ Pedagog
             else if (input == 2) {
                 s = States.CHILD_ABSENCE;
                 s.output(child);
+                for(Attendance attendance : attendanceDAO.getAttendanceToday()){
+                    System.out.println(attendance.getPresent());
+                }
                 attendanceDAO.addAbsence(child);
+                for(Attendance attendance : attendanceDAO.getAttendanceToday()){
+                    System.out.println(attendance.getPresent());
+                }
 
             }
 
@@ -130,7 +136,7 @@ Pedagog
                 s.output(caregiver);
                 break;
             } else {
-                System.out.println("Okänt kommando, var göd försök igen.");
+                System.out.println("Okänt kommando, var god försök igen.");
             }
         }
 
@@ -173,7 +179,13 @@ Pedagog
                     s = States.CHILD_ABSENCE;
                     Child child = childList.get(input - 1);
                     s.output(child);
+                    for(Attendance attendance : attendanceDAO.getAttendanceToday()){
+                        System.out.println(attendance.getPresent());
+                    }
                     attendanceDAO.addAbsence(child);
+                    for(Attendance attendance : attendanceDAO.getAttendanceToday()){
+                        System.out.println(attendance.getPresent());
+                    }
                 }
 
 
@@ -225,8 +237,18 @@ Pedagog
                     s.output(attendanceDAO.getAttendanceToday());
                 }
             }
-             
-            else if (input == 4) {
+
+            // om användaren vill se ett barns omsorgstider
+            else if(input == 4){
+                s = States.SEE_CARINGTIMES;
+                s.output(d.getChildList());
+                input = scan.nextInt();
+                s.showCaringTimes(d.getChildList().get(input-1));
+
+
+            }
+
+            else if (input == 5) {
                 s = States.CAREGIVER_INFO;
                 s.output(null);
                 name = scan.next();
@@ -239,7 +261,7 @@ Pedagog
                 }
             }
             //om användaren väljer att avsluta
-            else if (input == 5) {
+            else if (input == 6) {
                 d.addAttendanceTodayInList(d.getAttendanceToday());
                 d.serialize(d.getAttendanceTest(), SerFiles.LIST_OF_ATTENDANCE.serFiles);
                 d.serialize(d.getAttendanceToday(), SerFiles.ATTENDANCE.serFiles);

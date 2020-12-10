@@ -1,7 +1,9 @@
 import javax.xml.crypto.Data;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -50,10 +52,8 @@ public enum States {
             System.out.println("Välkommen till sidan för " + child.getFirstName() +
                     "\n 1. Ange omsorgstider" +
                     "\n 2. Registrera frånvaro" +
-                    "\n 3. Visa pedagogers kontaktuppgifter" +
-                    "\n 4. Se ett barns omsorgstider " +
-                    "\n 5. Se vårdnadshavares kontaktuppgifter" +
-                    "\n 6. Logga ut");
+                    "\n 3. Se pedagogers kontaktuppgifter" +
+                    "\n 4. Logga ut");
         }
     },
 
@@ -70,22 +70,40 @@ public enum States {
         @Override
         public void output(Object o) {
             Child child = (Child)o;
-            System.out.println("Var god ange omsorgstider för " + child.getFirstName());
+            showCaringTimes(child);
+            System.out.println("Vilken dag vill du ändra?");
         }
 
         @Override
         public void addCaringTime(Child child, Scanner scan) {
             String time;
+            String day  = scan.next().toLowerCase();
 
-            String[] week = {"måndag", "tisdag", "onsdag", "torsdag", "fredag"};
+            if(day.equals("måndag")){
+                System.out.println("Var god ange lämningstid och hämtningstid på måndag: ");
+                createCaringTime(child, day, scan);
+            } else if(day.equals("tisdag")){
+                System.out.println("Var god ange lämningstid och hämtningstid på tisdag: ");
+                createCaringTime(child, day, scan);
+            }else if(day.equals("onsdag")){
+                System.out.println("Var god ange lämningstid och hämtningstid på onsdag: ");
+                createCaringTime(child, day, scan);
+            }else if(day.equals("torsdag")){
+                System.out.println("Var god ange lämningstid och hämtningstid på torsdag: ");
+                createCaringTime(child, day, scan);
+            }else if(day.equals("fredag")){
+                System.out.println("Var god ange lämningstid och hämtningstid på fredag: ");
+                createCaringTime(child, day, scan);
 
-            for(String day: week) {
-                System.out.println("Var god ange lämningstid och hämtningstid på " + day);
-                time = scan.next();
-                String start = time.substring(0, time.indexOf(","));
-                String stop = time.substring(time.indexOf(",") + 1);
-                child.addCaringTime(day, start, stop);
             }
+        }
+
+        @Override
+        public void createCaringTime(Child child, String day, Scanner scan) {
+            String time = scan.next();
+            String start = time.substring(0, time.indexOf(","));
+            String stop = time.substring(time.indexOf(",") + 1);
+            child.caringTimes.set(0, new CaringTime("fredag", LocalTime.parse(start), LocalTime.parse(stop)));
         }
     },
 
@@ -110,8 +128,9 @@ public enum States {
                     "\n 1. Ange frånvaro" +
                     "\n 2. Registrera ett nytt barn till förskolan" +
                     "\n 3. Se närvaro idag" +
-                    "\n 4. Se vårdnadshavares kontaktuppgifter" +
-                    "\n 5. Logga ut");
+                    "\n 4. Se ett barns omsorgstider " +
+                    "\n 5. Se vårdnadshavares kontaktuppgifter" +
+                    "\n 6. Logga ut");
         }
     },
 
@@ -161,6 +180,12 @@ public enum States {
             String personalNumber;
 
             Database d = new Database();
+            String[] week = {"måndag", "tisdag", "onsdag", "torsdag", "fredag"};
+
+            for(String day: week) {
+
+
+            }
 
             System.out.print("Denna vårdnadshavare finns inte registrerad " +
                     "\nAnge den nya vårdnadshavarens förnamn: ");
@@ -269,11 +294,9 @@ public enum States {
 
         @Override
         public void showCaringTimes(Child child) {
-            System.out.println("Här är " + child.getFirstName() + "s omsorgstider: ");
-            for(CaringTime ct : child.caringTimes){
-                System.out.println(ct.getDay() + ": " + ct.getStart() + " - " + ct.getStop());
-            }
+            super.showCaringTimes(child);
         }
+
     },
 
 
@@ -300,11 +323,13 @@ public enum States {
 
     public void addCaringTime(Child child, Scanner scan){};
 
-    public void showCaringTimes(Child child){};
+    public void createCaringTime(Child child, String day, Scanner scan){};
 
-
-
-
-
+    public void showCaringTimes(Child child){
+        System.out.println("Här är " + child.getFirstName() + "s omsorgstider: ");
+        for(CaringTime ct : child.caringTimes){
+            System.out.println(ct.getDay() + ": " + ct.getStart() + " - " + ct.getStop());
+        }
+    };
 
 }
