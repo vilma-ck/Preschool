@@ -1,3 +1,5 @@
+import java.util.List;
+
 /**
  * Created by Ivona Zoricic
  * Date: 2020-12-07
@@ -12,6 +14,10 @@ public interface DatabaseDAO {
     void deleteCaregiver(Caregiver caregiver);
     void addEducator(Educator educator);
     void deleteEducator(Educator educator);
+    List<Child> getChildList();
+    List<Educator> getEducatorList();
+    List<Caregiver> getCaregiverList();
+    String getContactInformation(IContactInformation person);
 
 
     }

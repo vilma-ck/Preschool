@@ -1,26 +1,27 @@
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class CaringTime implements Serializable {
-    LocalDateTime start;
-    LocalDateTime stop;
+    private LocalTime start;
+    private LocalTime stop;
+    private String weekday;
 
-
-    public CaringTime(LocalDateTime start, LocalDateTime stop){
+    public CaringTime(String weekday, LocalTime start, LocalTime stop){
+        this.weekday = weekday;
         this.start = start;
         this.stop = stop;
     }
 
-    public LocalDateTime getStart() {
+    public LocalTime getStart() {
         return start;
     }
 
-    public LocalDateTime getStop() {
+    public LocalTime getStop() {
         return stop;
     }
 
-    public LocalDate getDay(){
-        return start.toLocalDate();
+    public String getDay(){
+        return weekday;
     }
+
 }
