@@ -186,15 +186,16 @@ Pedagog
 
                 //Om vårdnadshavaren redan finns i systemet, läggs
                 //ett nytt barn läggs till till den redan exsisterande vårdnadshavaren
-                for (Caregiver c : d.getCaregiverList()) {
-                    if (c.getFirstName().equalsIgnoreCase(firstName)) {
+                for (Caregiver caregiver : d.getCaregiverList()) {
+                    if (caregiver.getFirstName().equalsIgnoreCase(firstName)) {
                         System.out.println("Det nya barnet kommer att registreras på den redan " +
-                                "\nexisterande vårdnadshavaren " + c.getFirstName() + " " + c.getLastName());
+                                "\nexisterande vårdnadshavaren " + caregiver.getFirstName() + " " + caregiver.getLastName());
+
                         Child child = state.registerNewChild(scan);
-                        c.addChildren(child);
+
+                        caregiver.addChildren(child);
                         d.addChild(child);
                         foundCaregiver = true;
-
                     }
                 }
 
@@ -208,7 +209,6 @@ Pedagog
                     d.addChild(child);
                     d.addCaregiver(caregiver);
                     caregiver.addChildren(child);
-
                 }
 
                 //TODO test om barn lagts till:
