@@ -18,6 +18,7 @@ public interface DatabaseDAO {
     List<Educator> getEducatorList();
     List<Caregiver> getCaregiverList();
     String getContactInformation(IContactInformation person);
+    <T> List<T> deSerialize(String fileName);
+    <T> void serialize(List <T> list, String fileName);
 
-
-    }
+}

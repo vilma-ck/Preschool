@@ -88,7 +88,7 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
         return educatorList;
     }
 
-
+    @Override
     public <T> void serialize(List <T> list, String fileName) {
         try {
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
@@ -100,7 +100,7 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
         }
     }
 
-
+    @Override
     public <T> List<T> deSerialize(String fileName) {
         List<T> list = new ArrayList<>();
         try(ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));) {
