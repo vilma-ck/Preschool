@@ -15,7 +15,6 @@ public class Demo {
 
        /* Database d = new Database();
 
-
         Caregiver c1 = new Caregiver("Anna","Andersson","198902024785");
         Caregiver c2 = new Caregiver("Eva","Johansson","198801015689");
         Caregiver c3 = new Caregiver("Maria","Karlsson","198703036523");
@@ -45,6 +44,35 @@ public class Demo {
         Child b4 = new Child("Liam","Nilsson","201504043256");
         Child b5 = new Child("Astrid","Nilsson","01605053325");
 
+        b1.addCaringTime("måndag", "08:00", "16:00");
+        b1.addCaringTime("tisdag", "08:00", "16:00");
+        b1.addCaringTime("onsdag", "08:00", "16:00");
+        b1.addCaringTime("torsdag", "08:00", "15:00");
+        b1.addCaringTime("fredag", "08:00", "15:00");
+
+        b2.addCaringTime("måndag", "08:00", "15:00");
+        b2.addCaringTime("tisdag", "08:00", "15:00");
+        b2.addCaringTime("onsdag", "08:00", "15:00");
+        b2.addCaringTime("torsdag", "08:00", "15:00");
+        b2.addCaringTime("fredag", "08:00", "15:00");
+
+        b3.addCaringTime("måndag", "08:00", "15:00");
+        b3.addCaringTime("tisdag", "08:00", "15:00");
+        b3.addCaringTime("onsdag", "08:00", "15:00");
+        b3.addCaringTime("torsdag", "08:00", "15:00");
+        b3.addCaringTime("fredag", "08:00", "15:00");
+
+        b4.addCaringTime("måndag", "08:00", "16:30");
+        b4.addCaringTime("tisdag", "08:00", "16:30");
+        b4.addCaringTime("onsdag", "08:00", "16:30");
+        b4.addCaringTime("torsdag", "08:00", "15:00");
+        b4.addCaringTime("fredag", "08:00", "15:00");
+
+        b5.addCaringTime("måndag", "08:00", "16:30");
+        b5.addCaringTime("tisdag", "08:00", "16:30");
+        b5.addCaringTime("onsdag", "08:00", "16:30");
+        b5.addCaringTime("torsdag", "08:00", "15:00");
+        b5.addCaringTime("fredag", "08:00", "15:00");
 
 
         d.addChild(b1);
@@ -76,7 +104,7 @@ public class Demo {
 
 
 
-        d.serialize(caregiverList,"Caregivers.ser");
+        //d.serialize(caregiverList,"Caregivers.ser");
         d.serialize(childrenList,"Children.ser");
         d.serialize(educatorList,"Educators.ser");
 

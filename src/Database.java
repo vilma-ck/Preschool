@@ -23,6 +23,8 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
         findAndAddCAregiver();
         setAttendance();
 
+
+
     }
 
     public void addChild(Child c) {

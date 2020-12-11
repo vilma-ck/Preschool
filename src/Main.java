@@ -37,8 +37,10 @@ Pedagog
  */
 
     public Main() {
+
         state = States.LOGIN;
         state.output(null);
+
         int input = scan.nextInt();
 
 
@@ -122,6 +124,7 @@ Pedagog
             else if (input == 3) {
                 state = States.EDUCATOR_INFO;
                 List<Educator> educatorList = databaseDAO.getEducatorList();
+
                 state.output(educatorList);
             }
             //Om användaren valde att Logga ut (4)
@@ -133,6 +136,7 @@ Pedagog
 
             else {
                 System.out.println("Okänt kommando, var god försök igen.");
+
             }
         }
 
@@ -183,6 +187,7 @@ Pedagog
                 state = States.REGISTER_CHILD;
                 state.output(null);
                 firstName = scan.next();
+
                 boolean foundCaregiver = false;
 
                 //Om vårdnadshavaren redan finns i systemet, läggs
@@ -214,6 +219,7 @@ Pedagog
                     attendanceDAO.addChildInAttendance(child);
                 }
                 saveAllFiles();
+
             }
             //Om användaren vill skriva ut närvarolistor
             else if (input == 3) {
@@ -233,10 +239,20 @@ Pedagog
                     state.output(attendanceList);
                 }
             }
-             
-            else if (input == 4) {
+
+            // om användaren vill se ett barns omsorgstider
+            else if(input == 4){
+                state = States.SEE_CARINGTIMES;
+                state.output(d.getChildList());
+                input = scan.nextInt();
+                state.showCaringTimes(d.getChildList().get(input-1));
+
+            }
+
+            else if (input == 5) {
                 state = States.CAREGIVER_INFO;
                 state.output(null);
+
                 name = scan.next();
                 List<Child> childList = databaseDAO.getChildList();
                 for (Child child : childList) {
@@ -247,14 +263,14 @@ Pedagog
                 }
             }
             //Om användaren valde att Logga ut (5)
-            else if (input == 5) {
+
+            else if (input == 6) {
                 state = States.LOG_OUT;
                 state.output(educator);
+
                 break;
 
-            }
-
-            else {
+            } else {
                 System.out.println("Okänt kommando, var god försök igen.");
             }
 
