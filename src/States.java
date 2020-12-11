@@ -42,6 +42,7 @@ public enum States {
                 System.out.println(counter + " " + child.getFirstName());
                 counter++;
             }
+            System.out.println( counter + " Logga ut.");
         }
     },
 
