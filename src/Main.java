@@ -11,7 +11,7 @@ import java.util.Scanner;
  */
 public class Main {
 
-    private Database d = new Database();
+    private final Database d = new Database();
 
     private AttendanceDAO attendanceDAO = d;
     private DatabaseDAO databaseDAO = d;
@@ -19,7 +19,7 @@ public class Main {
 
     private Scanner scan = new Scanner(System.in);
 
-    private States s;
+    private States state;
 
 /*
 1. Välj Vårdnadshavare eller Pedagog ex (1,2)
@@ -36,10 +36,13 @@ Pedagog
 
  */
 
-    public Main() throws InterruptedException {
-        s = States.LOGIN;
 
-        s.output(null);
+    public Main() throws InterruptedException {
+        state = States.LOGIN;
+
+
+        state = States.LOGIN;
+        state.output(null);
 
         int input = scan.nextInt();
 
@@ -48,19 +51,21 @@ Pedagog
             if (input == 1) {
                 Thread.sleep(1000);
                 caregiverView(input);
-                s = States.LOGIN;
-                s.output(null);
+                state = States.LOGIN;
+                state.output(null);
                 input = scan.nextInt();
                 //break;
             } else if (input == 2) {
                 Thread.sleep(1000);
                 educatorView(input);
-                s = States.LOGIN;
-                s.output(null);
+                state = States.LOGIN;
+                state.output(null);
                 input = scan.nextInt();
                 //break;
             } else if (input == 3) {
-                System.out.println("Programmet avslutas");
+                state = States.SHUT_DOWN;
+                state.output(null);
+                saveAllFiles();
                 break;
             } else {
                 System.out.println("Ogiltigt kommando, var god försök igen.");
@@ -83,8 +88,8 @@ Pedagog
         String name;
         //Om användaren valde att logga in som vårdnadshavare (1)
 
-        s = States.USERNAME;
-        s.output(null);
+        state = States.USERNAME;
+        state.output(null);
         name = scan.next();
         Caregiver caregiver = lookupCaregiver(name);
         while (true) {
@@ -92,9 +97,11 @@ Pedagog
             child = caregiver.getChildren().get(0);
 
             if (caregiver.getChildren().size() > 1) {
+
                 Thread.sleep(1000);
-                s = States.CAREGIVER;
-                s.output(caregiver);
+                state = States.CAREGIVER;
+                state.output(caregiver);
+
                 // väljer barn
                 input = scan.nextInt();
                 //Om användaren valde ett barn (1)
@@ -102,42 +109,49 @@ Pedagog
                     child = caregiver.getChildren().get(input - 1);
                 }
             }
+
             Thread.sleep(1000);
-            s = States.CHOSE_CHILD;
-            s.output(child);
+            state = States.CHOSE_CHILD;
+            state.output(child);
 
             input = scan.nextInt();
 
             //Om användaren valde omsorgstider (1)
             if (input == 1) {
+
                 Thread.sleep(1000);
-                s = States.CHILD_ATTENDANCE;
-                s.output(child);
-                s.addCaringTime(child, scan);
+                state = States.CHILD_ATTENDANCE;
+                state.output(child);
+                state.addCaringTime(child, scan);
+
             }
 
             //Om användaren valde frånvaro (2)
             else if (input == 2) {
                 Thread.sleep(1000);
-                s = States.CHILD_ABSENCE;
-                s.output(child);
-                attendanceDAO.addAbsence(child);
-
+                state = States.CHILD_ABSENCE;
+                state.output(child);
+                addAbsenseToday(child);
             }
 
             //Om användaren valde kontaktuppgifter (3)
             else if (input == 3) {
+
                 Thread.sleep(1000);
-                s = States.EDUCATOR_INFO;
+                state = States.EDUCATOR_INFO;
                 List<Educator> educatorList = databaseDAO.getEducatorList();
-                s.output(educatorList);
+                state.output(educatorList);
+           
             } else if (input == 4) {
                 Thread.sleep(1000);
-                s = States.SHUT_DOWN;
-                s.output(caregiver);
+                state = States.LOG_OUT;
+                state.output(caregiver);
                 break;
-            } else {
-                System.out.println("Okänt kommando, var göd försök igen.");
+            }
+
+            else {
+                System.out.println("Okänt kommando, var god försök igen.");
+
             }
         }
 
@@ -148,12 +162,11 @@ Pedagog
 
         String name;
         String firstName;
-        String lastName;
-        String personalNumber;
+
         //Om användaren valde att logga in som pedagog (2)
 
-        s = States.USERNAME;
-        s.output(null);
+        state = States.USERNAME;
+        state.output(null);
 
         name = scan.next();
         Educator educator = personDAO.getEducator(name);
@@ -164,102 +177,122 @@ Pedagog
         }
 
         while (true) {
+
             Thread.sleep(1000);
-            s = States.EDUCATOR;
-            s.output(educator);
+            state = States.EDUCATOR;
+            state.output(educator);
             input = scan.nextInt();
 
             //Om användaren valde att registrera frånvaro för ett barn
             if (input == 1) {
                 Thread.sleep(1000);
-                s = States.EDUCATOR_ABSENCE;
+                state = States.EDUCATOR_ABSENCE;
+
                 List<Child> childList = databaseDAO.getChildList();
-                s.output(databaseDAO.getChildList());
+                state.output(databaseDAO.getChildList());
                 input = scan.nextInt();
 
                 //Registrerar frånvaro på barn
                 if (input <= childList.size()) {
+
                     Thread.sleep(1000);
-                    s = States.CHILD_ABSENCE;
+                    state = States.CHILD_ABSENCE;
                     Child child = childList.get(input - 1);
-                    s.output(child);
-                    attendanceDAO.addAbsence(child);
+                    addAbsenseToday(child);
                 }
 
 
                 //Om användaren vill lägga till ett barn
             } else if (input == 2) {
+
                 Thread.sleep(1000);
-                s = States.REGISTER_CHILD;
-                s.output(null);
+                state = States.REGISTER_CHILD;
+                state.output(null);
                 firstName = scan.next();
+
                 boolean foundCaregiver = false;
 
-                for (Caregiver c : d.getCaregiverList()) {
-                    if (c.getFirstName().equalsIgnoreCase(firstName)) {
+                //Om vårdnadshavaren redan finns i systemet, läggs
+                //ett nytt barn läggs till till den redan exsisterande vårdnadshavaren
+                for (Caregiver caregiver : databaseDAO.getCaregiverList()) {
+                    if (caregiver.getFirstName().equalsIgnoreCase(firstName)) {
                         System.out.println("Det nya barnet kommer att registreras på den redan " +
-                                "\nexisterande vårdnadshavaren " + c.getFirstName());
-                        Child child = s.registerNewChild(scan);
-                        c.addChildren(child);
-                        d.addChild(child);
-                        //s.registerNewChild(scan);
+                                "\nexisterande vårdnadshavaren " + caregiver.getFirstName() + " " + caregiver.getLastName());
+
+                        Child child = state.registerNewChild(scan);
+                        databaseDAO.addChild(child);
+                        child.addCaregiver(caregiver);
+                        caregiver.addChildren(child);
+                        attendanceDAO.addChildInAttendance(child);
                         foundCaregiver = true;
                     }
                 }
+
+                //Om det är en ny vårdnadshavare så adderas en ny vårdnadshavare
+                //och ett nytt barn läggs till och kopplas till den nya vårdnadshavaren
                 if (!foundCaregiver) {
-                    s.addCaregiverToNewChild(scan).addChildren(s.registerNewChild(scan));
-                    //s.addCaregiverToNewChild(scan);
+
+                    Caregiver caregiver = state.addCaregiverToNewChild(scan, firstName);
+                    databaseDAO.addCaregiver(caregiver);
+                    Child child = state.registerNewChild(scan);
+                    databaseDAO.addChild(child);
+                    child.addCaregiver(caregiver);
+                    caregiver.addChildren(child);
+                    attendanceDAO.addChildInAttendance(child);
                 }
-
-                //TODO test om barn lagts till:
-                System.out.println(d.getChildList().size());
-                System.out.println(d.getCaregiverList().size());
-
+                saveAllFiles();
 
             }
             //Om användaren vill skriva ut närvarolistor
             else if (input == 3) {
+              
                 Thread.sleep(1000);
-                s = States.PRINT_ATTENDANCE;
-                s.output(null);
+                state = States.PRINT_ATTENDANCE;
+                state.output(null);
                 input = scan.nextInt();
                 if (input == 1) {
                     Thread.sleep(1000);
-                    s = States.PRINT_ALL;
-                    s.output(attendanceDAO.getAttendanceToday());
+                    state = States.PRINT_ALL;
+                    state.output(attendanceDAO.getAttendanceToday());
                 } else if (input == 2) {
                     Thread.sleep(1000);
-                    s = States.PRINT_PRESENT;
-                    s.output(attendanceDAO.getAttendanceToday());
+                    state = States.PRINT_PRESENT;
+                    state.output(attendanceDAO.getAttendanceToday());
                 } else if (input == 3) {
                     Thread.sleep(1000);
-                    s = States.PRINT_ABSENT;
-                    s.output(attendanceDAO.getAttendanceToday());
+                    state = States.PRINT_ABSENT;
+                    state.output(attendanceDAO.getAttendanceToday());
                 }
-            } else if (input == 4) {
-                Thread.sleep(1000);
-                s = States.CAREGIVER_INFO;
-                s.output(null);
+            }
+
+            // om användaren vill se ett barns omsorgstider
+            else if(input == 4){
+                state = States.SEE_CARINGTIMES;
+                state.output(d.getChildList());
+                input = scan.nextInt();
+                state.showCaringTimes(d.getChildList().get(input-1));
+
+            }
+
+            else if (input == 5) {
+                state = States.CAREGIVER_INFO;
+                state.output(null);
+
                 name = scan.next();
                 List<Child> childList = databaseDAO.getChildList();
                 for (Child child : childList) {
                     if (name.equalsIgnoreCase(child.getFirstName()) || name.equalsIgnoreCase(child.getLastName())) {
-                        s = States.CAREGIVER_INFO_PRINT;
-                        s.output(child);
+                        state = States.CAREGIVER_INFO_PRINT;
+                        state.output(child);
                     }
                 }
             }
-            //om användaren väljer att avsluta
-            else if (input == 5) {
-                d.addAttendanceTodayInList(d.getAttendanceToday());
-                d.serialize(d.getAttendanceTest(), SerFiles.LIST_OF_ATTENDANCE.serFiles);
-                d.serialize(d.getAttendanceToday(), SerFiles.ATTENDANCE.serFiles);
-                d.serialize(d.getChildList(), SerFiles.CHILDS.serFiles);
-                d.serialize(d.getEducatorList(), SerFiles.EDUCATOR.serFiles);
-                d.serialize(d.getCaregiverList(), SerFiles.CAREGIVERS.serFiles);
-                Thread.sleep(1000);
-                s = States.SHUT_DOWN;
-                s.output(educator);
+
+            //Om användaren valde att Logga ut (5)
+
+            else if (input == 6) {
+                state = States.LOG_OUT;
+                state.output(educator);
                 break;
 
             } else {
@@ -267,13 +300,24 @@ Pedagog
             }
 
         }
+    }
+    public void addAbsenseToday(Child child){
+        state.output(child);
+        attendanceDAO.addAbsence(child);
+        d.serialize(d.getAttendanceToday(), SerFiles.ATTENDANCE.serFiles);
+    }
 
+    public void saveAllFiles(){
+        d.addAttendanceTodayInList(d.getAttendanceToday());
+        d.serialize(d.getAttendanceList(), SerFiles.LIST_OF_ATTENDANCES.serFiles);
+        d.serialize(d.getAttendanceToday(), SerFiles.ATTENDANCE.serFiles);
+        d.serialize(d.getChildList(), SerFiles.CHILDREN.serFiles);
+        d.serialize(d.getEducatorList(), SerFiles.EDUCATOR.serFiles);
     }
 
     public static void main(String[] args) throws InterruptedException {
         Main main = new Main();
-    }
 }
-
+}
 
 
