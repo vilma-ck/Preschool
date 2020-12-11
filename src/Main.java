@@ -130,7 +130,6 @@ Pedagog
             else if (input == 2) {
                 Thread.sleep(1000);
                 state = States.CHILD_ABSENCE;
-                state.output(child);
                 addAbsenseToday(child);
             }
 

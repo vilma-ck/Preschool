@@ -87,7 +87,6 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
             out.writeObject(list);
             out.close();
-            System.out.println("File: " + "\"" + fileName + "\" saved!");
         } catch (IOException e) {
             e.printStackTrace();
         }
