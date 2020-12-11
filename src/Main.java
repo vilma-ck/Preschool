@@ -36,7 +36,10 @@ Pedagog
 
  */
 
-    public Main() {
+
+    public Main() throws InterruptedException {
+        state = States.LOGIN;
+
 
         state = States.LOGIN;
         state.output(null);
@@ -46,12 +49,14 @@ Pedagog
 
         while (true) {
             if (input == 1) {
+                Thread.sleep(1000);
                 caregiverView(input);
                 state = States.LOGIN;
                 state.output(null);
                 input = scan.nextInt();
                 //break;
             } else if (input == 2) {
+                Thread.sleep(1000);
                 educatorView(input);
                 state = States.LOGIN;
                 state.output(null);
@@ -79,7 +84,7 @@ Pedagog
         return caregiver;
     }
 
-    public void caregiverView(int input) {
+    public void caregiverView(int input) throws InterruptedException {
         String name;
         //Om användaren valde att logga in som vårdnadshavare (1)
 
@@ -92,8 +97,11 @@ Pedagog
             child = caregiver.getChildren().get(0);
 
             if (caregiver.getChildren().size() > 1) {
+
+                Thread.sleep(1000);
                 state = States.CAREGIVER;
                 state.output(caregiver);
+
                 // väljer barn
                 input = scan.nextInt();
                 //Om användaren valde ett barn (1)
@@ -102,6 +110,7 @@ Pedagog
                 }
             }
 
+            Thread.sleep(1000);
             state = States.CHOSE_CHILD;
             state.output(child);
 
@@ -109,26 +118,32 @@ Pedagog
 
             //Om användaren valde omsorgstider (1)
             if (input == 1) {
+
+                Thread.sleep(1000);
                 state = States.CHILD_ATTENDANCE;
                 state.output(child);
                 state.addCaringTime(child, scan);
+
             }
 
             //Om användaren valde frånvaro (2)
             else if (input == 2) {
+                Thread.sleep(1000);
                 state = States.CHILD_ABSENCE;
+                state.output(child);
                 addAbsenseToday(child);
             }
 
             //Om användaren valde kontaktuppgifter (3)
             else if (input == 3) {
+
+                Thread.sleep(1000);
                 state = States.EDUCATOR_INFO;
                 List<Educator> educatorList = databaseDAO.getEducatorList();
-
                 state.output(educatorList);
-            }
-            //Om användaren valde att Logga ut (4)
-            else if (input == 4) {
+           
+            } else if (input == 4) {
+                Thread.sleep(1000);
                 state = States.LOG_OUT;
                 state.output(caregiver);
                 break;
@@ -143,7 +158,7 @@ Pedagog
     }
 
 
-    public void educatorView(int input) {
+    public void educatorView(int input) throws InterruptedException {
 
         String name;
         String firstName;
@@ -162,19 +177,25 @@ Pedagog
         }
 
         while (true) {
+
+            Thread.sleep(1000);
             state = States.EDUCATOR;
             state.output(educator);
             input = scan.nextInt();
 
             //Om användaren valde att registrera frånvaro för ett barn
             if (input == 1) {
+                Thread.sleep(1000);
                 state = States.EDUCATOR_ABSENCE;
+
                 List<Child> childList = databaseDAO.getChildList();
                 state.output(databaseDAO.getChildList());
                 input = scan.nextInt();
 
                 //Registrerar frånvaro på barn
                 if (input <= childList.size()) {
+
+                    Thread.sleep(1000);
                     state = States.CHILD_ABSENCE;
                     Child child = childList.get(input - 1);
                     addAbsenseToday(child);
@@ -184,6 +205,7 @@ Pedagog
                 //Om användaren vill lägga till ett barn
             } else if (input == 2) {
 
+                Thread.sleep(1000);
                 state = States.REGISTER_CHILD;
                 state.output(null);
                 firstName = scan.next();
@@ -223,20 +245,23 @@ Pedagog
             }
             //Om användaren vill skriva ut närvarolistor
             else if (input == 3) {
-                List<Attendance> attendanceList = d.deSerialize(SerFiles.ATTENDANCE.serFiles);
-                state = States.ATTENDANCE;
+              
+                Thread.sleep(1000);
+                state = States.PRINT_ATTENDANCE;
                 state.output(null);
                 input = scan.nextInt();
                 if (input == 1) {
-
+                    Thread.sleep(1000);
                     state = States.PRINT_ALL;
-                    state.output(attendanceList);
+                    state.output(attendanceDAO.getAttendanceToday());
                 } else if (input == 2) {
+                    Thread.sleep(1000);
                     state = States.PRINT_PRESENT;
-                    state.output(attendanceList);
+                    state.output(attendanceDAO.getAttendanceToday());
                 } else if (input == 3) {
+                    Thread.sleep(1000);
                     state = States.PRINT_ABSENT;
-                    state.output(attendanceList);
+                    state.output(attendanceDAO.getAttendanceToday());
                 }
             }
 
@@ -262,12 +287,12 @@ Pedagog
                     }
                 }
             }
+
             //Om användaren valde att Logga ut (5)
 
             else if (input == 6) {
                 state = States.LOG_OUT;
                 state.output(educator);
-
                 break;
 
             } else {
@@ -290,10 +315,9 @@ Pedagog
         d.serialize(d.getEducatorList(), SerFiles.EDUCATOR.serFiles);
     }
 
-    public static void main(String[] args) {
-        new Main();
-    }
+    public static void main(String[] args) throws InterruptedException {
+        Main main = new Main();
 }
-
+}
 
 

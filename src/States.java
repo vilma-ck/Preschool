@@ -34,6 +34,7 @@ public enum States {
         @Override
         public void output(Object o) {
             Caregiver caregiver = (Caregiver) o;
+            System.out.println();
             System.out.println("Välkommen " + caregiver.getFirstName() +
                     "\nVälj barn:");
             int counter = 1;
@@ -47,7 +48,8 @@ public enum States {
     CHOSE_CHILD {
         @Override
         public void output(Object o) {
-            Child child = (Child) o;
+            Child child = (Child)o;
+            System.out.println();
             System.out.println("Välkommen till sidan för " + child.getFirstName() +
                     "\n 1. Ange omsorgstider" +
                     "\n 2. Registrera frånvaro" +
@@ -59,7 +61,8 @@ public enum States {
     CHILD_ABSENCE {
         @Override
         public void output(Object o) {
-            Child child = (Child) o;
+            Child child = (Child)o;
+            System.out.println();
             System.out.println("Registrerat frånvaro för " + child.getFirstName() + " " + LocalDate.now());
 
         }
@@ -68,7 +71,9 @@ public enum States {
     CHILD_ATTENDANCE {
         @Override
         public void output(Object o) {
-            Child child = (Child) o;
+            Child child = (Child)o;
+            System.out.println();
+            System.out.println("Var god ange omsorgstider för " + child.getFirstName());
             showCaringTimes(child);
             System.out.println("Vilken dag vill du ändra?");
         }
@@ -111,6 +116,7 @@ public enum States {
         @Override
         public void output(Object o) {
             List<Educator> educatorList = (List<Educator>) o;
+            System.out.println();
             System.out.println("Kontaktuppgifter till pedagogerna:");
             for (Educator educator : educatorList) {
                 System.out.println(educator.getFirstName() + " " + educator.getLastName() +
@@ -123,7 +129,8 @@ public enum States {
     EDUCATOR {
         @Override
         public void output(Object o) {
-            Educator educator = (Educator) o;
+            Educator educator = (Educator)o;
+            System.out.println();
             System.out.println("\nVälkommen " + educator.getFirstName() + "!" +
                     "\n 1. Ange frånvaro" +
                     "\n 2. Registrera ett nytt barn till förskolan" +
@@ -138,6 +145,7 @@ public enum States {
         @Override
         public void output(Object o) {
             List<Child> childList = (List<Child>) o;
+            System.out.println();
             System.out.println("Ange frånvaro för: ");
             int counter = 1;
             for (Child child : childList) {
@@ -150,6 +158,7 @@ public enum States {
     REGISTER_CHILD {
         @Override
         public void output(Object o) {
+            System.out.println();
             System.out.println("Registrera nytt barn" +
                     "\nVem är vårdnadshavare?: ");
         }
@@ -216,6 +225,7 @@ public enum States {
     ATTENDANCE {
         @Override
         public void output(Object o) {
+            System.out.println();
             System.out.println("Vilken lista vill du skriva ut?");
             System.out.println(" 1. Alla barn" +
                     "\n 2. Närvarande barn" +
@@ -228,6 +238,7 @@ public enum States {
         public void output(Object o) {
             List<Attendance> attendanceList = (List<Attendance>) o;
             String present;
+            System.out.println();
             System.out.println("Närvaro " + LocalDate.now());
             for (Attendance a : attendanceList) {
                 if (!a.getPresent())
@@ -245,6 +256,7 @@ public enum States {
         @Override
         public void output(Object o) {
             List<Attendance> attendanceList = (List<Attendance>) o;
+            System.out.println();
             System.out.println("Frånvarande " + LocalDate.now());
             for (Attendance a : attendanceList) {
                 if (!a.getPresent())
@@ -257,6 +269,7 @@ public enum States {
         @Override
         public void output(Object o) {
             List<Attendance> attendanceList = (List<Attendance>) o;
+            System.out.println();
             System.out.println("Närvarande " + LocalDate.now());
             for (Attendance a : attendanceList) {
                 if (a.getPresent())
@@ -268,6 +281,7 @@ public enum States {
     CAREGIVER_INFO {
         @Override
         public void output(Object o) {
+            System.out.println();
             System.out.println("Vilket barn?");
         }
     },
@@ -277,8 +291,9 @@ public enum States {
         public void output(Object o) {
             Child child = (Child) o;
             List<Caregiver> caregiverList = child.getCaregivers();
-            for (Caregiver caregiver : caregiverList) {
-                System.out.println(caregiver.getFirstName() + " " + caregiver.getLastName() +
+            System.out.println();
+            for(Caregiver caregiver : caregiverList){
+                System.out.println(caregiver.getFirstName() + " " + caregiver.getLastName()+
                         "\n" + caregiver.getPhoneNumber() +
                         "\n" + caregiver.getEmailAddress());
             }
@@ -289,6 +304,7 @@ public enum States {
     SEE_CARINGTIMES {
         @Override
         public void output(Object o) {
+            System.out.println();
             List<Child> childList = (List<Child>) o;
             System.out.println("Vilket barns omsorgstider vill du se? ");
             int counter = 1;
@@ -310,6 +326,7 @@ public enum States {
     LOG_OUT {
         @Override
         public void output(Object o) {
+            System.out.println();
             System.out.println("Du har loggats ut");
         }
     },
@@ -317,6 +334,7 @@ public enum States {
     SHUT_DOWN {
         @Override
         public void output(Object o) {
+            System.out.println();
             System.out.println("Programmet avslutas");
         }
 
