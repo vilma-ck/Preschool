@@ -247,7 +247,7 @@ Pedagog
             else if (input == 3) {
               
                 Thread.sleep(1000);
-                state = States.PRINT_ATTENDANCE;
+                state = States.ATTENDANCE;
                 state.output(null);
                 input = scan.nextInt();
                 if (input == 1) {

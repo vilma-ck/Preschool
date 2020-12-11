@@ -178,7 +178,6 @@ public enum States {
             personalNumber = scan.next();
 
             Child child = new Child(firstName, lastName, personalNumber);
-            System.out.println(child.getFirstName() + child.getLastName() + child.getPersonalNumber());
 
             return child;
         }
@@ -212,8 +211,6 @@ public enum States {
             address = scan.next();
             caregiver.setPostAddress(address);
 
-            System.out.println(caregiver.getFirstName() + caregiver.getLastName() + caregiver.getPersonalNumber() +
-                    caregiver.getEmailAddress() + caregiver.getPhoneNumber() + caregiver.getPostAddress());
             System.out.println();
 
             return caregiver;
@@ -348,16 +345,12 @@ public enum States {
         return child;
     }
 
-
     public Caregiver addCaregiverToNewChild(Scanner scan, String firstName){
         Caregiver caregiver = new Caregiver(null, null, null);
         return caregiver;
     }
 
-    public void addCaringTime(Child child, Scanner scan) {
-
-    }
-
+    public void addCaringTime(Child child, Scanner scan) { }
 
     public void createCaringTime(int dayNumber, Child child, String day, Scanner scan) { }
 
