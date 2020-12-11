@@ -17,14 +17,6 @@ public class Educator extends Person implements IContactInformation {
         super(firstName, lastName, personalNumber);
     }
 
-    public void addAbsence(){
-
-    }
-
-    public void registerNewChild(){
-
-    }
-
     @Override
     public void setEmailAddress(String emailAddress) {
         this.eMailAddress = emailAddress;

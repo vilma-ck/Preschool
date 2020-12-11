@@ -200,8 +200,8 @@ public enum States {
                     present = "Frånvarande";
                 else
                     present = "Närvarande";
-                System.out.println(a.getChild().getFirstName() + " " + a.getChild().getLastName() +
-                        " " + present );
+                System.out.printf("%-20s %-7s", a.getChild().getFirstName() + " " + a.getChild().getLastName(), present );
+                System.out.println();
             }
             System.out.println();
         }

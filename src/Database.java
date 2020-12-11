@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -41,13 +42,8 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
         for (Child child: childList){
             caregiverList.addAll(child.getCaregivers());
         }
-        for (int i = 0; i <caregiverList.size() ; i++) {
-            for (int j = i+1; j < caregiverList.size(); j++) {
-                if(caregiverList.get(i)==caregiverList.get(j)) {
-                    caregiverList.remove(j);
-                }
-            }
-        }
+        HashSet<Object> seen=new HashSet<>();
+        caregiverList.removeIf(e->!seen.add(e));
     }
 
     @Override
