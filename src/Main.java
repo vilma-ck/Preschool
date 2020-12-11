@@ -74,15 +74,6 @@ Pedagog
         }
     }
 
-    public Caregiver lookupCaregiver(String name) {
-        Caregiver caregiver = personDAO.getCaregiver(name);
-        while (caregiver == null) {
-            System.out.println("Var god försök igen: ");
-            name = scan.next();
-            caregiver = personDAO.getCaregiver(name);
-        }
-        return caregiver;
-    }
 
     public void caregiverView(int input) throws InterruptedException {
         String name;
@@ -91,7 +82,12 @@ Pedagog
         state = States.USERNAME;
         state.output(null);
         name = scan.next();
-        Caregiver caregiver = lookupCaregiver(name);
+        Caregiver caregiver = personDAO.getCaregiver(name);
+        while (caregiver == null) {
+            System.out.println("Var god försök igen: ");
+            name = scan.next();
+            caregiver = personDAO.getCaregiver(name);
+        }
         while (true) {
             Child child;
             child = caregiver.getChildren().get(0);
@@ -107,6 +103,11 @@ Pedagog
                 //Om användaren valde ett barn (1)
                 if (input <= caregiver.getChildren().size()) {
                     child = caregiver.getChildren().get(input - 1);
+                } else {
+                    state = States.LOG_OUT;
+                    state.output(null);
+                    break;
+
                 }
             }
 
