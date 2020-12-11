@@ -38,8 +38,11 @@ Pedagog
 
     public Main() {
         s = States.LOGIN;
+
         s.output(null);
+
         int input = scan.nextInt();
+
 
         while (true) {
             if (input == 1) {
@@ -110,28 +113,27 @@ Pedagog
                 s.output(child);
                 s.addCaringTime(child, scan);
             }
+
             //Om användaren valde frånvaro (2)
             else if (input == 2) {
                 s = States.CHILD_ABSENCE;
                 addAbsenseToday(child);
             }
+
             //Om användaren valde kontaktuppgifter (3)
             else if (input == 3) {
                 s = States.EDUCATOR_INFO;
                 List<Educator> educatorList = databaseDAO.getEducatorList();
                 s.output(educatorList);
-            }
-            //Om användaren valde att Logga ut (4)
-            else if (input == 4) {
-                s = States.LOG_OUT;
+            } else if (input == 4) {
+                s = States.SHUT_DOWN;
                 s.output(caregiver);
                 break;
-            }
-
-            else {
+            } else {
                 System.out.println("Okänt kommando, var göd försök igen.");
             }
         }
+
     }
 
 
@@ -179,7 +181,7 @@ Pedagog
 
                 s = States.REGISTER_CHILD;
                 s.output(null);
-                firstName = scan.next();
+              firstName = scan.next();
                 boolean foundCaregiver = false;
 
                 for (Caregiver c : d.getCaregiverList()) {
@@ -201,6 +203,9 @@ Pedagog
                 //TODO test om barn lagts till:
                 System.out.println(d.getChildList().size());
                 System.out.println(d.getCaregiverList().size());
+
+
+              
             }
             //Om användaren vill skriva ut närvarolistor
             else if (input == 3) {
@@ -220,8 +225,17 @@ Pedagog
                     s.output(attendanceList);
                 }
             }
-             
-            else if (input == 4) {
+
+            // om användaren vill se ett barns omsorgstider
+            else if(input == 4){
+                s = States.SEE_CARINGTIMES;
+                s.output(d.getChildList());
+                input = scan.nextInt();
+                s.showCaringTimes(d.getChildList().get(input-1));
+
+            }
+
+            else if (input == 5) {
                 s = States.CAREGIVER_INFO;
                 s.output(null);
                 name = scan.next();
@@ -234,16 +248,15 @@ Pedagog
                 }
             }
             //Om användaren valde att Logga ut (5)
-            else if (input == 5) {
+            else if (input == 6) {
                 s = States.LOG_OUT;
                 s.output(educator);
                 break;
 
-            }
-
-            else {
+            } else {
                 System.out.println("Okänt kommando, var god försök igen.");
             }
+
         }
     }
     public void addAbsenseToday(Child child){
@@ -264,3 +277,6 @@ Pedagog
         new Main();
     }
 }
+
+
+
