@@ -130,7 +130,6 @@ Pedagog
             else if (input == 2) {
                 Thread.sleep(1000);
                 state = States.CHILD_ABSENCE;
-                state.output(child);
                 addAbsenseToday(child);
             }
 
@@ -139,7 +138,7 @@ Pedagog
 
                 Thread.sleep(1000);
                 state = States.EDUCATOR_INFO;
-                List<Educator> educatorList = databaseDAO.getEducatorList();
+                List<Educator> educatorList = personDAO.getEducatorList();
                 state.output(educatorList);
            
             } else if (input == 4) {
@@ -188,8 +187,8 @@ Pedagog
                 Thread.sleep(1000);
                 state = States.EDUCATOR_ABSENCE;
 
-                List<Child> childList = databaseDAO.getChildList();
-                state.output(databaseDAO.getChildList());
+                List<Child> childList = personDAO.getChildList();
+                state.output(personDAO.getChildList());
                 input = scan.nextInt();
 
                 //Registrerar frånvaro på barn
@@ -214,7 +213,7 @@ Pedagog
 
                 //Om vårdnadshavaren redan finns i systemet, läggs
                 //ett nytt barn läggs till till den redan exsisterande vårdnadshavaren
-                for (Caregiver caregiver : databaseDAO.getCaregiverList()) {
+                for (Caregiver caregiver : personDAO.getCaregiverList()) {
                     if (caregiver.getFirstName().equalsIgnoreCase(firstName)) {
                         System.out.println("Det nya barnet kommer att registreras på den redan " +
                                 "\nexisterande vårdnadshavaren " + caregiver.getFirstName() + " " + caregiver.getLastName());
@@ -268,9 +267,9 @@ Pedagog
             // om användaren vill se ett barns omsorgstider
             else if(input == 4){
                 state = States.SEE_CARINGTIMES;
-                state.output(d.getChildList());
+                state.output(personDAO.getChildList());
                 input = scan.nextInt();
-                state.showCaringTimes(d.getChildList().get(input-1));
+                state.showCaringTimes(personDAO.getChildList().get(input-1));
 
             }
 
@@ -279,7 +278,7 @@ Pedagog
                 state.output(null);
 
                 name = scan.next();
-                List<Child> childList = databaseDAO.getChildList();
+                List<Child> childList = personDAO.getChildList();
                 for (Child child : childList) {
                     if (name.equalsIgnoreCase(child.getFirstName()) || name.equalsIgnoreCase(child.getLastName())) {
                         state = States.CAREGIVER_INFO_PRINT;
@@ -304,20 +303,20 @@ Pedagog
     public void addAbsenseToday(Child child){
         state.output(child);
         attendanceDAO.addAbsence(child);
-        d.serialize(d.getAttendanceToday(), SerFiles.ATTENDANCE.serFiles);
+        d.serialize(attendanceDAO.getAttendanceToday(), SerFiles.ATTENDANCE.serFiles);
     }
 
     public void saveAllFiles(){
-        d.addAttendanceTodayInList(d.getAttendanceToday());
-        d.serialize(d.getAttendanceList(), SerFiles.LIST_OF_ATTENDANCES.serFiles);
-        d.serialize(d.getAttendanceToday(), SerFiles.ATTENDANCE.serFiles);
-        d.serialize(d.getChildList(), SerFiles.CHILDREN.serFiles);
-        d.serialize(d.getEducatorList(), SerFiles.EDUCATOR.serFiles);
+        attendanceDAO.addAttendanceTodayInList(attendanceDAO.getAttendanceToday());
+        d.serialize(attendanceDAO.getAttendanceList(), SerFiles.LIST_OF_ATTENDANCES.serFiles);
+        d.serialize(attendanceDAO.getAttendanceToday(), SerFiles.ATTENDANCE.serFiles);
+        d.serialize(personDAO.getChildList(), SerFiles.CHILDREN.serFiles);
+        d.serialize(personDAO.getEducatorList(), SerFiles.EDUCATOR.serFiles);
     }
 
     public static void main(String[] args) throws InterruptedException {
         Main main = new Main();
-}
+    }
 }
 
 

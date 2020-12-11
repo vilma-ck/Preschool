@@ -31,13 +31,6 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
         this.childList.add(c);
     }
 
-    public void addAttendanceTodayInList(List<Attendance> attendanceToday){
-        attendanceList.add(attendanceToday);
-    }
-
-    public List<List<Attendance>> getAttendanceList(){
-        return attendanceList;
-    }
 
     public void findAndAddCAregiver(){
         for (Child child: childList){
@@ -94,7 +87,6 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
             out.writeObject(list);
             out.close();
-            System.out.println("File: " + "\"" + fileName + "\" saved!");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -183,4 +175,13 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
         return this.attendanceToday;
     }
 
+    @Override
+    public void addAttendanceTodayInList(List<Attendance> attendanceToday){
+        attendanceList.add(attendanceToday);
+    }
+
+    @Override
+    public List<List<Attendance>> getAttendanceList(){
+        return attendanceList;
+    }
 }
