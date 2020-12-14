@@ -1,5 +1,3 @@
-import java.io.Serializable;
-
 /**
  * Created by Sara Carlsson
  * Date: 30/11/2020
@@ -13,7 +11,7 @@ public class Educator extends Person implements IContactInformation {
     private String phoneNumber;
     private String postAddress;
 
-    Educator(String firstName, String lastName, String personalNumber) {
+    public Educator(String firstName, String lastName, String personalNumber) {
         super(firstName, lastName, personalNumber);
     }
 

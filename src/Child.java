@@ -1,6 +1,3 @@
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +8,12 @@ import java.util.List;
  * Project: Preeschool
  * Copyright: MIT
  */
-public class Child extends Person  {
+public class Child extends Person {
 
     List<Caregiver> caregivers = new ArrayList<>();
     List<CaringTime> caringTimes = new ArrayList<>();
 
-    Child(String firstName, String lastName, String personalNumber) {
+    public Child(String firstName, String lastName, String personalNumber) {
         super(firstName, lastName, personalNumber);
     }
 
@@ -32,5 +29,9 @@ public class Child extends Person  {
 
     public List<Caregiver> getCaregivers() {
         return caregivers;
+    }
+
+    public List<CaringTime> getCaringTimes(){
+        return caringTimes;
     }
 }

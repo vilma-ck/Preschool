@@ -1,5 +1,3 @@
-import javax.xml.crypto.Data;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -109,7 +107,7 @@ public enum States {
             String time = scan.next();
             String start = time.substring(0, time.indexOf(","));
             String stop = time.substring(time.indexOf(",") + 1);
-            child.caringTimes.set(dayNumber, new CaringTime(day, LocalTime.parse(start), LocalTime.parse(stop)));
+            child.getCaringTimes().set(dayNumber, new CaringTime(day, LocalTime.parse(start), LocalTime.parse(stop)));
         }
     },
 
@@ -315,7 +313,7 @@ public enum States {
         @Override
         public void showCaringTimes(Child child) {
             System.out.println("Här är " + child.getFirstName() + "s omsorgstider: ");
-            for (CaringTime ct : child.caringTimes) {
+            for (CaringTime ct : child.getCaringTimes()) {
                 System.out.println(ct.getDay() + ": " + ct.getStart() + " - " + ct.getStop());
             }
         }
@@ -357,7 +355,7 @@ public enum States {
 
     public void showCaringTimes(Child child) {
         System.out.println("Här är " + child.getFirstName() + "s omsorgstider: ");
-        for (CaringTime ct : child.caringTimes) {
+        for (CaringTime ct : child.getCaringTimes()) {
             System.out.println(ct.getDay() + ": " + ct.getStart() + " - " + ct.getStop());
         }
     }
