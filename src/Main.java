@@ -40,8 +40,6 @@ Pedagog
     public Main() throws InterruptedException {
         state = States.CHOOSE_ROLE;
 
-
-        state = States.CHOOSE_ROLE;
         System.out.println(state.getMessage(null));
 
         int input = scan.nextInt();
@@ -54,16 +52,15 @@ Pedagog
                 state = States.CHOOSE_ROLE;
                 System.out.println(state.getMessage(null));
                 input = scan.nextInt();
-                //break;
             } else if (input == 2) {
                 Thread.sleep(1000);
                 educatorView(input);
                 state = States.CHOOSE_ROLE;
                 System.out.println(state.getMessage(null));
                 input = scan.nextInt();
-                //break;
             } else if(input == 3){
-                adminView(input);
+                AdminProgram ap = new AdminProgram();
+                ap.adminLoop(input);
                 state = States.CHOOSE_ROLE;
                 System.out.println(state.getMessage(null));
                 input = scan.nextInt();
@@ -80,43 +77,6 @@ Pedagog
         }
     }
 
-    private void adminView(int input) throws InterruptedException {
-        String userName = "admin001";
-
-        state = States.GIVE_USERNAME;
-        System.out.println(state.getMessage(null));
-        String name = scan.next();
-
-        while (!name.equals(userName)) {
-            System.out.println("Var god försök igen: ");
-            name = scan.next();
-        }
-
-        state = States.ADMIN_MENY;
-        System.out.println(state.getMessage(null));
-        input = scan.nextInt();
-
-
-        while(true){
-            if(input == 1){
-                // visa närvaro över tid
-                // välj dag
-            } else if(input == 2){
-                // visa historik för barn
-                // välj barn
-                // välj månad
-                // skapa närvarorapport, skapa fil som kan skickas
-            } else if(input == 3){
-                Thread.sleep(1000);
-                state = States.LOG_OUT;
-                System.out.println(state.getMessage(null));
-                break;
-            }
-            else {
-                System.out.println("Okänt kommando, var god försök igen.");
-            }
-        }
-    }
 
 
     public void caregiverView(int input) throws InterruptedException {

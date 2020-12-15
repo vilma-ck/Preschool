@@ -321,7 +321,7 @@ public enum States {
     ADMIN_MENY {
         @Override
         public String getMessage(Object o) {
-            return ("Välkommen! \n1. Visa närvarohistorik över tid \n2. Visa närvarohostorik för barn \n 3. Logga ut");
+            return ("Välkommen! \n1. Visa närvarohistorik över tid \n2. Visa närvarohistorik för barn \n3. Logga ut");
         }
     },
 
