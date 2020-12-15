@@ -23,11 +23,24 @@ public class Client {
 
             Object fromServer;
             String fromUser;
+            int navigationNumber;
+            DataTransferObject dto = new DataTransferObject();
+
 
             while((fromServer = inObject.readObject()) != null){
                 if(fromServer instanceof String){
                     System.out.println(fromServer);
-                } // else if sats om man skickar en viss typ av objekt
+                } else if (fromServer instanceof DataTransferObject){
+                    if(((DataTransferObject) fromServer).getState() == States.CHOOSE_ROLE){
+                        System.out.println(((DataTransferObject) fromServer).getMessage());
+                        fromUser = userIn.readLine();
+                        dto.setState(States.GIVE_USERNAME);
+                        navigationNumber = Integer.parseInt(fromUser);
+                        dto.setNavigationNumber(navigationNumber);
+
+                    }
+                }
+
             }
 
             fromUser = userIn.readLine();

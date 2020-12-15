@@ -20,6 +20,7 @@ public class Server {
                 try{
                     final Socket socketToClient = serverSocket.accept();
                     ServerListener serverListener = new ServerListener(socketToClient);
+                    serverListener.start();
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -29,5 +30,9 @@ public class Server {
         } catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        new Server();
     }
 }

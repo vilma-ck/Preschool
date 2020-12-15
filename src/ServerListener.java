@@ -11,31 +11,30 @@ import java.net.Socket;
 
 // sends and recieves objects
 
-public class ServerListener implements Runnable{
+public class ServerListener extends Thread{
 
     Socket clientSocket;
-    Thread t;
 
     public ServerListener(Socket clientSocket) throws Exception{
         this.clientSocket = clientSocket;
-        t.start();
+        //t.start();
     }
 
 
-    @Override
     public void run() {
 
         try(ObjectOutputStream outObj = new ObjectOutputStream(clientSocket.getOutputStream());
             ObjectInputStream inObj = new ObjectInputStream(clientSocket.getInputStream());
             ){
 
-            String input;
+            DataTransferObject input;
 
             ServerProtocoll p = new ServerProtocoll();
+            input = p.startConnection();
 
             outObj.writeObject(p.processInput(null));
 
-            while((input = (String) inObj.readObject()) != null){
+            while((input = (DataTransferObject) inObj.readObject()) != null){
                 outObj.writeObject(((p.processInput(input))));
 
             }

@@ -12,44 +12,45 @@ import java.util.Scanner;
  */
 public enum States {
 
-    LOGIN {
+    CHOOSE_ROLE {
         @Override
-        public void output(Object o) {
-            System.out.println("Välkommen till förskolan!" + "\nLOGGA IN SOM"
+        public String getMessage(Object o) {
+            return ("Välkommen till förskolan!" + "\nLOGGA IN SOM"
                     + "\n 1. Vårdnadshavare" + "\n 2. Pedagog" + "\n 3. Avsluta programmet");
         }
     },
 
-    USERNAME {
+    GIVE_USERNAME {
         @Override
-        public void output(Object o) {
-            System.out.println("Skriv ditt namn: ");
+        public String getMessage(Object o) {
+            return("Skriv ditt namn: ");
 
         }
     },
 
-    CAREGIVER {
+    CHOOSE_CHILD {
         @Override
-        public void output(Object o) {
+        public String getMessage(Object o) {
             Caregiver caregiver = (Caregiver) o;
-            System.out.println();
-            System.out.println("Välkommen " + caregiver.getFirstName() +
+            StringBuilder sb = new StringBuilder();
+
+            sb.append("Välkommen " + caregiver.getFirstName() +
                     "\nVälj barn:");
             int counter = 1;
             for (Child child : caregiver.getChildren()) {
-                System.out.println(counter + " " + child.getFirstName());
+                sb.append(counter + " " + child.getFirstName());
                 counter++;
             }
-            System.out.println( counter + " Logga ut.");
+            sb.append(counter + " Logga ut.");
+            return sb.toString();
         }
     },
 
-    CHOSE_CHILD {
+    CAREGIVER_MENY {
         @Override
-        public void output(Object o) {
+        public String getMessage(Object o) {
             Child child = (Child)o;
-            System.out.println();
-            System.out.println("Välkommen till sidan för " + child.getFirstName() +
+            return ("Välkommen till sidan för " + child.getFirstName() +
                     "\n 1. Ange omsorgstider" +
                     "\n 2. Registrera frånvaro" +
                     "\n 3. Se pedagogers kontaktuppgifter" +
@@ -59,22 +60,21 @@ public enum States {
 
     CHILD_ABSENCE {
         @Override
-        public void output(Object o) {
+        public String getMessage(Object o) {
             Child child = (Child)o;
-            System.out.println();
-            System.out.println("Registrerat frånvaro för " + child.getFirstName() + " " + LocalDate.now());
-
+            return("Registrerat frånvaro för " + child.getFirstName() + " " + LocalDate.now());
         }
     },
 
-    CHILD_ATTENDANCE {
+    CHILD_CARINGTIME {
         @Override
-        public void output(Object o) {
+        public String getMessage(Object o) {
             Child child = (Child)o;
-            System.out.println();
-            System.out.println("Var god ange omsorgstider för " + child.getFirstName());
-            showCaringTimes(child);
-            System.out.println("Vilken dag vill du ändra?");
+            StringBuilder sb = new StringBuilder('\n');
+            sb.append("Var god ange omsorgstider för " + child.getFirstName());
+            sb.append(showCaringTimes(child));
+            sb.append("Vilken dag vill du ändra?");
+            return sb.toString();
         }
 
         @Override
@@ -113,24 +113,24 @@ public enum States {
 
     EDUCATOR_INFO {
         @Override
-        public void output(Object o) {
+        public String getMessage(Object o) {
             List<Educator> educatorList = (List<Educator>) o;
-            System.out.println();
-            System.out.println("Kontaktuppgifter till pedagogerna:");
+            StringBuilder sb = new StringBuilder();
+            sb.append("Kontaktuppgifter till pedagogerna:");
             for (Educator educator : educatorList) {
-                System.out.println(educator.getFirstName() + " " + educator.getLastName() +
+                sb.append(educator.getFirstName() + " " + educator.getLastName() +
                         "\n" + educator.getEmailAddress() +
                         "\n" + educator.getPhoneNumber());
             }
+            return sb.toString();
         }
     },
 
-    EDUCATOR {
+    EDUCATOR_MENY {
         @Override
-        public void output(Object o) {
+        public String getMessage(Object o) {
             Educator educator = (Educator)o;
-            System.out.println();
-            System.out.println("\nVälkommen " + educator.getFirstName() + "!" +
+            return("\nVälkommen " + educator.getFirstName() + "!" +
                     "\n 1. Ange frånvaro" +
                     "\n 2. Registrera ett nytt barn till förskolan" +
                     "\n 3. Se närvaro idag" +
@@ -142,23 +142,23 @@ public enum States {
 
     EDUCATOR_ABSENCE {
         @Override
-        public void output(Object o) {
+        public String getMessage(Object o) {
             List<Child> childList = (List<Child>) o;
-            System.out.println();
-            System.out.println("Ange frånvaro för: ");
+            StringBuilder sb = new StringBuilder();
+            sb.append("Ange frånvaro för: ");
             int counter = 1;
             for (Child child : childList) {
-                System.out.println(counter + " " + child.getFirstName());
+                sb.append(counter + " " + child.getFirstName());
                 counter++;
             }
+            return sb.toString();
         }
     },
 
     REGISTER_CHILD {
         @Override
-        public void output(Object o) {
-            System.out.println();
-            System.out.println("Registrera nytt barn" +
+        public String getMessage(Object o) {
+           return ("Registrera nytt barn" +
                     "\nVem är vårdnadshavare?: ");
         }
 
@@ -220,10 +220,9 @@ public enum States {
 
     ATTENDANCE {
         @Override
-        public void output(Object o) {
-            System.out.println();
-            System.out.println("Vilken lista vill du skriva ut?");
-            System.out.println(" 1. Alla barn" +
+        public String getMessage(Object o) {
+            return ("Vilken lista vill du skriva ut?" +
+                    "\n 1. Alla barn" +
                     "\n 2. Närvarande barn" +
                     "\n 3. Frånvarande barn");
         }
@@ -231,112 +230,109 @@ public enum States {
 
     PRINT_ALL {
         @Override
-        public void output(Object o) {
+        public String getMessage(Object o) {
             List<Attendance> attendanceList = (List<Attendance>) o;
             String present;
-            System.out.println();
-            System.out.println("Närvaro " + LocalDate.now());
+            StringBuilder sb = new StringBuilder();
+            sb.append("Närvaro " + LocalDate.now());
             for (Attendance a : attendanceList) {
                 if (!a.getPresent())
                     present = "Frånvarande";
                 else
                     present = "Närvarande";
-                System.out.println(a.getChild().getFirstName() + " " + a.getChild().getLastName() +
+                sb.append(a.getChild().getFirstName() + " " + a.getChild().getLastName() +
                         " " + present);
             }
-            System.out.println();
+            return sb.toString();
         }
     },
 
     PRINT_ABSENT {
         @Override
-        public void output(Object o) {
+        public String getMessage(Object o) {
             List<Attendance> attendanceList = (List<Attendance>) o;
-            System.out.println();
-            System.out.println("Frånvarande " + LocalDate.now());
+            StringBuilder sb = new StringBuilder();
+            sb.append("Frånvarande " + LocalDate.now());
             for (Attendance a : attendanceList) {
                 if (!a.getPresent())
-                    System.out.println(a.getChild().getFirstName() + " " + a.getChild().getLastName());
+                    sb.append(a.getChild().getFirstName() + " " + a.getChild().getLastName());
             }
+            return sb.toString();
         }
     },
 
     PRINT_PRESENT {
         @Override
-        public void output(Object o) {
+        public String getMessage(Object o) {
             List<Attendance> attendanceList = (List<Attendance>) o;
-            System.out.println();
-            System.out.println("Närvarande " + LocalDate.now());
+            StringBuilder sb = new StringBuilder();
+            sb.append("Närvarande " + LocalDate.now());
             for (Attendance a : attendanceList) {
                 if (a.getPresent())
-                    System.out.println(a.getChild().getFirstName() + " " + a.getChild().getLastName());
+                   sb.append(a.getChild().getFirstName() + " " + a.getChild().getLastName());
             }
+            return sb.toString();
         }
     },
 
     CAREGIVER_INFO {
         @Override
-        public void output(Object o) {
-            System.out.println();
-            System.out.println("Vilket barn?");
+        public String getMessage(Object o) {
+            return("Vilket barn?");
         }
     },
 
     CAREGIVER_INFO_PRINT {
         @Override
-        public void output(Object o) {
+        public String getMessage(Object o) {
             Child child = (Child) o;
             List<Caregiver> caregiverList = child.getCaregivers();
-            System.out.println();
+            StringBuilder sb = new StringBuilder();
             for(Caregiver caregiver : caregiverList){
-                System.out.println(caregiver.getFirstName() + " " + caregiver.getLastName()+
+                sb.append(caregiver.getFirstName() + " " + caregiver.getLastName()+
                         "\n" + caregiver.getPhoneNumber() +
                         "\n" + caregiver.getEmailAddress());
             }
+            return sb.toString();
         }
     },
 
 
     SEE_CARINGTIMES {
         @Override
-        public void output(Object o) {
-            System.out.println();
+        public String getMessage(Object o) {
+            StringBuilder sb = new StringBuilder();
             List<Child> childList = (List<Child>) o;
-            System.out.println("Vilket barns omsorgstider vill du se? ");
+            sb.append("Vilket barns omsorgstider vill du se? ");
             int counter = 1;
             for (Child c : childList) {
-                System.out.println(counter + " " + c.getFirstName());
+                sb.append(counter + " " + c.getFirstName());
                 counter++;
             }
+            return sb.toString();
         }
 
         @Override
-        public void showCaringTimes(Child child) {
-            System.out.println("Här är " + child.getFirstName() + "s omsorgstider: ");
-            for (CaringTime ct : child.getCaringTimes()) {
-                System.out.println(ct.getDay() + ": " + ct.getStart() + " - " + ct.getStop());
-            }
+        public String showCaringTimes(Child child) {
+            return super.showCaringTimes(child);
         }
     },
 
     LOG_OUT {
         @Override
-        public void output(Object o) {
-            System.out.println();
-            System.out.println("Du har loggats ut");
+        public String getMessage(Object o) {
+            return ("Du har loggats ut");
         }
     },
 
     SHUT_DOWN {
         @Override
-        public void output(Object o) {
-            System.out.println();
-            System.out.println("Programmet avslutas");
+        public String getMessage(Object o) {
+            return ("Programmet avslutas");
         }
-
     };
 
-    public abstract void output(Object o);
+    public abstract String getMessage(Object o);
 
 
     public Child registerNewChild(Scanner scan) {
@@ -353,11 +349,13 @@ public enum States {
 
     public void createCaringTime(int dayNumber, Child child, String day, Scanner scan) { }
 
-    public void showCaringTimes(Child child) {
-        System.out.println("Här är " + child.getFirstName() + "s omsorgstider: ");
+    public String showCaringTimes(Child child) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Här är " + child.getFirstName() + "s omsorgstider: ");
         for (CaringTime ct : child.getCaringTimes()) {
-            System.out.println(ct.getDay() + ": " + ct.getStart() + " - " + ct.getStop());
+            sb.append(ct.getDay() + ": " + ct.getStart() + " - " + ct.getStop());
         }
+        return sb.toString();
     }
 
 
