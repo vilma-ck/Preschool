@@ -16,7 +16,7 @@ public enum States {
         @Override
         public String getMessage(Object o) {
             return ("Välkommen till förskolan!" + "\nLOGGA IN SOM"
-                    + "\n 1. Vårdnadshavare" + "\n 2. Pedagog" + "\n 3. Avsluta programmet");
+                    + "\n 1. Vårdnadshavare" + "\n 2. Pedagog" + "\n 3. Admin \n 4. Avsluta programmet");
         }
     },
 
@@ -315,6 +315,13 @@ public enum States {
         @Override
         public String showCaringTimes(Child child) {
             return super.showCaringTimes(child);
+        }
+    },
+
+    ADMIN_MENY {
+        @Override
+        public String getMessage(Object o) {
+            return ("Välkommen! \n1. Visa närvarohistorik över tid \n2. Visa närvarohostorik för barn \n 3. Logga ut");
         }
     },
 
