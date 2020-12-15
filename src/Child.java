@@ -10,11 +10,15 @@ import java.util.List;
  */
 public class Child extends Person {
 
+    private static int childrenNr = 0;
+    private int id;
+
     List<Caregiver> caregivers = new ArrayList<>();
     List<CaringTime> caringTimes = new ArrayList<>();
 
     public Child(String firstName, String lastName, String personalNumber) {
         super(firstName, lastName, personalNumber);
+        id = childrenNr ++;
     }
 
     public void addCaregiver(Caregiver c){

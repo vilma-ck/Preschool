@@ -13,6 +13,12 @@ public class Attendance implements Serializable {
         this.isPresent = true;
     }
 
+    public Attendance(Child child, String date){
+        this.child = child;
+        this.date = LocalDate.parse(date);
+        this.isPresent = true;
+    }
+
     public Child getChild() {
         return child;
     }

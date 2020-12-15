@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,12 +12,12 @@ public class Demo {
     public static void main(String[] args) {
 
 
-       Database d = new Database();
+        Database d = new Database();
 
-        Caregiver c1 = new Caregiver("Anna","Andersson","198902024785");
-        Caregiver c2 = new Caregiver("Eva","Johansson","198801015689");
-        Caregiver c3 = new Caregiver("Maria","Karlsson","198703036523");
-        Caregiver c4 = new Caregiver("Karin","Nilsson", "198604043256");
+        Caregiver c1 = new Caregiver("Anna", "Andersson", "198902024785");
+        Caregiver c2 = new Caregiver("Eva", "Johansson", "198801015689");
+        Caregiver c3 = new Caregiver("Maria", "Karlsson", "198703036523");
+        Caregiver c4 = new Caregiver("Karin", "Nilsson", "198604043256");
         d.addCaregiver(c1);
         d.addCaregiver(c2);
         d.addCaregiver(c3);
@@ -36,11 +37,11 @@ public class Demo {
         List<Caregiver> caregiverList = d.getCaregiverList();
 
 
-        Child b1 = new Child("Alice","Andersson","201502024785");
-        Child b2 = new Child("Olivia","Johansson","201501015689");
-        Child b3 = new Child("Lucas","Karlsson","201503036523");
-        Child b4 = new Child("Liam","Nilsson","201504043256");
-        Child b5 = new Child("Astrid","Nilsson","01605053325");
+        Child b1 = new Child("Alice", "Andersson", "201502024785");
+        Child b2 = new Child("Olivia", "Johansson", "201501015689");
+        Child b3 = new Child("Lucas", "Karlsson", "201503036523");
+        Child b4 = new Child("Liam", "Nilsson", "201504043256");
+        Child b5 = new Child("Astrid", "Nilsson", "01605053325");
 
         b1.addCaringTime("måndag", "08:00", "16:00");
         b1.addCaringTime("tisdag", "08:00", "16:00");
@@ -80,6 +81,12 @@ public class Demo {
         d.addChild(b5);
         List<Child> childrenList = d.getChildList();
 
+        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-12-01"));
+        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-12-02"));
+        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-12-03"));
+
+        System.out.println("attendance för hur många dagar: " + d.getAttendanceList().size());
+        System.out.println("hur många attendance i första dan: " + d.getAttendanceList().get(0).size());
 
         c1.addChildren(b1);
         c2.addChildren(b2);
@@ -93,7 +100,7 @@ public class Demo {
         b4.addCaregiver(c4);
         b5.addCaregiver(c4);
 
-        Educator e = new Educator("Kristina","Eriksson","97807075564");
+        Educator e = new Educator("Kristina", "Eriksson", "97807075564");
         d.addEducator(e);
         e.setEmailAddress("kristina.eriksson@gmail.com");
         e.setPhoneNumber("070 123 45 67");
@@ -101,10 +108,10 @@ public class Demo {
         List<Educator> educatorList = d.getEducatorList();
 
 
-
         //d.serialize(caregiverList,"Caregivers.ser");
-        d.serialize(childrenList,"Children.ser");
-        d.serialize(educatorList,"Educators.ser");
+        d.serialize(childrenList, "Children.ser");
+        d.serialize(educatorList, "Educators.ser");
+        d.serializeAllAttendance(d.getAttendanceList(), "attendances.ser");
 
 
         /*
@@ -121,4 +128,16 @@ public class Demo {
 
 
     }
+
+    public static List<Attendance> createAttendanceForDay(List<Child> childList, String date) {
+        List<Attendance> daysList = new ArrayList<>();
+        System.out.println(date +  " " + childList.size());
+        for (Child child : childList) {
+            daysList.add(new Attendance(child, date));
+        }
+        return daysList;
+    }
+
+
+
 }

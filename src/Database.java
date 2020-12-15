@@ -12,7 +12,7 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
     private List<Caregiver> caregiverList = new LinkedList<>();
     private List<Educator> educatorList = new LinkedList<>();
     private List<Attendance> attendanceToday = new ArrayList<>();
-    private List<List<Attendance>> attendanceList = new ArrayList<>();
+    private List<List<Attendance>> attendanceList;
 
 
     public Database (){
@@ -20,6 +20,7 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
         this.childList = deSerialize("Children.ser");
         //this.caregiverList = deSerialize("Caregivers.ser");
         this.educatorList = deSerialize("Educators.ser");
+        this.attendanceList = deSerializeAllAttendance("attendances.ser");
         findAndAddCAregiver();
         setAttendance();
 
@@ -80,6 +81,32 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
     public List<Educator> getEducatorList() {
         return educatorList;
     }
+
+    public void serializeAllAttendance(List<List<Attendance>> list, String fileName) {
+        try {
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
+            out.writeObject(list);
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<List<Attendance>> deSerializeAllAttendance(String fileName) {
+        List<List<Attendance>> list = new ArrayList<>();
+        try(ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));) {
+            list = (List<List<Attendance>>) in.readObject();
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Class not found exception");
+        }catch (IOException e){
+            e.printStackTrace();
+            System.out.println("IOException");
+        }
+        return list;
+    }
+
 
     @Override
     public <T> void serialize(List <T> list, String fileName) {
@@ -184,4 +211,18 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
     public List<List<Attendance>> getAttendanceList(){
         return attendanceList;
     }
+
+    public void fillAttendence(){
+
+    }
+
+    public List<Attendance> createAttandanceForDay(List<Child> childList, String date) {
+        List<Attendance> daysList = new ArrayList<>();
+        for (Child child : childList) {
+            daysList.add(new Attendance(child, date));
+        }
+        return daysList;
+
+    }
+
 }
