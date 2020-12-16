@@ -81,6 +81,19 @@ public class Demo {
         d.addChild(b5);
         List<Child> childrenList = d.getChildList();
 
+        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-10-01"));
+        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-10-02"));
+        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-10-05"));
+        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-10-06"));
+        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-10-07"));
+        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-10-08"));
+        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-10-09"));
+
+        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-11-02"));
+        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-11-03"));
+        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-11-04"));
+        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-11-05"));
+
         d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-12-01"));
         d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-12-02"));
         d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-12-03"));

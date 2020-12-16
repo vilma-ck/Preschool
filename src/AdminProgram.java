@@ -44,8 +44,13 @@ public class AdminProgram {
             } else if(input == 2){
                 // visa historik för barn
                 // välj barn
+                int childIndex = chooseChild();
                 // välj månad
+                Child child = personDAO.getChildList().get(childIndex);
+                //int month = chooseMonth(child);
                 // skapa närvarorapport, skapa fil som kan skickas
+                //System.out.println("month" + month);
+                input = showMeny();
             } else if(input == 3){
                 Thread.sleep(1000);
                 state = States.LOG_OUT;
@@ -96,6 +101,23 @@ public class AdminProgram {
             counter++;
         }
         return scan.nextInt()-1;
+    }
+
+    private int chooseMonth(Child child){
+        System.out.println("Vilken månad vill du se närvaro för " + child.getFirstName() + "?");
+        int counter = 1;
+        int index = 0;
+        String currentMonth = attendanceDAO.getAttendanceList().get(0).get(0).getDate().getMonth().toString();
+        System.out.println(counter + " " + currentMonth);
+        for(List<Attendance> day : attendanceDAO.getAttendanceList()){
+            if(!currentMonth.equals(day.get(0).getDate().getMonth().toString())){
+                currentMonth = day.get(0).getDate().getMonth().toString();
+                counter ++;
+                System.out.println(counter + " " + currentMonth);
+            }
+            index++;
+        }
+        return index;
     }
 
 }

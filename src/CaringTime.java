@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.time.Duration;
 import java.time.LocalTime;
 
 public class CaringTime implements Serializable {
@@ -22,6 +23,10 @@ public class CaringTime implements Serializable {
 
     public String getDay(){
         return weekday;
+    }
+
+    public Duration getDuration(){
+        return Duration.between(start, stop);
     }
 
 }
