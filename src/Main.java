@@ -313,7 +313,7 @@ Pedagog
 
     public void saveAllFiles(){
         attendanceDAO.addAttendanceTodayInList(attendanceDAO.getAttendanceToday());
-        d.serialize(attendanceDAO.getAttendanceList(), SerFiles.LIST_OF_ATTENDANCES.serFiles);
+        d.serialize(attendanceDAO.getMonths(), SerFiles.LIST_OF_ATTENDANCES.serFiles);
         d.serialize(attendanceDAO.getAttendanceToday(), SerFiles.ATTENDANCE.serFiles);
         d.serialize(personDAO.getChildList(), SerFiles.CHILDREN.serFiles);
         d.serialize(personDAO.getEducatorList(), SerFiles.EDUCATOR.serFiles);

@@ -13,6 +13,6 @@ public interface AttendanceDAO {
     void addChildInAttendance(Child child);
     void addAttendanceTodayInList(List<Attendance> list);
     List<Attendance> getAttendanceToday();
-    List<List<Attendance>> getAttendanceList();
+    List<List<Attendance>> getMonths();
 
 }

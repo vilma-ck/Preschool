@@ -81,25 +81,25 @@ public class Demo {
         d.addChild(b5);
         List<Child> childrenList = d.getChildList();
 
-        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-10-01"));
-        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-10-02"));
-        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-10-05"));
-        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-10-06"));
-        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-10-07"));
-        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-10-08"));
-        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-10-09"));
+        d.getMonths().add(createAttendanceForDay(d.getChildList(), "2020-10-01"));
+        d.getMonths().add(createAttendanceForDay(d.getChildList(), "2020-10-02"));
+        d.getMonths().add(createAttendanceForDay(d.getChildList(), "2020-10-05"));
+        d.getMonths().add(createAttendanceForDay(d.getChildList(), "2020-10-06"));
+        d.getMonths().add(createAttendanceForDay(d.getChildList(), "2020-10-07"));
+        d.getMonths().add(createAttendanceForDay(d.getChildList(), "2020-10-08"));
+        d.getMonths().add(createAttendanceForDay(d.getChildList(), "2020-10-09"));
 
-        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-11-02"));
-        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-11-03"));
-        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-11-04"));
-        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-11-05"));
+        d.getMonths().add(createAttendanceForDay(d.getChildList(), "2020-11-02"));
+        d.getMonths().add(createAttendanceForDay(d.getChildList(), "2020-11-03"));
+        d.getMonths().add(createAttendanceForDay(d.getChildList(), "2020-11-04"));
+        d.getMonths().add(createAttendanceForDay(d.getChildList(), "2020-11-05"));
 
-        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-12-01"));
-        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-12-02"));
-        d.getAttendanceList().add(createAttendanceForDay(d.getChildList(), "2020-12-03"));
+        d.getMonths().add(createAttendanceForDay(d.getChildList(), "2020-12-01"));
+        d.getMonths().add(createAttendanceForDay(d.getChildList(), "2020-12-02"));
+        d.getMonths().add(createAttendanceForDay(d.getChildList(), "2020-12-03"));
 
-        System.out.println("attendance för hur många dagar: " + d.getAttendanceList().size());
-        System.out.println("hur många attendance i första dan: " + d.getAttendanceList().get(0).size());
+        System.out.println("attendance för hur många dagar: " + d.getMonths().size());
+        System.out.println("hur många attendance i första dan: " + d.getMonths().get(0).size());
 
         c1.addChildren(b1);
         c2.addChildren(b2);
@@ -124,7 +124,7 @@ public class Demo {
         //d.serialize(caregiverList,"Caregivers.ser");
         d.serialize(childrenList, "Children.ser");
         d.serialize(educatorList, "Educators.ser");
-        d.serializeAllAttendance(d.getAttendanceList(), "attendances.ser");
+        d.serializeAllAttendance(d.getMonths(), "attendances.ser");
 
 
         /*

@@ -38,4 +38,8 @@ public class Child extends Person {
     public List<CaringTime> getCaringTimes(){
         return caringTimes;
     }
+
+    public CaringTime getCaringTime(int indexInWeek){
+        return caringTimes.get(indexInWeek);
+    }
 }

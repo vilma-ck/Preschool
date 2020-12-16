@@ -208,7 +208,7 @@ public class Database implements AttendanceDAO, Serializable, PersonDAO, Databas
     }
 
     @Override
-    public List<List<Attendance>> getAttendanceList(){
+    public List<List<Attendance>> getMonths(){
         return attendanceList;
     }
 
