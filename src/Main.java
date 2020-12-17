@@ -59,7 +59,7 @@ Pedagog
                 System.out.println(state.getMessage(null));
                 input = scan.nextInt();
             } else if(input == 3){
-                AdminProgram ap = new AdminProgram();
+                AdminProgram ap = new AdminProgram(attendanceDAO, personDAO, scan, state);
                 ap.adminLoop(input);
                 state = States.CHOOSE_ROLE;
                 System.out.println(state.getMessage(null));

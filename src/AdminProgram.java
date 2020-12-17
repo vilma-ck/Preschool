@@ -1,3 +1,7 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -13,15 +17,20 @@ import java.util.Scanner;
 public class AdminProgram {
 
 
-    private final Database d = new Database();
 
-    private AttendanceDAO attendanceDAO = d;
-    private DatabaseDAO databaseDAO = d;
-    private PersonDAO personDAO = d;
+    private AttendanceDAO attendanceDAO;
+    private PersonDAO personDAO;
 
-    private Scanner scan = new Scanner(System.in);
+    private Scanner scan;
 
     private States state;
+
+    public AdminProgram(AttendanceDAO attendanceDAO, PersonDAO personDAO, Scanner scan, States state){
+        this.attendanceDAO = attendanceDAO;
+        this.personDAO = personDAO;
+        this.scan = scan;
+        this.state = state;
+    }
 
     public void adminLoop(int input) throws InterruptedException {
         String userName = "admin001";
@@ -47,15 +56,12 @@ public class AdminProgram {
             } else if(input == 2){
                 int childIndex = chooseChild();
                 Child child = personDAO.getChildList().get(childIndex);
-                //int month = chooseMonth(child);
-                List<String> attendanceCompilation = viewChildCompleteAttendance(child);
-                // skapa närvarorapport, skapa fil som kan skickas
+                List<List<String>> attendanceCompilation = viewChildCompleteAttendance(child);
                 System.out.println("Vill du sammanställa en närvarorapport " + child.getFirstName() + "? \n1. ja, 2. nej");
                 input = scan.nextInt();
                 if(input==1){
                     createAttendanceReport(attendanceCompilation);
                 }
-                //System.out.println("month" + month);
                 input = showMeny();
             } else if(input == 3){
                 Thread.sleep(1000);
@@ -69,7 +75,28 @@ public class AdminProgram {
         }
     }
 
-    private void createAttendanceReport(List<String> attendanceCompilation) {
+    private void createAttendanceReport(List<List<String>> attendanceCompilation) {
+        System.out.println(attendanceCompilation.size());
+        System.out.println(attendanceCompilation.get(0));
+        String fileName = "src/"+ attendanceCompilation.get(0).get(0) + "_" + attendanceCompilation.get(0).get(1) +  ".csv";
+        String fileHead = "VECKODAG,DATUM,NÄRVARANDE,ANTAL TIMMAR";
+
+        try(PrintWriter toFile = new PrintWriter(new BufferedWriter(new FileWriter(fileName)))){
+            toFile.println(fileHead);
+
+            for (int i = 1; i < attendanceCompilation.size(); i++) {
+                //System.out.println(attendanceCompilation.get(i));
+                StringBuilder sb = new StringBuilder();
+                for (String string : attendanceCompilation.get(i)){
+                    sb.append(string + ",");
+                }
+                toFile.println(sb.toString());
+            }
+
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+
     }
 
     private int showMeny(){
@@ -112,41 +139,46 @@ public class AdminProgram {
         return scan.nextInt()-1;
     }
 
-    private List<String> viewChildCompleteAttendance(Child child){
-        List<String> childHistory = new LinkedList<>();
+    private List<List<String>> viewChildCompleteAttendance(Child child){
+        List<List<String>> attendanceCompilation = new ArrayList<>();
+
+        List<String> childID = new ArrayList<>();
+        childID.add(child.getFirstName());
+        childID.add(child.getLastName());
+        attendanceCompilation.add(childID);
         for (List<Attendance> day : attendanceDAO.getMonths()){
             for(Attendance attendance : day){
                 if(attendance.getChild().getFirstName().equals(child.getFirstName())){
+                    List<String> attendanceLine = new LinkedList<>();
                     StringBuilder sb = new StringBuilder(attendance.getDate().getDayOfWeek() + " " + attendance.getDate() + " ");
+                    attendanceLine.add(attendance.getDate().getDayOfWeek().toString());
+                    attendanceLine.add(attendance.getDate().toString());
                     if(attendance.getPresent()){
                         sb.append("närvarande ");
-                        //child.getCaringTime()
                         CaringTime ct = child.getCaringTime(attendance.getDate().getDayOfWeek().getValue()-1);
                         Duration d = ct.getDuration();
                         long hours = d.toHours();
                         long mins = d.minusHours(hours).toMinutes();
                         sb.append(hours + " timmar");
+                        attendanceLine.add("närvarande");
                         if(mins > 0){
                             sb.append(" och " + mins + " minuter");
+                            attendanceLine.add(hours + " timmar och " + mins + " minuter");
+                        } else {
+                            attendanceLine.add(hours + " timmar");
                         }
                     } else {
                         sb.append("frånvarande");
+                        attendanceLine.add("frånvarande");
                     }
                     System.out.println(sb.toString());
-                    childHistory.add(sb.toString());
+                    attendanceCompilation.add(attendanceLine);
                 }
             }
         }
-        return childHistory;
+        return attendanceCompilation;
     }
 
-
-    /*
-
-
-        System.out.println(hours + " " + mins);
-        return
-     */
 
     private int chooseMonth(Child child){
         System.out.println("Vilken månad vill du se närvaro för " + child.getFirstName() + "?");
